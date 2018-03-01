@@ -10,11 +10,6 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 
 import NoUser from '../assets/ic_account_circle_black_24dp_2x.png';
 
-const style = {
-  padding: '0',
-  marginTop: '-8px'
-};
-
 const UserBox = () => (
 
   <List>
