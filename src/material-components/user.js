@@ -10,9 +10,13 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 
 import NoUser from '../assets/ic_account_circle_black_24dp_2x.png';
 
+const style = {
+  marginTop: '3rem'
+}
+
 const UserBoxComponent = () => (
 
-  <List>
+  <List style={style}>
     <Subheader>Bem vindo,</Subheader>
     <ListItem
       primaryText="Usuário"

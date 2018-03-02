@@ -9,7 +9,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  console.log(toggleMenu, ownProps);
   return {
     onMenuClick: () => {
       dispatch(toggleMenu(!ownProps.open))
