@@ -4,12 +4,18 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
 import AppBar from './material-components/appBar.js';
+import TableComponent from './material-components/table.js';
+import SearchComponent from './material-components/search.js';
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <AppBar />
+        <div className="app">
+          <AppBar />
+          <SearchComponent />
+          <TableComponent />
+        </div>
       </BrowserRouter>
     );
   }

@@ -9,7 +9,7 @@ const style = {
   margin: '0 32px 16px 0'
 };
 
-const AppBar = () => (
+const AppBarComponent = () => (
   <div>
     <MuiThemeProvider>
       <MaterialAppBar
@@ -21,5 +21,5 @@ const AppBar = () => (
   </div>
 );
 
-export default AppBar;
+export default AppBarComponent;
 

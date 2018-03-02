@@ -15,7 +15,7 @@ const paperStyle = {
   margin: '0 32px 16px 0'
 };
 
-const AppMenu = () => (
+const AppMenuComponent = () => (
   <div>
     <Paper style={paperStyle}>
       <Menu>
@@ -28,5 +28,5 @@ const AppMenu = () => (
   </div>
 );
 
-export default AppMenu;
+export default AppMenuComponent;
 
