@@ -10,15 +10,15 @@ const style = {
 };
 
 const AppBarComponent = () => (
-  <div>
-    <MuiThemeProvider>
+  <MuiThemeProvider>
+    <div>
       <MaterialAppBar
           title="PKSoft"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
       />
       <Menu />
-    </MuiThemeProvider>
-  </div>
+    </div>
+  </MuiThemeProvider>
 );
 
 export default AppBarComponent;

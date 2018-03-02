@@ -11,17 +11,17 @@ const containerStyle = {
 const inputStyle = {width: '80%'}
 
 const SearchComponent = () => (
-  <div style={containerStyle}>
-    <MuiThemeProvider>
+  <MuiThemeProvider>
+    <div style={containerStyle}>
       <TextField 
         style={inputStyle}
         hintText="Procurar paciente..."
       />
       <IconButton tooltip="Buscar">
         <SearchIcon />
-      </IconButton>    
-    </MuiThemeProvider>
-  </div>
+      </IconButton>
+    </div>
+  </MuiThemeProvider>
 );
 
 export default SearchComponent;
