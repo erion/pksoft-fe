@@ -1,0 +1,26 @@
+{
+  "paciente": [{
+    "id": 1,
+    "nome": "Paciente Teste1",
+    "cpf": "123.123.123/01",
+    "nascimento": "01/01/1901",
+    "peso": "80",
+    "altura": "1.75",
+    "cr_paciente": "0.00p",
+    "unidade_tratamento": "Unidade 1",
+    "observacao": "Paciente cadastrado para teste",
+    "rg": "11.111.111-1",
+    "telefone": "51 99999999",
+    "genero": "M",
+    "agente_saude": "Agente 1"
+  }],
+  "farmaco": [{
+    "id": 1,
+    "nome": "Doxicilina"
+  }],
+  "tratamento": [{
+    "id": 1,
+    "codigo_farmaco": 1,
+    "codigo_paciente": 1
+  }]
+}

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
 import MenuContainer from './react-redux/containers/menuContainer.js';
-import TableComponent from './material-components/table.js';
+import PatientContainer from './react-redux/containers/patientContainer.js';
 import SearchComponent from './material-components/search.js';
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
         <div className="app">
           <MenuContainer />
           <SearchComponent />
-          <TableComponent />
+          <PatientContainer />
         </div>
       </BrowserRouter>
     );

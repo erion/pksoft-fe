@@ -1,24 +1,25 @@
 import { connect } from 'react-redux'
 import { toggleMenu } from '../actions'
-import AppMenu from '../../components/appMenu'
+import PatientsList from '../../components/patient/list'
 
 const mapStateToProps = state => {
   return {
-    menuOpen: state.menuOpen
+    patients: state.patients
   }
 }
 
+/*
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onMenuClick: () => {
-      dispatch(toggleMenu(ownProps.open))
+      dispatch(toggleMenu(!ownProps.open))
     }
   }
 }
+*/
 
-const MenuContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AppMenu)
+const patientContainer = connect(
+  mapStateToProps
+)(PatientsList)
 
-export default MenuContainer
+export default patientContainer
