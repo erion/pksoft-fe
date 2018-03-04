@@ -33,9 +33,9 @@ export default class PatientList extends React.Component {
       if(this.state.patients.length > 0) {
         tableRow = this.state.patients.map( (row, index) => (
           <TableRow key={index}>
-            <TableRowColumn>{row.id}</TableRowColumn>
-            <TableRowColumn>{row.nome}</TableRowColumn>
-            <TableRowColumn>{row.cpf}</TableRowColumn>
+            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.nome}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
           </TableRow>
         ))
       }
@@ -45,9 +45,9 @@ export default class PatientList extends React.Component {
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>Nome</TableHeaderColumn>
-                <TableHeaderColumn>CPF</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '45%'}}>Nome</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '45%'}}>CPF</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
