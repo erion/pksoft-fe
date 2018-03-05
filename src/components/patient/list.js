@@ -8,14 +8,31 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import { Link } from 'react-router-dom'
+import PatientForm from './form'
+
+//https://github.com/mui-org/material-ui/issues/1783
+export const ClickableRow = (props) => {
+  const {rowData, eventFunction, ...restProps} = props;
+  return (
+    <TableRow
+      {...restProps}
+      onMouseDown={()=> props.eventFunction(props.rowData)}>
+      {props.children}
+    </TableRow>
+  )
+}
 
 export default class PatientList extends React.Component {
 
-  constructor(props) {
+  constructor(props, context) {
     super(props);
     this.state = {
       patients: [],
+      patientDetailOpen: []
     };
+
+    this.onSelectPatient = this.onSelectPatient.bind(this);
   }
 
   componentDidMount() {
@@ -27,16 +44,21 @@ export default class PatientList extends React.Component {
       });
   }
 
+  onSelectPatient(patient) {
+    console.log(patient);
+    this.props.history.push("/paciente/"+patient.id, {"patient": patient})
+  }
+
   render() {
       let tableRow = "Carregando lista de pacientes...";
-
+      
       if(this.state.patients.length > 0) {
         tableRow = this.state.patients.map( (row, index) => (
-          <TableRow key={index}>
+          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPatient}>
             <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
             <TableRowColumn style={{width: '45%'}}>{row.nome}</TableRowColumn>
             <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
-          </TableRow>
+          </ClickableRow>
         ))
       }
 
