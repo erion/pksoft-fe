@@ -25,6 +25,15 @@
   z-index: 10;
 }
 
+.clearfix {
+  overflow: auto;
+}
+.clearfix::after {
+  content:"";
+  clear:both;
+  display:table;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
