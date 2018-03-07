@@ -13,6 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import PatientForm from './form'
+import { WSRoot } from '../../app-config'
 
 //https://github.com/mui-org/material-ui/issues/1783
 export const ClickableRow = (props) => {
@@ -39,8 +40,8 @@ export default class PatientList extends React.Component {
   }
 
   componentDidMount() {
-    let self = this;           
-    fetch('http://localhost:3001/paciente')
+    let self = this;
+    fetch(WSRoot+'/paciente')
       .then(res => res.json())
       .then(patients => {
         self.setState({ patients: patients });
@@ -48,7 +49,6 @@ export default class PatientList extends React.Component {
   }
 
   onSelectPatient(patient) {
-    console.log(patient);
     this.props.history.push("/paciente/"+patient.id, {"patient": patient})
   }
 
@@ -59,7 +59,7 @@ export default class PatientList extends React.Component {
         "bottom": "3rem",
         "right": "2rem"
       }
-      
+
       if(this.state.patients.length > 0) {
         tableRow = this.state.patients.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPatient}>
