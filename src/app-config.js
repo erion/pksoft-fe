@@ -1,6 +1,7 @@
 export const WSRoot = 'http://localhost:3001'
 
 export const PatientModel = {
+  id: "",
   nome: "",
   agente_saude:"",
   altura: "",
@@ -15,4 +16,9 @@ export const PatientModel = {
   rg: "",
   telefone: "",
   unidade_tratamento: ""
+}
+
+export const PharmacoModel = {
+  id: "",
+  nome: ""
 }

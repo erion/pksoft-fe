@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import PatientForm from './form'
+
 import { WSRoot } from '../../app-config'
 
 //https://github.com/mui-org/material-ui/issues/1783
@@ -27,44 +27,43 @@ export const ClickableRow = (props) => {
   )
 }
 
-export default class PatientList extends React.Component {
+export default class PharmacoList extends React.Component {
 
   constructor(props, context) {
     super(props);
     this.state = {
-      patients: []
+      pharmacos: [],
     };
 
-    this.onSelectPatient = this.onSelectPatient.bind(this);
+    this.onSelectPharmaco = this.onSelectPharmaco.bind(this);
   }
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/paciente')
+    fetch(WSRoot+'/farmaco')
       .then(res => res.json())
-      .then(patients => {
-        self.setState({ patients: patients });
+      .then(pharmacos => {
+        self.setState({ pharmacos: pharmacos });
       });
   }
 
-  onSelectPatient(patient) {
-    this.props.history.push("/paciente/"+patient.id, {"patient": patient})
+  onSelectPharmaco(pharmaco) {
+    this.props.history.push("/farmaco/"+pharmaco.id, {"pharmaco": pharmaco})
   }
 
   render() {
-      let tableRow = "Carregando lista de pacientes...";
+      let tableRow = "Carregando lista de fármacos...";
       let addButtonStyle = {
         "position": "fixed",
         "bottom": "3rem",
         "right": "2rem"
       }
 
-      if(this.state.patients.length > 0) {
-        tableRow = this.state.patients.map( (row, index) => (
-          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPatient}>
+      if(this.state.pharmacos.length > 0) {
+        tableRow = this.state.pharmacos.map( (row, index) => (
+          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPharmaco}>
             <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.nome}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
+            <TableRowColumn style={{width: '90%'}}>{row.nome}</TableRowColumn>
           </ClickableRow>
         ))
       }
@@ -72,7 +71,7 @@ export default class PatientList extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-            <Link className="clearfix" to="/paciente">
+            <Link className="clearfix" to="/farmaco">
               <FloatingActionButton mini={true} style={addButtonStyle}>
                 <ContentAdd />
               </FloatingActionButton>
@@ -82,8 +81,7 @@ export default class PatientList extends React.Component {
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
                   <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '45%'}}>Nome</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '45%'}}>CPF</TableHeaderColumn>
+                  <TableHeaderColumn style={{width: '90%'}}>Nome</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>

@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import PatientIcon from 'material-ui/svg-icons/maps/directions-walk';
 import TreatmentIcon from 'material-ui/svg-icons/action/assignment';
 import HistoryIcon from 'material-ui/svg-icons/action/history';
+import PharmacoIcon from 'material-ui/svg-icons/maps/local-pharmacy';
 import { Link } from 'react-router-dom';
 
 import UserBox from '../material-components/user.js';
@@ -50,6 +51,7 @@ export default class AppMenu extends React.Component {
                 <Link to="/pacientes"><MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} /></Link>
                 <MenuItem primaryText="Tratamentos" leftIcon={<TreatmentIcon />} />
                 <MenuItem primaryText="Histórico" leftIcon={<HistoryIcon />} />
+                <Link to="/farmacos"><MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} /></Link>
               </Menu>
             </Drawer>
           </div>
