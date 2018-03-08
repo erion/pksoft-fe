@@ -1,7 +1,6 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MaterialAppBar from 'material-ui/AppBar';
-import PropTypes from 'prop-types'
 import Drawer from 'material-ui/Drawer';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,8 +19,6 @@ const paperStyle = {
   display: 'inline-block',
   margin: '0 32px 16px 0'
 };
-
-const muiThemeOverride = {marginTop: '3.5rem'}
 
 export default class AppMenu extends React.Component {
 

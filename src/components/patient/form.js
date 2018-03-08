@@ -1,6 +1,7 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Tabs, Tab} from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -20,9 +21,10 @@ export default class PatientForm extends React.Component {
 
     this.state = { patient }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onNewPatient = this.onNewPatient.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handlePatientSubmit = this.handlePatientSubmit.bind(this)
+    this.onNewPatient = this.onNewPatient.bind(this)
+    this.onTabChange = this.onTabChange.bind(this)
   }
 
   onNewPatient() {
@@ -41,7 +43,12 @@ export default class PatientForm extends React.Component {
     });
   }
 
-  handleSubmit() {
+  //Tab events not working properly https://github.com/mui-org/material-ui/issues/3465
+  onTabChange(value) {
+    this.setState({tabIndex: value})
+  }
+
+  handlePatientSubmit() {
     let method, path
     if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
       method = 'PUT'
@@ -87,9 +94,9 @@ export default class PatientForm extends React.Component {
     }
     return (
       <MuiThemeProvider>
-        <Tabs>
+        <Tabs value={this.state.tabIndex}>
 
-          <Tab label="Paciente" >
+          <Tab label="Paciente" value={0} onActive={() => this.onTabChange(0)}>
             <FlatButton
               label="Novo Paciente"
               style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
@@ -107,22 +114,28 @@ export default class PatientForm extends React.Component {
               <TextField onChange={this.handleInputChange} floatingLabelText="Altura" name="altura" value={this.state.patient.altura} /><br />
               <TextField onChange={this.handleInputChange} floatingLabelText="Cr paciente" name="cr_paciente" value={this.state.patient.cr_paciente} /><br />
               <TextField onChange={this.handleInputChange} floatingLabelText="Unidade de internação" name="unidade_tratamento" value={this.state.patient.unidade_tratamento} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="OBSERVAÇÃO" name="observacao" value={this.state.patient.observacao} /><br />
+              <TextField onChange={this.handleInputChange} floatingLabelText="Observação"
+                name="observacao" value={this.state.patient.observacao}
+                multiLine={true} rows={2} rowsMax={10}
+              /><br />
               <TextField onChange={this.handleInputChange} floatingLabelText="Telefone" name="telefone" value={this.state.patient.telefone} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Genero" name="genero" value={this.state.patient.genero} /><br />
+              <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero}>
+                <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
+                <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
+              </RadioButtonGroup>
               <TextField onChange={this.handleInputChange} floatingLabelText="Agente saúde" name="agente_saude" value={this.state.patient.agente_saude} /><br />
-              <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
+              <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handlePatientSubmit}>
                 <ContentSave />
             </FloatingActionButton>
             </form>
           </Tab>
 
-          <Tab label="Histórico" >
-            <HistoryList patientId={this.state.patient.id} />
-            <HistoryForm patientId={this.state.patient.id} />
+          <Tab label="Histórico" value={1} onActive={() => this.onTabChange(1)}>
+            <HistoryList patientId={this.state.patient.id} activeTab={this.state.tabIndex} />
+            <HistoryForm patientId={this.state.patient.id} activeTab={this.state.tabIndex} />
           </Tab>
 
-          <Tab label="Tratamentos" >
+          <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
 
           </Tab>
 

@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot, HistoryModel } from '../../app-config'
 
 export default class HistoryForm extends React.Component {
@@ -16,7 +15,7 @@ export default class HistoryForm extends React.Component {
     this.state = { patientHistory }
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -31,7 +30,7 @@ export default class HistoryForm extends React.Component {
     });
   }
 
-  handleSubmit() {
+  handleHistorySubmit() {
     let method, path
     if(this.state.patientHistory.id !== undefined && this.state.patientHistory.id !== "") {
       method = 'PUT'
@@ -70,10 +69,12 @@ export default class HistoryForm extends React.Component {
   }
 
   render() {
+    let visibility = this.props.activeTab === 1 ? 'visible' : 'hidden'
     let addButtonStyle = {
       "position": "fixed",
       "bottom": "3rem",
-      "right": "2rem"
+      "right": "2rem",
+      "visibility": visibility
     }
     return (
       <MuiThemeProvider>
@@ -88,7 +89,7 @@ export default class HistoryForm extends React.Component {
             <TextField onChange={this.handleInputChange} floatingLabelText="Horário" name="horario" value={this.state.patientHistory.horario} /><br />
             <TextField onChange={this.handleInputChange} floatingLabelText="Paciente" name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
             <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
-            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
+            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleHistorySubmit}>
               <ContentSave />
           </FloatingActionButton>
           </form>

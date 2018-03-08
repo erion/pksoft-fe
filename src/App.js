@@ -18,12 +18,12 @@ class App extends Component {
           <AppMenu />
           <SearchComponent />
           <Route exact path="/" component={PatientList} />
-          <Route path="/pacientes" render={props => (
+          <Route exact path="/pacientes" render={props => (
             <PatientList history={props.history} />
           )} />
           <Route path="/paciente/:id" component={PatientForm} />
           <Route exact path="/paciente" component={PatientForm} />
-          <Route path="/farmacos" render={props => (
+          <Route exact path="/farmacos" render={props => (
             <PharmacoList history={props.history} />
           )} />
           <Route path="/farmaco/:id" component={PharmacoForm} />

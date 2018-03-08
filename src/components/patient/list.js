@@ -9,10 +9,8 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import { Link } from 'react-router-dom'
-import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import PatientForm from './form'
 import { WSRoot } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 

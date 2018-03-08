@@ -9,7 +9,6 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import { Link } from 'react-router-dom'
-import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot } from '../../app-config'
@@ -59,25 +58,25 @@ export default class PharmacoList extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-            <Link className="clearfix" to="/farmaco">
-              <FloatingActionButton mini={true} style={addButtonStyle}>
-                <ContentAdd />
-              </FloatingActionButton>
-            </Link>
+          <Link className="clearfix" to="/farmaco">
+            <FloatingActionButton mini={true} style={addButtonStyle}>
+              <ContentAdd />
+            </FloatingActionButton>
+          </Link>
 
-            <Table>
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '90%'}}>Nome</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {tableRow}
-              </TableBody>
-            </Table>
-          </div>
-        </MuiThemeProvider>
+          <Table>
+            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+              <TableRow>
+                <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '90%'}}>Nome</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              {tableRow}
+            </TableBody>
+          </Table>
+        </div>
+      </MuiThemeProvider>
     );
   }
 

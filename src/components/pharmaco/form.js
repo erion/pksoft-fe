@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot, PharmacoModel } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
