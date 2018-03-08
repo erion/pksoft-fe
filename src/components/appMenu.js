@@ -5,13 +5,16 @@ import PropTypes from 'prop-types'
 import Drawer from 'material-ui/Drawer';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import BackIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import PatientIcon from 'material-ui/svg-icons/maps/directions-walk';
 import TreatmentIcon from 'material-ui/svg-icons/action/assignment';
 import HistoryIcon from 'material-ui/svg-icons/action/history';
 import PharmacoIcon from 'material-ui/svg-icons/maps/local-pharmacy';
 import { Link } from 'react-router-dom';
+import { createBrowserHistory } from 'history'
 
 import UserBox from '../material-components/user.js';
+import { IconButton } from 'material-ui';
 
 const paperStyle = {
   display: 'inline-block',
@@ -25,24 +28,36 @@ export default class AppMenu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      menuOpen: false
+      menuOpen: false,
+      history: createBrowserHistory({})
     }
 
     this.onMenuClick = this.onMenuClick.bind(this);
+    this.onBackClick = this.onBackClick.bind(this);
   }
 
   onMenuClick() {
     this.setState({menuOpen: !this.state.menuOpen})
   }
 
+  onBackClick() {
+    this.state.history.goBack()
+  }
+
   render () {
+    let backButton =
+      <IconButton tooltip="Voltar" onClick={this.onBackClick}>
+        <BackIcon />
+      </IconButton>
+
     return (
       <MuiThemeProvider >
         <div>
           <MaterialAppBar
               title="PKSoft"
-              iconClassNameRight="muidocs-icon-navigation-expand-more"
+              iconElementRight={backButton}
               onLeftIconButtonClick={this.onMenuClick}
+              onRightIconButtonClick={this.onMenuClick}
           />
           <div className="menu">
             <Drawer open={this.state.menuOpen} docked={false} width="60%" style={paperStyle}>
