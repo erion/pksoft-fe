@@ -44,10 +44,12 @@ export default class HistoryList extends React.Component {
 
   render() {
       let tableRow = "Carregando histórico do paciente...";
+      let visibility = this.props.activeTab === 1 ? 'visible' : 'hidden'
       let addButtonStyle = {
         "position": "fixed",
         "bottom": "3rem",
-        "right": "2rem"
+        "right": "2rem",
+        "visibility": visibility
       }
 
       if(this.state.patientHistory.length > 0) {
@@ -64,7 +66,7 @@ export default class HistoryList extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-            <Link className="clearfix" to="/farmaco">
+            <Link className="clearfix" to="/historico">
               <FloatingActionButton mini={true} style={addButtonStyle}>
                 <ContentAdd />
               </FloatingActionButton>
