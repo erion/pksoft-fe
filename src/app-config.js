@@ -8,9 +8,7 @@ export const PatientModel = {
   cpf: "",
   cr_paciente: "",
   genero: "",
-  id: "",
   nascimento: "",
-  nome: "",
   observacao: "",
   peso: "",
   rg: "",
@@ -21,4 +19,15 @@ export const PatientModel = {
 export const PharmacoModel = {
   id: "",
   nome: ""
+}
+
+export const HistoryModel = {
+  id: 1,
+  evento: "",
+  atributo: "",
+  valor: "",
+  data: "",
+  horario: "",
+  pacienteId: "",
+  tratamentoId: ""
 }

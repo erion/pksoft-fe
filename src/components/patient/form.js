@@ -2,11 +2,13 @@ import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import {Tabs, Tab} from 'material-ui/Tabs'
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot, PatientModel } from '../../app-config'
+import HistoryList from '../history/list'
+import HistoryForm from '../history/form'
 
 export default class PatientForm extends React.Component {
 
@@ -86,8 +88,9 @@ export default class PatientForm extends React.Component {
     return (
       <MuiThemeProvider>
         <Tabs>
+
           <Tab label="Paciente" >
-            <RaisedButton
+            <FlatButton
               label="Novo Paciente"
               style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
               primary={true}
@@ -113,12 +116,16 @@ export default class PatientForm extends React.Component {
             </FloatingActionButton>
             </form>
           </Tab>
-          <Tab label="Histórico" >
 
+          <Tab label="Histórico" >
+            <HistoryList patientId={this.state.patient.id} />
+            <HistoryForm patientId={this.state.patient.id} />
           </Tab>
+
           <Tab label="Tratamentos" >
 
           </Tab>
+
         </Tabs>
       </MuiThemeProvider>
     );

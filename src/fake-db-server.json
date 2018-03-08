@@ -47,5 +47,17 @@
       "codigo_farmaco": 1,
       "codigo_paciente": 1
     }
+  ],
+  "historico": [
+    {
+      "id": 1,
+      "evento": "dose",
+      "atributo": "não sei",
+      "valor": 1000,
+      "data": "07/03/2018",
+      "horario": "21:30:00",
+      "pacienteId": 1,
+      "tratamentoId": 1
+    }
   ]
 }

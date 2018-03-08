@@ -11,21 +11,9 @@ import {
 import { Link } from 'react-router-dom'
 import RaisedButton from 'material-ui/RaisedButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add';
-
+import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot } from '../../app-config'
-
-//https://github.com/mui-org/material-ui/issues/1783
-export const ClickableRow = (props) => {
-  const {rowData, eventFunction, ...restProps} = props;
-  return (
-    <TableRow
-      {...restProps}
-      onMouseDown={()=> props.eventFunction(props.rowData)}>
-      {props.children}
-    </TableRow>
-  )
-}
+import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class PharmacoList extends React.Component {
 
