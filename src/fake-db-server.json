@@ -52,13 +52,37 @@
     {
       "id": 1,
       "evento": "",
-      "atributo": "",
-      "valor": "",
-      "data": "",
+      "atributo": "teste 2",
+      "valor": "500",
+      "data": "5/21/2018",
+      "horario": "05:30:16 GMT-0300 (BRT)",
+      "pacienteId": "",
+      "tratamentoId": "1",
+      "patientId": 2,
+      "genero": "concentracao"
+    },
+    {
+      "id": 2,
+      "evento": "",
+      "atributo": "Atributo teste",
+      "valor": "1000",
+      "data": "8/21/2018",
       "horario": "",
       "pacienteId": "",
-      "tratamentoId": "",
-      "patientId": 2
+      "tratamentoId": "1",
+      "patientId": 2,
+      "genero": "dose"
+    },
+    {
+      "id": 3289,
+      "evento": "dose",
+      "atributo": "Atributo para teste do paciente ",
+      "valor": "1000",
+      "data": "1/21/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "1",
+      "patientId": 1
     }
   ]
 }

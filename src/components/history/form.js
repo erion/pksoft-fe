@@ -1,6 +1,9 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
+import TimePicker from 'material-ui/TimePicker'
+import DatePicker from 'material-ui/DatePicker';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import { WSRoot, HistoryModel } from '../../app-config'
@@ -12,16 +15,22 @@ export default class HistoryForm extends React.Component {
     let patientHistory = HistoryModel;
     patientHistory['patientId'] = props.patientId
 
-    this.state = { patientHistory }
+    this.state = {
+      patientHistory,
+      horario: new Date(),
+      data: null
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleTimePickerChange = this.handleTimePickerChange.bind(this);
+    this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+    let target = event.target;
+    let value = target.value;
+    let name = target.name;
 
     let patientHistory = this.state.patientHistory;
     patientHistory[name] = value
@@ -30,18 +39,37 @@ export default class HistoryForm extends React.Component {
     });
   }
 
-  handleHistorySubmit() {
-    let method, path
-    if(this.state.patientHistory.id !== undefined && this.state.patientHistory.id !== "") {
-      method = 'PUT'
-      path = '/historico/'+this.state.patientHistory.id
-    } else {
-      method = 'POST'
-      path = '/historico/'
-    }
+  //converts date object to time string (TODO: check how it really is on DB)
+  handleTimePickerChange(event, date) {
+    let time = date.toTimeString()
+    let patientHistory = this.state.patientHistory
+    patientHistory['horario'] = time
+    this.setState({
+      patientHistory: patientHistory
+    })
+  }
 
-    fetch(WSRoot+path, {
-      method: method,
+  //converts date object to string (TODO: check how it really is on DB)
+  handleDatePickerChange(event, date) {
+    let data = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear()
+    let patientHistory = this.state.patientHistory
+    patientHistory['data'] = data
+    this.setState({
+      patientHistory: patientHistory
+    })
+    this.setState({
+      data: date
+    })
+  }
+
+  handleHistorySubmit() {
+    //TODO remove this code after DB integration
+    let patientHistory = this.state.patientHistory
+    patientHistory.id = Math.floor(Math.random() * 10000) + 1
+    this.setState({patientHistory: patientHistory})
+
+    fetch(WSRoot+'/historico/', {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -79,15 +107,18 @@ export default class HistoryForm extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <h1>Novo histórico</h1>
+          <h1 style={{textAlign: "center"}}>Novo histórico</h1>
           <form id="history-form">
-            <TextField hintText="Id" style={{display:"none"}} value={this.state.patientHistory.id} name="id" /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Evento" name="evento" value={this.state.patientHistory.evento} /><br />
+            <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
+              <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
+              <RadioButton value="concentracao" label="Concentração" style={{marginTop:"1rem"}} />
+            </RadioButtonGroup>
             <TextField onChange={this.handleInputChange} floatingLabelText="Atributo" name="atributo" value={this.state.patientHistory.atributo} /><br />
             <TextField onChange={this.handleInputChange} floatingLabelText="Valor" name="valor" value={this.state.patientHistory.valor} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Data" name="data" value={this.state.patientHistory.data} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Horário" name="horario" value={this.state.patientHistory.horario} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Paciente" name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
+            <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
+            <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="horario" format="24hr" value={this.state.horario} /><br />
+            <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
+            <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
             <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
             <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleHistorySubmit}>
               <ContentSave />

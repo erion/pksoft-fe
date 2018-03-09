@@ -11,23 +11,25 @@ import {
 import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { WSRoot } from '../../app-config'
+import { WSRoot, HistoryModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class HistoryList extends React.Component {
 
   constructor(props, context) {
     super(props);
-    this.state = {
-      patientHistory: [],
-    };
+    let patientHistory = HistoryModel;
+    patientHistory['patientId'] = props.patientId
+
+    this.state = { patientHistory }
 
     this.onDeleteHistory = this.onDeleteHistory.bind(this);
   }
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/historico')
+    let path = '/historico?patientId=' + this.state.patientHistory.patientId
+    fetch(WSRoot+path)
       .then(res => res.json())
       .then(patientHistory => {
         self.setState({ patientHistory: patientHistory });
@@ -61,6 +63,11 @@ export default class HistoryList extends React.Component {
             <TableRowColumn style={{width: '30%'}}>{row.tratamento}</TableRowColumn>
           </ClickableRow>
         ))
+      } else {
+        tableRow =
+          <TableRow>
+            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem histórico para este paciente</TableRowColumn>
+          </TableRow>
       }
 
     return (
