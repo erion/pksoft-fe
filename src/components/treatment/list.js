@@ -27,7 +27,7 @@ export default class TreatmentList extends React.Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/tratamento')
+    fetch(WSRoot+'/tratamento?codigo_paciente='+this.props.patientId)
       .then(res => res.json())
       .then(treatments => {
         self.setState({ treatments: treatments });
@@ -60,6 +60,11 @@ export default class TreatmentList extends React.Component {
             <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
           </ClickableRow>
         )})
+      } else {
+        tableRow =
+          <TableRow>
+            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
+          </TableRow>
       }
 
     return (
