@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import TimePicker from 'material-ui/TimePicker'
-import DatePicker from 'material-ui/DatePicker';
+import DatePicker from 'material-ui/DatePicker'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import { WSRoot, HistoryModel } from '../../app-config'
@@ -107,7 +107,7 @@ export default class HistoryForm extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <h1 style={{textAlign: "center"}}>Novo histórico</h1>
+          <h3 style={{textAlign: "center"}}>Novo histórico</h3>
           <form id="history-form">
             <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
               <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />

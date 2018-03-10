@@ -37,7 +37,7 @@ export default class HistoryList extends React.Component {
   }
 
   onDeleteHistory(history) {
-    //delete row
+    //TODO delete row
   }
 
   onSelectHistory(history) {

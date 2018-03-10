@@ -29,6 +29,15 @@ export default class PatientForm extends React.Component {
     this.onTabChange = this.onTabChange.bind(this)
   }
 
+  componentDidMount() {
+    let self = this;
+    fetch(WSRoot+'/farmaco')
+      .then(res => res.json())
+      .then(pharmacos => {
+        self.setState({ pharmacos: pharmacos });
+      });
+  }
+
   onNewPatient() {
     this.props.history.push('/paciente')
   }
@@ -140,8 +149,8 @@ export default class PatientForm extends React.Component {
           </Tab>
 
           <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
-            <TreatmentList />
-            <TreatmentForm />
+            <TreatmentList pharmacos={this.state.pharmacos} patientName={this.state.patient.nome} />
+            <TreatmentForm pharmacos={this.state.pharmacos} patientId={this.state.patient.id} patientName={this.state.patient.nome} />
           </Tab>
 
         </Tabs>

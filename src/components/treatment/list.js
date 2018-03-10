@@ -21,6 +21,8 @@ export default class TreatmentList extends React.Component {
     this.state = {
       treatments: [],
     };
+
+    this.onSelectTreatment = this.onSelectTreatment.bind(this)
   }
 
   componentDidMount() {
@@ -30,6 +32,10 @@ export default class TreatmentList extends React.Component {
       .then(treatments => {
         self.setState({ treatments: treatments });
       });
+  }
+
+  onSelectTreatment(treatment) {
+    //TODO
   }
 
   render() {
@@ -42,14 +48,18 @@ export default class TreatmentList extends React.Component {
         "visibility": visibility
       }
 
-      if(this.state.treatments.length > 0) {
-        tableRow = this.state.treatments.map( (row, index) => (
-          <ClickableRow key={index} rowData={row}>
+      let self = this
+      if(this.state.treatments.length > 0 && this.props.pharmacos) {
+        tableRow = this.state.treatments.map( (row, index) => {
+          var pharmacoName = self.props.pharmacos.find(f => f.id === row.codigo_farmaco);
+          pharmacoName = pharmacoName.nome
+        return (
+          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
             <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.paciente}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.farmaco}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{self.props.patientName}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
           </ClickableRow>
-        ))
+        )})
       }
 
     return (

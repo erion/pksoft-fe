@@ -22,7 +22,7 @@ export const PharmacoModel = {
 }
 
 export const HistoryModel = {
-  id: 1,
+  id: "",
   evento: "",
   atributo: "",
   valor: "",
@@ -33,7 +33,7 @@ export const HistoryModel = {
 }
 
 export const TreatmentModel = {
-  id: 1,
-  paciente: 1,
-  farmaco: 1
+  id: "",
+  codigo_paciente: null,
+  codigo_farmaco: null
 }
