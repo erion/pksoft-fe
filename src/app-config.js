@@ -31,3 +31,9 @@ export const HistoryModel = {
   pacienteId: "",
   tratamentoId: ""
 }
+
+export const TreatmentModel = {
+  id: 1,
+  paciente: 1,
+  farmaco: 1
+}

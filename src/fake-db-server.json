@@ -83,6 +83,17 @@
       "pacienteId": "",
       "tratamentoId": "1",
       "patientId": 1
+    },
+    {
+      "id": 8327,
+      "evento": "",
+      "atributo": "",
+      "valor": "",
+      "data": "",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "",
+      "patientId": 1
     }
   ]
 }

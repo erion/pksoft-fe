@@ -10,6 +10,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot, PatientModel } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
+import TreatmentList from '../treatment/list'
+import TreatmentForm from '../treatment/form'
 
 export default class PatientForm extends React.Component {
 
@@ -87,10 +89,12 @@ export default class PatientForm extends React.Component {
   }
 
   render() {
+    let visibility = this.props.activeTab !== 1 && this.props.activeTab !== 2 ? 'visible' : 'hidden'
     let addButtonStyle = {
       "position": "fixed",
       "bottom": "3rem",
-      "right": "2rem"
+      "right": "2rem",
+      "visibility": visibility
     }
     return (
       <MuiThemeProvider>
@@ -136,7 +140,8 @@ export default class PatientForm extends React.Component {
           </Tab>
 
           <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
-
+            <TreatmentList />
+            <TreatmentForm />
           </Tab>
 
         </Tabs>
