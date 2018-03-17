@@ -46,6 +46,39 @@
       "id": 1,
       "codigo_farmaco": 1,
       "codigo_paciente": 1
+    },
+    {
+      "id": 2,
+      "codigo_paciente": null,
+      "codigo_farmaco": null,
+      "paciente": 1,
+      "farmaco": 2
+    },
+    {
+      "id": 3,
+      "codigo_paciente": null,
+      "codigo_farmaco": null,
+      "paciente": 1,
+      "farmaco": 1
+    },
+    {
+      "id": 2966,
+      "codigo_paciente": null,
+      "codigo_farmaco": null,
+      "paciente": 1,
+      "farmaco": 2
+    },
+    {
+      "id": 4998,
+      "codigo_paciente": null,
+      "codigo_farmaco": null,
+      "paciente": 1,
+      "farmaco": 2
+    },
+    {
+      "id": 4999,
+      "codigo_paciente": 1,
+      "codigo_farmaco": 2
     }
   ],
   "historico": [
@@ -93,6 +126,39 @@
       "horario": "",
       "pacienteId": "",
       "tratamentoId": "",
+      "patientId": 1
+    },
+    {
+      "id": 3318,
+      "evento": "dose",
+      "atributo": "teste",
+      "valor": "123",
+      "data": "17/21/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "fix it",
+      "patientId": 1
+    },
+    {
+      "id": 8583,
+      "evento": "concentracao",
+      "atributo": "111",
+      "valor": "111",
+      "data": "17/21/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "abc",
+      "patientId": 1
+    },
+    {
+      "id": 8584,
+      "evento": "concentracao",
+      "atributo": "2",
+      "valor": "2",
+      "data": "17/21/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "abc",
       "patientId": 1
     }
   ],

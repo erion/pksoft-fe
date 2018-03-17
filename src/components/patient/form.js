@@ -30,6 +30,7 @@ export default class PatientForm extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({tabIndex: 0})
     let self = this;
     fetch(WSRoot+'/farmaco')
       .then(res => res.json())
@@ -98,7 +99,7 @@ export default class PatientForm extends React.Component {
   }
 
   render() {
-    let visibility = this.props.activeTab !== 1 && this.props.activeTab !== 2 ? 'visible' : 'hidden'
+    let visibility = this.state.tabIndex === 0 ? 'visible' : 'hidden'
     let addButtonStyle = {
       "position": "fixed",
       "bottom": "3rem",
@@ -154,6 +155,7 @@ export default class PatientForm extends React.Component {
               pharmacos={this.state.pharmacos}
               patientId={this.state.patient.id}
               patientName={this.state.patient.nome}
+              activeTab={this.state.tabIndex}
               history={this.props.history} />
           </Tab>
 

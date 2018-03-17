@@ -63,11 +63,6 @@ export default class HistoryForm extends React.Component {
   }
 
   handleHistorySubmit() {
-    //TODO remove this code after DB integration
-    let patientHistory = this.state.patientHistory
-    patientHistory.id = Math.floor(Math.random() * 10000) + 1
-    this.setState({patientHistory: patientHistory})
-
     fetch(WSRoot+'/historico/', {
       method: 'POST',
       headers: {
