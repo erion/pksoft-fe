@@ -9,6 +9,7 @@ import PatientForm from './components/patient/form';
 import SearchComponent from './material-components/search.js';
 import PharmacoList from './components/pharmaco/list';
 import PharmacoForm from './components/pharmaco/form';
+import Simulation from './components/simulation/simulation';
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
           )} />
           <Route path="/farmaco/:id" component={PharmacoForm} />
           <Route exact path="/farmaco/" component={PharmacoForm} />
+          <Route exact path="/simulacao/" component={Simulation} />
         </div>
       </BrowserRouter>
     );

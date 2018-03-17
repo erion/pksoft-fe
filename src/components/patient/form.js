@@ -150,7 +150,11 @@ export default class PatientForm extends React.Component {
 
           <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
             <TreatmentList pharmacos={this.state.pharmacos} patientId={this.state.patient.id} patientName={this.state.patient.nome} />
-            <TreatmentForm pharmacos={this.state.pharmacos} patientId={this.state.patient.id} patientName={this.state.patient.nome} />
+            <TreatmentForm
+              pharmacos={this.state.pharmacos}
+              patientId={this.state.patient.id}
+              patientName={this.state.patient.nome}
+              history={this.props.history} />
           </Tab>
 
         </Tabs>

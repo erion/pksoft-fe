@@ -95,5 +95,11 @@
       "tratamentoId": "",
       "patientId": 1
     }
+  ],
+  "simulacao": [
+    {
+      "id": 1,
+      "path": "simulacao.png"
+    }
   ]
 }

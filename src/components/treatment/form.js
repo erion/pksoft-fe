@@ -26,6 +26,7 @@ export default class TreatmentForm extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSimulate = this.onSimulate.bind(this)
   }
 
   handleInputChange(event, index, value) {
@@ -74,6 +75,10 @@ export default class TreatmentForm extends React.Component {
     })
   }
 
+  onSimulate() {
+    this.props.history.push("/simulacao/")
+  }
+
   render() {
     let visibility = this.props.activeTab === 2 ? 'visible' : 'hidden'
     let addButtonStyle = {
@@ -99,7 +104,7 @@ export default class TreatmentForm extends React.Component {
               style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
               primary={true}
               icon={<TimeLineIcon />}
-              onClick={this.onNewPatient}
+              onClick={this.onSimulate}
             />
           </div>
 
