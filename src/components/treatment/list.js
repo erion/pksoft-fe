@@ -8,10 +8,9 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot } from '../../app-config'
+import { WSRoot, TreatmentModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class TreatmentList extends React.Component {
@@ -23,6 +22,7 @@ export default class TreatmentList extends React.Component {
     };
 
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
+    this.onNewTreatment = this.onNewTreatment.bind(this)
   }
 
   componentDidMount() {
@@ -35,7 +35,12 @@ export default class TreatmentList extends React.Component {
   }
 
   onSelectTreatment(treatment) {
-    //TODO
+    this.setState({selectedTreatment: treatment})
+    this.props.onSelectTreatment(treatment)
+  }
+
+  onNewTreatment() {
+    this.props.onSelectTreatment(TreatmentModel)
   }
 
   render() {
@@ -54,7 +59,7 @@ export default class TreatmentList extends React.Component {
           var pharmacoName = self.props.pharmacos.find(f => f.id === row.codigo_farmaco);
           pharmacoName = pharmacoName.nome
         return (
-          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
+          <ClickableRow key={index} rowData={row} eventFunction={self.onSelectTreatment} >
             <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
             <TableRowColumn style={{width: '45%'}}>{self.props.patientName}</TableRowColumn>
             <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
@@ -70,11 +75,9 @@ export default class TreatmentList extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Link className="clearfix" to="/farmaco">
-            <FloatingActionButton mini={true} style={addButtonStyle}>
-              <ContentAdd />
-            </FloatingActionButton>
-          </Link>
+          <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.onNewTreatment}>
+            <ContentAdd />
+          </FloatingActionButton>
 
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>

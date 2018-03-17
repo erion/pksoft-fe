@@ -24,9 +24,14 @@ export default class TreatmentForm extends React.Component {
 
     this.state = { treatment: TreatmentModel }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.onSimulate = this.onSimulate.bind(this)
+  }
+
+  componentDidMount() {
+    if(this.props.treatment !== undefined)
+      this.setState({treatment: this.props.treatment})
   }
 
   handleInputChange(event, index, value) {
@@ -107,8 +112,6 @@ export default class TreatmentForm extends React.Component {
               onClick={this.onSimulate}
             />
           </div>
-
-          <h3 style={{textAlign: "center"}}>Novo tratamento</h3>
 
           <form id="treatment-form">
             <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />

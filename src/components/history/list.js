@@ -8,7 +8,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { WSRoot, HistoryModel } from '../../app-config'
@@ -23,7 +22,9 @@ export default class HistoryList extends React.Component {
 
     this.state = { patientHistory }
 
-    this.onDeleteHistory = this.onDeleteHistory.bind(this);
+    this.onDeleteHistory = this.onDeleteHistory.bind(this)
+    this.onSelectHistory = this.onSelectHistory.bind(this)
+    this.onNewHistory = this.onNewHistory.bind(this)
   }
 
   componentDidMount() {
@@ -41,7 +42,12 @@ export default class HistoryList extends React.Component {
   }
 
   onSelectHistory(history) {
-    //show all fields of the record, expandable box or modal
+    this.setState({selectedHistory: history})
+    this.props.onSelectHistory(history)
+  }
+
+  onNewHistory() {
+    this.props.onSelectHistory(HistoryModel)
   }
 
   render() {
@@ -55,8 +61,9 @@ export default class HistoryList extends React.Component {
       }
 
       if(this.state.patientHistory.length > 0) {
+        let self = this
         tableRow = this.state.patientHistory.map( (row, index) => (
-          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectHistory}>
+          <ClickableRow key={index} rowData={row} eventFunction={self.onSelectHistory}>
             <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
             <TableRowColumn style={{width: '30%'}}>{row.evento}</TableRowColumn>
             <TableRowColumn style={{width: '30%'}}>{row.valor}</TableRowColumn>
@@ -73,11 +80,9 @@ export default class HistoryList extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-            <Link className="clearfix" to="/historico">
-              <FloatingActionButton mini={true} style={addButtonStyle}>
-                <ContentAdd />
-              </FloatingActionButton>
-            </Link>
+            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.onNewHistory} >
+              <ContentAdd />
+            </FloatingActionButton>
 
             <Table>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>

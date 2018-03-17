@@ -27,6 +27,11 @@ export default class HistoryForm extends React.Component {
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
   }
 
+  componentDidMount() {
+    if(this.props.patientHistory !== undefined)
+      this.setState({patientHistory: this.props.patientHistory})
+  }
+
   handleInputChange(event) {
     let target = event.target;
     let value = target.value;
@@ -102,7 +107,6 @@ export default class HistoryForm extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <h3 style={{textAlign: "center"}}>Novo histórico</h3>
           <form id="history-form">
             <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
               <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />

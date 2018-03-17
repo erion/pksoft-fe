@@ -27,6 +27,8 @@ export default class PatientForm extends React.Component {
     this.handlePatientSubmit = this.handlePatientSubmit.bind(this)
     this.onNewPatient = this.onNewPatient.bind(this)
     this.onTabChange = this.onTabChange.bind(this)
+    this.onSelectHistory = this.onSelectHistory.bind(this)
+    this.onSelectTreatment = this.onSelectTreatment.bind(this)
   }
 
   componentDidMount() {
@@ -58,6 +60,11 @@ export default class PatientForm extends React.Component {
   //Tab events not working properly https://github.com/mui-org/material-ui/issues/3465
   onTabChange(value) {
     this.setState({tabIndex: value})
+    //reset selections on a lazy way, TODO: maybe will need to change
+    switch(value) {
+      case 1: this.setState({selectedHistory: undefined}); break
+      case 2: this.setState({selectedTreatment: undefined}); break
+    }
   }
 
   handlePatientSubmit() {
@@ -98,6 +105,14 @@ export default class PatientForm extends React.Component {
     })
   }
 
+  onSelectHistory(history) {
+    this.setState({selectedHistory: history})
+  }
+
+  onSelectTreatment(treatmentId) {
+    this.setState({selectedTreatment: treatmentId})
+  }
+
   render() {
     let visibility = this.state.tabIndex === 0 ? 'visible' : 'hidden'
     let addButtonStyle = {
@@ -106,6 +121,39 @@ export default class PatientForm extends React.Component {
       "right": "2rem",
       "visibility": visibility
     }
+
+    let historyComponent, treatmentComponent
+
+    historyComponent = this.state.selectedHistory === undefined
+      ?
+        <HistoryList
+          onSelectHistory={this.onSelectHistory}
+          patientId={this.state.patient.id}
+          activeTab={this.state.tabIndex} />
+      :
+        <HistoryForm
+          patientHistory={this.state.selectedHistory}
+          patientId={this.state.patient.id}
+          patientName={this.state.patient.nome}
+          activeTab={this.state.tabIndex} />
+
+    treatmentComponent  = this.state.selectedTreatment === undefined
+      ?
+        <TreatmentList
+          onSelectTreatment={this.onSelectTreatment}
+          pharmacos={this.state.pharmacos}
+          patientId={this.state.patient.id}
+          patientName={this.state.patient.nome}
+          activeTab={this.state.tabIndex} />
+      :
+        <TreatmentForm
+          treatment={this.state.selectedTreatment}
+          pharmacos={this.state.pharmacos}
+          patientId={this.state.patient.id}
+          patientName={this.state.patient.nome}
+          activeTab={this.state.tabIndex}
+          history={this.props.history} />
+
     return (
       <MuiThemeProvider>
         <Tabs value={this.state.tabIndex}>
@@ -145,18 +193,11 @@ export default class PatientForm extends React.Component {
           </Tab>
 
           <Tab label="Histórico" value={1} onActive={() => this.onTabChange(1)}>
-            <HistoryList patientId={this.state.patient.id} activeTab={this.state.tabIndex} />
-            <HistoryForm patientId={this.state.patient.id} patientName={this.state.patient.nome} activeTab={this.state.tabIndex} />
+            {historyComponent}
           </Tab>
 
           <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
-            <TreatmentList pharmacos={this.state.pharmacos} patientId={this.state.patient.id} patientName={this.state.patient.nome} />
-            <TreatmentForm
-              pharmacos={this.state.pharmacos}
-              patientId={this.state.patient.id}
-              patientName={this.state.patient.nome}
-              activeTab={this.state.tabIndex}
-              history={this.props.history} />
+            {treatmentComponent}
           </Tab>
 
         </Tabs>
