@@ -61,8 +61,6 @@ export default class AppMenu extends React.Component {
               <Menu>
                 <UserBox />
                 <Link to="/pacientes"><MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} /></Link>
-                <MenuItem primaryText="Tratamentos" leftIcon={<TreatmentIcon />} />
-                <MenuItem primaryText="Histórico" leftIcon={<HistoryIcon />} />
                 <Link to="/farmacos"><MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} /></Link>
               </Menu>
             </Drawer>
