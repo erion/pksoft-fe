@@ -39,6 +39,18 @@
     {
       "id": 2,
       "nome": "Abciximabe"
+    },
+    {
+      "id": 3,
+      "nome": "Amilorida"
+    },
+    {
+      "id": 4,
+      "nome": "Acetilespiramicina"
+    },
+    {
+      "id": 5,
+      "nome": "Amifostina "
     }
   ],
   "tratamento": [
