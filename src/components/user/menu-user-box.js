@@ -8,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router-dom';
 import NoUser from '../../assets/ic_account_circle_black_24dp_2x.png';
 
 const listStyle = { marginTop: '3rem' }
@@ -29,7 +30,7 @@ const iconButtonElement = (
 const rightIconMenu = (
   <IconMenu style={menuIconStyle} iconButtonElement={iconButtonElement}>
     <MenuItem>Editar</MenuItem>
-    <MenuItem>Logout</MenuItem>
+    <Link to="/"> <MenuItem>Logout</MenuItem> </Link>
   </IconMenu>
 )
 

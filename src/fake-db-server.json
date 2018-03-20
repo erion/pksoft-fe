@@ -177,5 +177,14 @@
       "id": 1,
       "path": "simulacao.png"
     }
+  ],
+  "usuario": [
+    {
+      "id": 1,
+      "nome": "Erion Dreyer",
+      "login": "erion",
+      "senha": "123",
+      "avatar": ""
+    }
   ]
 }

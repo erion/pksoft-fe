@@ -37,3 +37,11 @@ export const TreatmentModel = {
   codigo_paciente: null,
   codigo_farmaco: null
 }
+
+export const UserModel = {
+  id: "",
+  nome: "",
+  login:"",
+  senha: "",
+  avatar: ""
+}
