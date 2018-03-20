@@ -39,6 +39,12 @@ form {
   margin-bottom: 1rem;
 }
 
+.floating-button {
+  position: fixed;
+  bottom: 3rem;
+  right: 2rem;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

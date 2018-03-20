@@ -26,11 +26,10 @@ export default class TreatmentList extends React.Component {
   }
 
   componentDidMount() {
-    let self = this;
     fetch(WSRoot+'/tratamento?codigo_paciente='+this.props.patientId)
       .then(res => res.json())
       .then(treatments => {
-        self.setState({ treatments: treatments });
+        this.setState({ treatments: treatments });
       });
   }
 
@@ -44,41 +43,39 @@ export default class TreatmentList extends React.Component {
   }
 
   render() {
-      let tableRow = "Carregando lista de tratamentos..."
-      let visibility = this.props.activeTab === 2 ? 'visible' : 'hidden'
-      let addButtonStyle = {
-        "position": "fixed",
-        "bottom": "3rem",
-        "right": "2rem",
-        "visibility": visibility
-      }
+    let tableRow
+    let showButton = this.props.activeTab === 2
+    let newTreatmentBtn
 
-      let self = this
-      if(this.state.treatments.length > 0 && this.props.pharmacos) {
-        tableRow = this.state.treatments.map( (row, index) => {
-          var pharmacoName = self.props.pharmacos.find(f => f.id === row.codigo_farmaco);
-          pharmacoName = pharmacoName.nome
-        return (
-          <ClickableRow key={index} rowData={row} eventFunction={self.onSelectTreatment} >
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{self.props.patientName}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
-          </ClickableRow>
-        )})
-      } else {
-        tableRow =
-          <TableRow>
-            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
-          </TableRow>
-      }
+    newTreatmentBtn = (showButton)
+      ?
+        <FloatingActionButton className="floating-button" mini={true} onClick={this.onNewTreatment}>
+          <ContentAdd />
+        </FloatingActionButton>
+      : null
+
+    if(this.state.treatments.length > 0 && this.props.pharmacos) {
+      tableRow = this.state.treatments.map( (row, index) => {
+        var pharmacoName = this.props.pharmacos.find(f => f.id === row.codigo_farmaco);
+        pharmacoName = pharmacoName.nome
+      return (
+        <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
+          <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
+          <TableRowColumn style={{width: '45%'}}>{this.props.patientName}</TableRowColumn>
+          <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
+        </ClickableRow>
+      )})
+    } else {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
+        </TableRow>
+    }
 
     return (
       <MuiThemeProvider>
         <div>
-          <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.onNewTreatment}>
-            <ContentAdd />
-          </FloatingActionButton>
-
+          {newTreatmentBtn}
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>

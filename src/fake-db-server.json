@@ -79,6 +79,16 @@
       "id": 4999,
       "codigo_paciente": 1,
       "codigo_farmaco": 2
+    },
+    {
+      "id": 5000,
+      "codigo_paciente": 2,
+      "codigo_farmaco": 1
+    },
+    {
+      "id": 5001,
+      "codigo_paciente": 2,
+      "codigo_farmaco": 2
     }
   ],
   "historico": [

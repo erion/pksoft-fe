@@ -34,6 +34,12 @@ export default class TreatmentForm extends React.Component {
       this.setState({treatment: this.props.treatment})
   }
 
+  componentWillUnmount() {
+    this.setState({
+      treatment: TreatmentModel
+    })
+  }
+
   handleInputChange(event, index, value) {
     let treatment = this.state.treatment;
     treatment['codigo_farmaco'] = value
@@ -73,25 +79,20 @@ export default class TreatmentForm extends React.Component {
     event.preventDefault();
   }
 
-  componentWillUnmount() {
-    //not working as expected. Clear the form on other way if needed
-    this.setState({
-      treatment: TreatmentModel
-    })
-  }
-
   onSimulate() {
     this.props.history.push("/simulacao/")
   }
 
   render() {
-    let visibility = this.props.activeTab === 2 ? 'visible' : 'hidden'
-    let addButtonStyle = {
-      "position": "fixed",
-      "bottom": "3rem",
-      "right": "2rem",
-      "visibility": visibility
-    }
+    let showButton = this.props.activeTab === 2
+    let saveTreatmentBtn
+
+    saveTreatmentBtn = (showButton)
+      ?
+        <FloatingActionButton mini={true} className="floating-button" onClick={this.handleSubmit}>
+          <ContentSave />
+        </FloatingActionButton>
+      : null
 
     let pharmacoSelect
     if(this.props.pharmacos) {
@@ -127,9 +128,7 @@ export default class TreatmentForm extends React.Component {
               {pharmacoSelect}
             </SelectField>
 
-            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
-              <ContentSave />
-          </FloatingActionButton>
+            {saveTreatmentBtn}
           </form>
         </div>
       </MuiThemeProvider>

@@ -116,11 +116,11 @@ export default class PatientForm extends React.Component {
 
   render() {
     let visibility = this.state.tabIndex === 0 ? 'visible' : 'hidden'
+    let showButton = this.state.tabIndex === 0;
     let addButtonStyle = {
       "position": "fixed",
       "bottom": "3rem",
       "right": "2rem",
-      "visibility": visibility
     }
 
     let historyComponent, treatmentComponent
@@ -187,9 +187,15 @@ export default class PatientForm extends React.Component {
                 <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
               </RadioButtonGroup>
               <TextField onChange={this.handleInputChange} floatingLabelText="Agente saúde" name="agente_saude" value={this.state.patient.agente_saude} /><br />
-              <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handlePatientSubmit}>
-                <ContentSave />
-            </FloatingActionButton>
+
+              { (showButton)
+                  ?
+                  <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handlePatientSubmit}>
+                    <ContentSave />
+                  </FloatingActionButton>
+                 : null
+              }
+
             </form>
           </Tab>
 
