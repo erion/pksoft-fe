@@ -115,14 +115,7 @@ export default class PatientForm extends React.Component {
   }
 
   render() {
-    let visibility = this.state.tabIndex === 0 ? 'visible' : 'hidden'
     let showButton = this.state.tabIndex === 0;
-    let addButtonStyle = {
-      "position": "fixed",
-      "bottom": "3rem",
-      "right": "2rem",
-    }
-
     let historyComponent, treatmentComponent
 
     historyComponent = this.state.selectedHistory === undefined
@@ -190,7 +183,7 @@ export default class PatientForm extends React.Component {
 
               { (showButton)
                   ?
-                  <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handlePatientSubmit}>
+                  <FloatingActionButton className="floating-button" mini={true} onClick={this.handlePatientSubmit}>
                     <ContentSave />
                   </FloatingActionButton>
                  : null

@@ -12,7 +12,7 @@ import PharmacoIcon from 'material-ui/svg-icons/maps/local-pharmacy';
 import { Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history'
 
-import UserBox from '../material-components/user.js';
+import UserBox from './user/menu-user-box';
 import { IconButton } from 'material-ui';
 
 const paperStyle = {
