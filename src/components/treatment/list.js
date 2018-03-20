@@ -17,8 +17,9 @@ export default class TreatmentList extends React.Component {
 
   constructor(props, context) {
     super(props);
+    let treatmentModel = TreatmentModel;
     this.state = {
-      treatments: [],
+      treatments: treatmentModel,
     };
 
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
@@ -65,10 +66,15 @@ export default class TreatmentList extends React.Component {
           <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
         </ClickableRow>
       )})
-    } else {
+    } else if(this.state.treatments.length === 0) {
       tableRow =
         <TableRow>
           <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
+        </TableRow>
+    } else {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando tratamentos do paciente...</TableRowColumn>
         </TableRow>
     }
 

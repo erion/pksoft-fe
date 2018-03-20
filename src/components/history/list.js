@@ -70,10 +70,15 @@ export default class HistoryList extends React.Component {
           <TableRowColumn style={{width: '30%'}}>{row.tratamento}</TableRowColumn>
         </ClickableRow>
       ))
-    } else {
+    } else if(this.state.patientHistory.length === 0) {
       tableRow =
         <TableRow>
           <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem histórico para este paciente</TableRowColumn>
+        </TableRow>
+    } else {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando histórico do paciente...</TableRowColumn>
         </TableRow>
     }
 

@@ -6,8 +6,6 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import BackIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import PatientIcon from 'material-ui/svg-icons/maps/directions-walk';
-import TreatmentIcon from 'material-ui/svg-icons/action/assignment';
-import HistoryIcon from 'material-ui/svg-icons/action/history';
 import PharmacoIcon from 'material-ui/svg-icons/maps/local-pharmacy';
 import { Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history'
