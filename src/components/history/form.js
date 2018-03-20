@@ -27,6 +27,17 @@ export default class HistoryForm extends React.Component {
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
   }
 
+  componentDidMount() {
+    if(this.props.patientHistory !== undefined)
+      this.setState({patientHistory: this.props.patientHistory})
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      patientHistory: HistoryModel
+    })
+  }
+
   handleInputChange(event) {
     let target = event.target;
     let value = target.value;
@@ -84,25 +95,20 @@ export default class HistoryForm extends React.Component {
     event.preventDefault();
   }
 
-  componentWillUnmount() {
-    //not working as expected. Clear the form on other way if needed
-    this.setState({
-      patientHistory: HistoryModel
-    })
-  }
-
   render() {
-    let visibility = this.props.activeTab === 1 ? 'visible' : 'hidden'
-    let addButtonStyle = {
-      "position": "fixed",
-      "bottom": "3rem",
-      "right": "2rem",
-      "visibility": visibility
-    }
+    let showButton = this.props.activeTab === 1
+    let saveHistoryBtn
+
+    saveHistoryBtn = (showButton)
+      ?
+        <FloatingActionButton className="floating-button" mini={true} onClick={this.handleHistorySubmit}>
+          <ContentSave />
+        </FloatingActionButton>
+      : null
+
     return (
       <MuiThemeProvider>
         <div>
-          <h3 style={{textAlign: "center"}}>Novo histórico</h3>
           <form id="history-form">
             <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
               <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
@@ -115,9 +121,7 @@ export default class HistoryForm extends React.Component {
             <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
             <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
             <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
-            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleHistorySubmit}>
-              <ContentSave />
-          </FloatingActionButton>
+            {saveHistoryBtn}
           </form>
         </div>
       </MuiThemeProvider>

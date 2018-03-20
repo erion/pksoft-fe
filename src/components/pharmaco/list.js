@@ -39,7 +39,7 @@ export default class PharmacoList extends React.Component {
   }
 
   render() {
-      let tableRow = "Carregando lista de fármacos...";
+      let tableRow
       let addButtonStyle = {
         "position": "fixed",
         "bottom": "3rem",
@@ -53,6 +53,11 @@ export default class PharmacoList extends React.Component {
             <TableRowColumn style={{width: '90%'}}>{row.nome}</TableRowColumn>
           </ClickableRow>
         ))
+      } else {
+        tableRow =
+          <TableRow>
+            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando lista de fármacos...</TableRowColumn>
+          </TableRow>
       }
 
     return (

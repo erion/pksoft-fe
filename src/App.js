@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import './App.css';
 
 import AppMenu from './components/appMenu';
+import Login from './components/user/login';
 import PatientList from './components/patient/list';
 import PatientForm from './components/patient/form';
 import SearchComponent from './material-components/search.js';
@@ -18,7 +19,9 @@ class App extends Component {
         <div className="app">
           <AppMenu />
           <SearchComponent />
-          <Route exact path="/" component={PatientList} />
+          <Route exact path="/" render={props => (
+            <Login history={props.history} />
+          )} />
           <Route exact path="/pacientes" render={props => (
             <PatientList history={props.history} />
           )} />

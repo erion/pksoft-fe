@@ -8,74 +8,80 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot } from '../../app-config'
+import { WSRoot, TreatmentModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class TreatmentList extends React.Component {
 
   constructor(props, context) {
     super(props);
+    let treatmentModel = TreatmentModel;
     this.state = {
-      treatments: [],
+      treatments: treatmentModel,
     };
 
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
+    this.onNewTreatment = this.onNewTreatment.bind(this)
   }
 
   componentDidMount() {
-    let self = this;
     fetch(WSRoot+'/tratamento?codigo_paciente='+this.props.patientId)
       .then(res => res.json())
       .then(treatments => {
-        self.setState({ treatments: treatments });
+        this.setState({ treatments: treatments });
       });
   }
 
   onSelectTreatment(treatment) {
-    //TODO
+    this.setState({selectedTreatment: treatment})
+    this.props.onSelectTreatment(treatment)
+  }
+
+  onNewTreatment() {
+    this.props.onSelectTreatment(TreatmentModel)
   }
 
   render() {
-      let tableRow = "Carregando lista de tratamentos..."
-      let visibility = this.props.activeTab === 2 ? 'visible' : 'hidden'
-      let addButtonStyle = {
-        "position": "fixed",
-        "bottom": "3rem",
-        "right": "2rem",
-        "visibility": visibility
-      }
+    let tableRow
+    let showButton = this.props.activeTab === 2
+    let newTreatmentBtn
 
-      let self = this
-      if(this.state.treatments.length > 0 && this.props.pharmacos) {
-        tableRow = this.state.treatments.map( (row, index) => {
-          var pharmacoName = self.props.pharmacos.find(f => f.id === row.codigo_farmaco);
-          pharmacoName = pharmacoName.nome
-        return (
-          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{self.props.patientName}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
-          </ClickableRow>
-        )})
-      } else {
-        tableRow =
-          <TableRow>
-            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
-          </TableRow>
-      }
+    newTreatmentBtn = (showButton)
+      ?
+        <FloatingActionButton className="floating-button" mini={true} onClick={this.onNewTreatment}>
+          <ContentAdd />
+        </FloatingActionButton>
+      : null
+
+    if(this.state.treatments.length > 0 && this.props.pharmacos) {
+      tableRow = this.state.treatments.map( (row, index) => {
+        var pharmacoName = this.props.pharmacos.find(f => f.id === row.codigo_farmaco);
+        pharmacoName = pharmacoName.nome
+      return (
+        <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
+          <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
+          <TableRowColumn style={{width: '45%'}}>{this.props.patientName}</TableRowColumn>
+          <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
+        </ClickableRow>
+      )})
+    } else if(this.state.treatments.length === 0) {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
+        </TableRow>
+    } else {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando tratamentos do paciente...</TableRowColumn>
+        </TableRow>
+    }
 
     return (
       <MuiThemeProvider>
         <div>
-          <Link className="clearfix" to="/farmaco">
-            <FloatingActionButton mini={true} style={addButtonStyle}>
-              <ContentAdd />
-            </FloatingActionButton>
-          </Link>
-
+          {newTreatmentBtn}
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>

@@ -24,9 +24,20 @@ export default class TreatmentForm extends React.Component {
 
     this.state = { treatment: TreatmentModel }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.onSimulate = this.onSimulate.bind(this)
+  }
+
+  componentDidMount() {
+    if(this.props.treatment !== undefined)
+      this.setState({treatment: this.props.treatment})
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      treatment: TreatmentModel
+    })
   }
 
   handleInputChange(event, index, value) {
@@ -68,25 +79,20 @@ export default class TreatmentForm extends React.Component {
     event.preventDefault();
   }
 
-  componentWillUnmount() {
-    //not working as expected. Clear the form on other way if needed
-    this.setState({
-      treatment: TreatmentModel
-    })
-  }
-
   onSimulate() {
     this.props.history.push("/simulacao/")
   }
 
   render() {
-    let visibility = this.props.activeTab === 2 ? 'visible' : 'hidden'
-    let addButtonStyle = {
-      "position": "fixed",
-      "bottom": "3rem",
-      "right": "2rem",
-      "visibility": visibility
-    }
+    let showButton = this.props.activeTab === 2
+    let saveTreatmentBtn
+
+    saveTreatmentBtn = (showButton)
+      ?
+        <FloatingActionButton mini={true} className="floating-button" onClick={this.handleSubmit}>
+          <ContentSave />
+        </FloatingActionButton>
+      : null
 
     let pharmacoSelect
     if(this.props.pharmacos) {
@@ -108,8 +114,6 @@ export default class TreatmentForm extends React.Component {
             />
           </div>
 
-          <h3 style={{textAlign: "center"}}>Novo tratamento</h3>
-
           <form id="treatment-form">
             <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />
             <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
@@ -124,9 +128,7 @@ export default class TreatmentForm extends React.Component {
               {pharmacoSelect}
             </SelectField>
 
-            <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
-              <ContentSave />
-          </FloatingActionButton>
+            {saveTreatmentBtn}
           </form>
         </div>
       </MuiThemeProvider>

@@ -1,8 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { Link } from 'react-router-dom'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
 import { WSRoot } from '../../app-config'
 
 const orientation = () => {

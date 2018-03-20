@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
+import Snackbar from 'material-ui/Snackbar';
 import { WSRoot, PharmacoModel } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
@@ -13,10 +14,20 @@ export default class PharmacoForm extends React.Component {
     ? this.props.location.state.pharmaco
     : PharmacoModel;
 
-    this.state = { pharmaco }
+    this.state = {
+      pharmaco,
+      showMessage: false,
+      message: ''
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      pharmaco: PharmacoModel
+    })
   }
 
   handleInputChange(event) {
@@ -53,21 +64,24 @@ export default class PharmacoForm extends React.Component {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
           this.setState({
-            response: 'Inserido com sucesso.'
+            showMessage: true,
+            message: 'Inserido com sucesso.'
           });
         } else {
-          this.setState({ response: 'Falha ao inserir registro.' })
+          this.setState({
+            showMessage: true,
+            message: 'Falha ao inserir registro.'
+          })
         }
       });
     event.preventDefault();
   }
 
-  componentWillUnmount() {
-    //not working as expected. Clear the form on other way if needed
+  handleCloseMessage = () => {
     this.setState({
-      pharmaco: PharmacoModel
-    })
-  }
+      showMessage: false,
+    });
+  };
 
   render() {
     let addButtonStyle = {
@@ -75,6 +89,16 @@ export default class PharmacoForm extends React.Component {
       "bottom": "3rem",
       "right": "2rem"
     }
+
+    let messageStyle = {
+      top: 0,
+      bottom: 'auto',
+      left: 0,
+      transform: this.state.showMessage ?
+          'translate3d(0, 0, 0)' :
+          `translate3d(0, -50px, 0)`
+    }
+
     return (
       <MuiThemeProvider>
         <div>
@@ -85,6 +109,13 @@ export default class PharmacoForm extends React.Component {
               <ContentSave />
           </FloatingActionButton>
           </form>
+          <Snackbar
+            open={this.state.showMessage}
+            message={this.state.message}
+            autoHideDuration={2000}
+            onRequestClose={this.handleCloseMessage}
+            style={messageStyle}
+          />
         </div>
       </MuiThemeProvider>
     );

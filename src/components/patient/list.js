@@ -39,7 +39,7 @@ export default class PatientList extends React.Component {
   }
 
   render() {
-      let tableRow = "Carregando lista de pacientes...";
+      let tableRow
       let addButtonStyle = {
         "position": "fixed",
         "bottom": "3rem",
@@ -54,6 +54,11 @@ export default class PatientList extends React.Component {
             <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
           </ClickableRow>
         ))
+      } else {
+        tableRow =
+          <TableRow>
+            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando lista de pacientes...</TableRowColumn>
+          </TableRow>
       }
 
     return (

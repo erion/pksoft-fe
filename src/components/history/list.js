@@ -8,7 +8,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { WSRoot, HistoryModel } from '../../app-config'
@@ -23,16 +22,17 @@ export default class HistoryList extends React.Component {
 
     this.state = { patientHistory }
 
-    this.onDeleteHistory = this.onDeleteHistory.bind(this);
+    this.onDeleteHistory = this.onDeleteHistory.bind(this)
+    this.onSelectHistory = this.onSelectHistory.bind(this)
+    this.onNewHistory = this.onNewHistory.bind(this)
   }
 
   componentDidMount() {
-    let self = this;
     let path = '/historico?patientId=' + this.state.patientHistory.patientId
     fetch(WSRoot+path)
       .then(res => res.json())
       .then(patientHistory => {
-        self.setState({ patientHistory: patientHistory });
+        this.setState({ patientHistory: patientHistory });
       });
   }
 
@@ -41,59 +41,66 @@ export default class HistoryList extends React.Component {
   }
 
   onSelectHistory(history) {
-    //show all fields of the record, expandable box or modal
+    this.setState({selectedHistory: history})
+    this.props.onSelectHistory(history)
+  }
+
+  onNewHistory() {
+    this.props.onSelectHistory(HistoryModel)
   }
 
   render() {
-      let tableRow = "Carregando histórico do paciente...";
-      let visibility = this.props.activeTab === 1 ? 'visible' : 'hidden'
-      let addButtonStyle = {
-        "position": "fixed",
-        "bottom": "3rem",
-        "right": "2rem",
-        "visibility": visibility
-      }
+    let tableRow
+    let showButton = this.props.activeTab === 1
+    let newHistoryBtn
 
-      if(this.state.patientHistory.length > 0) {
-        tableRow = this.state.patientHistory.map( (row, index) => (
-          <ClickableRow key={index} rowData={row} eventFunction={this.onSelectHistory}>
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '30%'}}>{row.evento}</TableRowColumn>
-            <TableRowColumn style={{width: '30%'}}>{row.valor}</TableRowColumn>
-            <TableRowColumn style={{width: '30%'}}>{row.tratamento}</TableRowColumn>
-          </ClickableRow>
-        ))
-      } else {
-        tableRow =
-          <TableRow>
-            <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem histórico para este paciente</TableRowColumn>
-          </TableRow>
-      }
+    newHistoryBtn = (showButton)
+      ?
+        <FloatingActionButton className="floating-button" mini={true} onClick={this.onNewHistory} >
+          <ContentAdd />
+        </FloatingActionButton>
+      : null
+
+    if(this.state.patientHistory.length > 0) {
+      tableRow = this.state.patientHistory.map( (row, index) => (
+        <ClickableRow key={index} rowData={row} eventFunction={this.onSelectHistory}>
+          <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
+          <TableRowColumn style={{width: '30%'}}>{row.evento}</TableRowColumn>
+          <TableRowColumn style={{width: '30%'}}>{row.valor}</TableRowColumn>
+          <TableRowColumn style={{width: '30%'}}>{row.tratamento}</TableRowColumn>
+        </ClickableRow>
+      ))
+    } else if(this.state.patientHistory.length === 0) {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem histórico para este paciente</TableRowColumn>
+        </TableRow>
+    } else {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando histórico do paciente...</TableRowColumn>
+        </TableRow>
+    }
 
     return (
       <MuiThemeProvider>
         <div>
-            <Link className="clearfix" to="/historico">
-              <FloatingActionButton mini={true} style={addButtonStyle}>
-                <ContentAdd />
-              </FloatingActionButton>
-            </Link>
-
-            <Table>
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '30%'}}>Valor</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {tableRow}
-              </TableBody>
-            </Table>
-          </div>
-        </MuiThemeProvider>
+          {newHistoryBtn}
+          <Table>
+            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+              <TableRow>
+                <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '30%'}}>Valor</TableHeaderColumn>
+                <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              {tableRow}
+            </TableBody>
+          </Table>
+        </div>
+      </MuiThemeProvider>
     );
   }
 
