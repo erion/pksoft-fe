@@ -96,7 +96,7 @@ export default class HistoryForm extends React.Component {
   }
 
   render() {
-    let showButton = this.props.activeTab === 1
+    let showButton = this.props.activeTab === 2
     let saveHistoryBtn
 
     saveHistoryBtn = (showButton)

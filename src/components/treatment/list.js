@@ -45,7 +45,7 @@ export default class TreatmentList extends React.Component {
 
   render() {
     let tableRow
-    let showButton = this.props.activeTab === 2
+    let showButton = this.props.activeTab === 1
     let newTreatmentBtn
 
     newTreatmentBtn = (showButton)

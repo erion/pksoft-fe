@@ -51,7 +51,7 @@ export default class HistoryList extends React.Component {
 
   render() {
     let tableRow
-    let showButton = this.props.activeTab === 1
+    let showButton = this.props.activeTab === 2
     let newHistoryBtn
 
     newHistoryBtn = (showButton)

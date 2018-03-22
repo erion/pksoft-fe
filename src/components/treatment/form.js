@@ -84,7 +84,7 @@ export default class TreatmentForm extends React.Component {
   }
 
   render() {
-    let showButton = this.props.activeTab === 2
+    let showButton = this.props.activeTab === 1
     let saveTreatmentBtn
 
     saveTreatmentBtn = (showButton)

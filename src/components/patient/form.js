@@ -192,12 +192,12 @@ export default class PatientForm extends React.Component {
             </form>
           </Tab>
 
-          <Tab label="Histórico" value={1} onActive={() => this.onTabChange(1)}>
-            {historyComponent}
+          <Tab label="Tratamentos" value={1} onActive={() => this.onTabChange(1)}>
+            {treatmentComponent}
           </Tab>
 
-          <Tab label="Tratamentos" value={2} onActive={() => this.onTabChange(2)}>
-            {treatmentComponent}
+          <Tab label="Histórico" value={2} onActive={() => this.onTabChange(2)}>
+            {historyComponent}
           </Tab>
 
         </Tabs>
