@@ -9,11 +9,22 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     let user = UserModel
+    let authMessage = this.props.history.location.state && this.props.history.location.state.message
+      ? this.props.history.location.state.message
+      : ""
 
-    this.state = { user }
+    this.state = {
+      user,
+      message: authMessage
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if(this.state.message)
+      this.props.handleShowMessage(this.state.message, true)
   }
 
   handleInputChange(event) {

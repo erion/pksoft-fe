@@ -92,7 +92,7 @@ class App extends Component {
             <SearchComponent />
 
             <Route exact path="/" render={props => (
-              <Login history={props.history} handleAuth={this.handleAuth} />
+              <Login history={props.history} handleAuth={this.handleAuth} handleShowMessage={this.handleShowMessage} />
             )} />
 
             <PrivateRoute exact path="/pacientes"
