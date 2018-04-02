@@ -56,8 +56,15 @@ export default class AppMenu extends React.Component {
           <Drawer open={this.state.menuOpen} docked={false} width="60%" style={paperStyle}>
             <Menu>
               <UserBox />
-              <Link to="/pacientes"><MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} /></Link>
-              <Link to="/farmacos"><MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} /></Link>
+
+              <Link to="/pacientes" onClick={this.onMenuClick}>
+                <MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} />
+              </Link>
+
+              <Link to="/farmacos" onClick={this.onMenuClick}>
+                <MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} />
+              </Link>
+
             </Menu>
           </Drawer>
         </div>
