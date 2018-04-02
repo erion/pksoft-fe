@@ -49,6 +49,7 @@ export default class Login extends React.Component {
             response: 'Login efetuado com sucesso',
             user: user
           })
+          this.props.handleAuth(user)
           this.props.history.push("/pacientes")
         } else {
           this.setState({
