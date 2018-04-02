@@ -1,9 +1,7 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import Snackbar from 'material-ui/Snackbar';
 import { WSRoot, PharmacoModel } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
@@ -14,11 +12,7 @@ export default class PharmacoForm extends React.Component {
     ? this.props.location.state.pharmaco
     : PharmacoModel;
 
-    this.state = {
-      pharmaco,
-      showMessage: false,
-      message: ''
-    }
+    this.state = {pharmaco}
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,25 +57,13 @@ export default class PharmacoForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
-            showMessage: true,
-            message: 'Inserido com sucesso.'
-          });
+          this.props.handleShowMessage("Inserido com sucesso", true)
         } else {
-          this.setState({
-            showMessage: true,
-            message: 'Falha ao inserir registro.'
-          })
+          this.props.handleShowMessage("Falha ao inserir registro", true)
         }
       });
     event.preventDefault();
   }
-
-  handleCloseMessage = () => {
-    this.setState({
-      showMessage: false,
-    });
-  };
 
   render() {
     let addButtonStyle = {
@@ -90,17 +72,7 @@ export default class PharmacoForm extends React.Component {
       "right": "2rem"
     }
 
-    let messageStyle = {
-      top: 0,
-      bottom: 'auto',
-      left: 0,
-      transform: this.state.showMessage ?
-          'translate3d(0, 0, 0)' :
-          `translate3d(0, -50px, 0)`
-    }
-
     return (
-      <MuiThemeProvider>
         <div>
           <form id="pharmaco-form">
             <TextField hintText="Id" style={{display:"none"}} value={this.state.pharmaco.id} name="id" /><br />
@@ -109,15 +81,7 @@ export default class PharmacoForm extends React.Component {
               <ContentSave />
           </FloatingActionButton>
           </form>
-          <Snackbar
-            open={this.state.showMessage}
-            message={this.state.message}
-            autoHideDuration={2000}
-            onRequestClose={this.handleCloseMessage}
-            style={messageStyle}
-          />
         </div>
-      </MuiThemeProvider>
     );
   }
 

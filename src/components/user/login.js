@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton';
 import LoginIcon from 'material-ui/svg-icons/action/done'
@@ -62,15 +61,13 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div>
-          <form id="login-form">
-            <TextField onChange={this.handleInputChange} floatingLabelText="Login" name="login" value={this.state.user.login} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Senha" name="senha" value={this.state.user.senha} type="password" /><br />
-            <RaisedButton label="Login" primary={true} onClick={this.handleSubmit} icon={<LoginIcon />} />
-          </form>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <form id="login-form">
+          <TextField onChange={this.handleInputChange} floatingLabelText="Login" name="login" value={this.state.user.login} /><br />
+          <TextField onChange={this.handleInputChange} floatingLabelText="Senha" name="senha" value={this.state.user.senha} type="password" /><br />
+          <RaisedButton label="Login" primary={true} onClick={this.handleSubmit} icon={<LoginIcon />} />
+        </form>
+      </div>
     );
   }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {
   Table,
   TableBody,
@@ -83,24 +82,22 @@ export default class HistoryList extends React.Component {
     }
 
     return (
-      <MuiThemeProvider>
-        <div>
-          {newHistoryBtn}
-          <Table>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '30%'}}>Valor</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {tableRow}
-            </TableBody>
-          </Table>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        {newHistoryBtn}
+        <Table>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '30%'}}>Valor</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {tableRow}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 

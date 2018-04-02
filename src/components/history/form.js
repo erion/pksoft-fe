@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import TimePicker from 'material-ui/TimePicker'
@@ -107,24 +106,22 @@ export default class HistoryForm extends React.Component {
       : null
 
     return (
-      <MuiThemeProvider>
-        <div>
-          <form id="history-form">
-            <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
-              <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
-              <RadioButton value="concentracao" label="Concentração" style={{marginTop:"1rem"}} />
-            </RadioButtonGroup>
-            <TextField onChange={this.handleInputChange} floatingLabelText="Atributo" name="atributo" value={this.state.patientHistory.atributo} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Valor" name="valor" value={this.state.patientHistory.valor} /><br />
-            <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
-            <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="horario" format="24hr" value={this.state.horario} /><br />
-            <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
-            <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
-            {saveHistoryBtn}
-          </form>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <form id="history-form">
+          <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
+            <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
+            <RadioButton value="concentracao" label="Concentração" style={{marginTop:"1rem"}} />
+          </RadioButtonGroup>
+          <TextField onChange={this.handleInputChange} floatingLabelText="Atributo" name="atributo" value={this.state.patientHistory.atributo} /><br />
+          <TextField onChange={this.handleInputChange} floatingLabelText="Valor" name="valor" value={this.state.patientHistory.valor} /><br />
+          <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
+          <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="horario" format="24hr" value={this.state.horario} /><br />
+          <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
+          <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
+          <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
+          {saveHistoryBtn}
+        </form>
+      </div>
     );
   }
 

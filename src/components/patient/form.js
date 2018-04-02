@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import TextField from 'material-ui/TextField'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Tabs, Tab} from 'material-ui/Tabs'
@@ -119,6 +118,13 @@ export default class PatientForm extends React.Component {
 
   render() {
     let showButton = this.state.tabIndex === 0;
+    let savePatientButton = (showButton)
+      ?
+        <FloatingActionButton className="floating-button" mini={true} onClick={this.handlePatientSubmit}>
+          <ContentSave />
+        </FloatingActionButton>
+      : null
+
     let historyComponent, treatmentComponent
 
     historyComponent = this.state.selectedHistory === undefined
@@ -152,59 +158,51 @@ export default class PatientForm extends React.Component {
           history={this.props.history} />
 
     return (
-      <MuiThemeProvider>
-        <Tabs value={this.state.tabIndex}>
+      <Tabs value={this.state.tabIndex}>
 
-          <Tab label="Paciente" value={0} onActive={() => this.onTabChange(0)}>
-            <FlatButton
-              label="Novo Paciente"
-              style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
-              primary={true}
-              icon={<ContentAdd />}
-              onClick={this.onNewPatient}
-            />
-            <form id="patient-form">
-              <TextField hintText="Id" style={{display:"none"}} value={this.state.patient.id} name="id" /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Nome" name="nome" value={this.state.patient.nome} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="CPF" name="cpf" value={this.state.patient.cpf} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="RG" name="rg" value={this.state.patient.rg} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Nascimento" name="nascimento" value={this.state.patient.nascimento} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Peso" name="peso" value={this.state.patient.peso} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Altura" name="altura" value={this.state.patient.altura} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Cr paciente" name="cr_paciente" value={this.state.patient.cr_paciente} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Unidade de internação" name="unidade_tratamento" value={this.state.patient.unidade_tratamento} /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Observação"
-                name="observacao" value={this.state.patient.observacao}
-                multiLine={true} rows={2} rowsMax={10}
-              /><br />
-              <TextField onChange={this.handleInputChange} floatingLabelText="Telefone" name="telefone" value={this.state.patient.telefone} /><br />
-              <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero}>
-                <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
-                <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
-              </RadioButtonGroup>
-              <TextField onChange={this.handleInputChange} floatingLabelText="Agente saúde" name="agente_saude" value={this.state.patient.agente_saude} /><br />
+        <Tab label="Paciente" value={0} onActive={() => this.onTabChange(0)}>
+          <FlatButton
+            label="Novo Paciente"
+            style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
+            primary={true}
+            icon={<ContentAdd />}
+            onClick={this.onNewPatient}
+          />
+          <form id="patient-form">
+            <TextField hintText="Id" style={{display:"none"}} value={this.state.patient.id} name="id" /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Nome" name="nome" value={this.state.patient.nome} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="CPF" name="cpf" value={this.state.patient.cpf} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="RG" name="rg" value={this.state.patient.rg} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Nascimento" name="nascimento" value={this.state.patient.nascimento} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Peso" name="peso" value={this.state.patient.peso} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Altura" name="altura" value={this.state.patient.altura} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Cr paciente" name="cr_paciente" value={this.state.patient.cr_paciente} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Unidade de internação" name="unidade_tratamento" value={this.state.patient.unidade_tratamento} /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Observação"
+              name="observacao" value={this.state.patient.observacao}
+              multiLine={true} rows={2} rowsMax={10}
+            /><br />
+            <TextField onChange={this.handleInputChange} floatingLabelText="Telefone" name="telefone" value={this.state.patient.telefone} /><br />
+            <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero}>
+              <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
+              <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
+            </RadioButtonGroup>
+            <TextField onChange={this.handleInputChange} floatingLabelText="Agente saúde" name="agente_saude" value={this.state.patient.agente_saude} /><br />
 
-              { (showButton)
-                  ?
-                  <FloatingActionButton className="floating-button" mini={true} onClick={this.handlePatientSubmit}>
-                    <ContentSave />
-                  </FloatingActionButton>
-                 : null
-              }
+            {savePatientButton}
 
-            </form>
-          </Tab>
+          </form>
+        </Tab>
 
-          <Tab label="Tratamentos" value={1} onActive={() => this.onTabChange(1)}>
-            {treatmentComponent}
-          </Tab>
+        <Tab label="Tratamentos" value={1} onActive={() => this.onTabChange(1)}>
+          {treatmentComponent}
+        </Tab>
 
-          <Tab label="Histórico" value={2} onActive={() => this.onTabChange(2)}>
-            {historyComponent}
-          </Tab>
+        <Tab label="Histórico" value={2} onActive={() => this.onTabChange(2)}>
+          {historyComponent}
+        </Tab>
 
-        </Tabs>
-      </MuiThemeProvider>
+      </Tabs>
     );
   }
 

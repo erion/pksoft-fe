@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {
   Table,
   TableBody,
@@ -62,28 +61,26 @@ export default class PatientList extends React.Component {
       }
 
     return (
-      <MuiThemeProvider>
-        <div>
-            <Link className="clearfix" to="/paciente">
-              <FloatingActionButton mini={true} style={addButtonStyle}>
-                <ContentAdd />
-              </FloatingActionButton>
-            </Link>
+      <div>
+        <Link className="clearfix" to="/paciente">
+          <FloatingActionButton mini={true} style={addButtonStyle}>
+            <ContentAdd />
+          </FloatingActionButton>
+        </Link>
 
-            <Table>
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '45%'}}>Nome</TableHeaderColumn>
-                  <TableHeaderColumn style={{width: '45%'}}>CPF</TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {tableRow}
-              </TableBody>
-            </Table>
-          </div>
-        </MuiThemeProvider>
+        <Table>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '45%'}}>Nome</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '45%'}}>CPF</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {tableRow}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 

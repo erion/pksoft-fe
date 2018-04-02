@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField'
@@ -102,36 +101,34 @@ export default class TreatmentForm extends React.Component {
     }
 
     return (
-      <MuiThemeProvider>
-        <div>
-          <div className="clearfix" style={{width: "100%"}}>
-            <FlatButton
-              label="Simular"
-              style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
-              primary={true}
-              icon={<TimeLineIcon />}
-              onClick={this.onSimulate}
-            />
-          </div>
-
-          <form id="treatment-form">
-            <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />
-            <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
-
-            <SelectField
-              floatingLabelText="Fármaco"
-              name="codigo_farmaco"
-              items={this.state.pharmacos}
-              onChange={this.handleInputChange}
-              value={this.state.treatment.codigo_farmaco}
-            >
-              {pharmacoSelect}
-            </SelectField>
-
-            {saveTreatmentBtn}
-          </form>
+      <div>
+        <div className="clearfix" style={{width: "100%"}}>
+          <FlatButton
+            label="Simular"
+            style={{float:"right", minWidth: "3rem", marginTop: "1rem"}}
+            primary={true}
+            icon={<TimeLineIcon />}
+            onClick={this.onSimulate}
+          />
         </div>
-      </MuiThemeProvider>
+
+        <form id="treatment-form">
+          <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />
+          <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
+
+          <SelectField
+            floatingLabelText="Fármaco"
+            name="codigo_farmaco"
+            items={this.state.pharmacos}
+            onChange={this.handleInputChange}
+            value={this.state.treatment.codigo_farmaco}
+          >
+            {pharmacoSelect}
+          </SelectField>
+
+          {saveTreatmentBtn}
+        </form>
+      </div>
     );
   }
 

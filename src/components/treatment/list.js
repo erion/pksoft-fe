@@ -1,5 +1,4 @@
 import React from 'react'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {
   Table,
   TableBody,
@@ -79,23 +78,21 @@ export default class TreatmentList extends React.Component {
     }
 
     return (
-      <MuiThemeProvider>
-        <div>
-          {newTreatmentBtn}
-          <Table>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '45%'}}>Paciente</TableHeaderColumn>
-                <TableHeaderColumn style={{width: '45%'}}>Fármaco</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {tableRow}
-            </TableBody>
-          </Table>
-        </div>
-      </MuiThemeProvider>
+      <div>
+        {newTreatmentBtn}
+        <Table>
+          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '45%'}}>Paciente</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '45%'}}>Fármaco</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+            {tableRow}
+          </TableBody>
+        </Table>
+      </div>
     );
   }
 

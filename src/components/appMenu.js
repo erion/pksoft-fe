@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MaterialAppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import Menu from 'material-ui/Menu';
@@ -46,25 +45,23 @@ export default class AppMenu extends React.Component {
       </IconButton>
 
     return (
-      <MuiThemeProvider >
-        <div>
-          <MaterialAppBar
-              title="PKSoft"
-              iconElementRight={backButton}
-              onLeftIconButtonClick={this.onMenuClick}
-              onRightIconButtonClick={this.onMenuClick}
-          />
-          <div className="menu">
-            <Drawer open={this.state.menuOpen} docked={false} width="60%" style={paperStyle}>
-              <Menu>
-                <UserBox />
-                <Link to="/pacientes"><MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} /></Link>
-                <Link to="/farmacos"><MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} /></Link>
-              </Menu>
-            </Drawer>
-          </div>
+      <div>
+        <MaterialAppBar
+            title="PKSoft"
+            iconElementRight={backButton}
+            onLeftIconButtonClick={this.onMenuClick}
+            onRightIconButtonClick={this.onMenuClick}
+        />
+        <div className="menu">
+          <Drawer open={this.state.menuOpen} docked={false} width="60%" style={paperStyle}>
+            <Menu>
+              <UserBox />
+              <Link to="/pacientes"><MenuItem primaryText="Pacientes" leftIcon={<PatientIcon />} /></Link>
+              <Link to="/farmacos"><MenuItem primaryText="Fármacos" leftIcon={<PharmacoIcon />} /></Link>
+            </Menu>
+          </Drawer>
         </div>
-      </MuiThemeProvider>
+      </div>
     )
   }
 }
