@@ -64,7 +64,10 @@ export default class PatientForm extends React.Component {
     switch(value) {
       case 1: this.setState({selectedHistory: undefined}); break
       case 2: this.setState({selectedTreatment: undefined}); break
-      default: break
+      default:
+        this.setState({selectedHistory: undefined});
+        this.setState({selectedTreatment: undefined});
+      break
     }
   }
 
