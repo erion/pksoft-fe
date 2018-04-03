@@ -93,11 +93,9 @@ export default class PatientForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
-            response: 'Inserido com sucesso.'
-          });
+          this.props.handleShowMessage("Inserido com sucesso")
         } else {
-          this.setState({ response: 'Falha ao inserir registro.' })
+          this.props.handleShowMessage("Falha ao inserir registro")
         }
       });
     event.preventDefault();
@@ -140,7 +138,8 @@ export default class PatientForm extends React.Component {
           patientHistory={this.state.selectedHistory}
           patientId={this.state.patient.id}
           patientName={this.state.patient.nome}
-          activeTab={this.state.tabIndex} />
+          activeTab={this.state.tabIndex}
+          handleShowMessage={this.props.handleShowMessage} />
 
     treatmentComponent  = this.state.selectedTreatment === undefined
       ?
@@ -157,7 +156,8 @@ export default class PatientForm extends React.Component {
           patientId={this.state.patient.id}
           patientName={this.state.patient.nome}
           activeTab={this.state.tabIndex}
-          history={this.props.history} />
+          history={this.props.history}
+          handleShowMessage={this.props.handleShowMessage} />
 
     return (
       <Tabs value={this.state.tabIndex}>

@@ -68,11 +68,9 @@ export default class TreatmentForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
-            response: 'Inserido com sucesso.'
-          });
+          this.props.handleShowMessage("Inserido com sucesso")
         } else {
-          this.setState({ response: 'Falha ao inserir registro.' })
+          this.props.handleShowMessage("Falha ao inserir registro")
         }
       });
     event.preventDefault();

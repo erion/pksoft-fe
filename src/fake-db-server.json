@@ -140,17 +140,6 @@
       "patientId": 1
     },
     {
-      "id": 8327,
-      "evento": "",
-      "atributo": "",
-      "valor": "",
-      "data": "",
-      "horario": "",
-      "pacienteId": "",
-      "tratamentoId": "",
-      "patientId": 1
-    },
-    {
       "id": 3318,
       "evento": "dose",
       "atributo": "teste",
