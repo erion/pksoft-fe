@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
   componentDidMount() {
     if(this.state.message)
-      this.props.handleShowMessage(this.state.message, true)
+      this.props.handleShowMessage(this.state.message)
   }
 
   handleInputChange(event) {

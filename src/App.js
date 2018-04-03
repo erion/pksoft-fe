@@ -53,9 +53,9 @@ class App extends Component {
     })
   }
 
-  handleShowMessage(message, show) {
+  handleShowMessage(message) {
     this.setState({
-      showMessage: show,
+      showMessage: true,
       message: message
     });
   }
