@@ -62,9 +62,7 @@ export default class Login extends React.Component {
           this.props.handleAuth(user)
           this.props.history.push("/pacientes")
         } else {
-          this.setState({
-            response: 'Login ou senha inválido'
-          });
+          this.props.handleShowMessage("Usuário ou senha inválidos")
         }
       })
     event.preventDefault();

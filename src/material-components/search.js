@@ -10,10 +10,12 @@ const containerStyle = {
 }
 const inputStyle = {width: '80%'}
 
-const SearchComponent = () => (
-  <MuiThemeProvider>
+const SearchComponent = () => {
+  let searchComponent = window.location.pathname.includes('login') || window.location.pathname === '/'
+   ? null
+   : (
     <div style={containerStyle}>
-      <TextField 
+      <TextField
         style={inputStyle}
         hintText="Procurar paciente..."
       />
@@ -21,7 +23,8 @@ const SearchComponent = () => (
         <SearchIcon />
       </IconButton>
     </div>
-  </MuiThemeProvider>
-);
+  )
+  return searchComponent
+};
 
 export default SearchComponent;

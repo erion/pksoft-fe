@@ -23,7 +23,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       ) : (
         <Redirect
           to={{
-            pathname: "/",
+            pathname: "/login",
             state: { message: "Usuário não autenticado" }
           }}
         />
@@ -92,6 +92,9 @@ class App extends Component {
             <SearchComponent />
 
             <Route exact path="/" render={props => (
+              <Login history={props.history} handleAuth={this.handleAuth} handleShowMessage={this.handleShowMessage} />
+            )} />
+            <Route exact path="/login" render={props => (
               <Login history={props.history} handleAuth={this.handleAuth} handleShowMessage={this.handleShowMessage} />
             )} />
 
