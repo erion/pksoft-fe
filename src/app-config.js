@@ -1,10 +1,10 @@
-import {red500, amber500, lightGreenA400 } from 'material-ui/styles/colors'
+import {red500, amber500, lightGreen500 } from 'material-ui/styles/colors'
 
 export const WSRoot = 'http://localhost:3001'
 
 export const messageType = {
   mError: red500,
-  mSuccess: lightGreenA400,
+  mSuccess: lightGreen500,
   mInfo: amber500
 }
 

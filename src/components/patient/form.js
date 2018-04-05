@@ -17,19 +17,19 @@ export default class PatientForm extends React.Component {
   constructor(props) {
     super(props);
     let patient, formError, errorMessage = {}
+    //edit
     if(this.props.location.state && this.props.location.state.patient) {
       patient = this.props.location.state.patient
-      formError = false
+      formError = {formError: false}
       for(let key in patient) {
-        errorMessage[key] = {value: null}
-        errorMessage[key] = {error: false}
+        errorMessage[key] = {value: null, error: false}
       }
+    //insert
     } else {
       patient = PatientModel
-      formError = true
+      formError = {formError: true}
       for(let key in patient) {
-        errorMessage[key] = {value: null}
-        errorMessage[key] = {error: true}
+        errorMessage[key] = {value: null, error: true}
       }
     }
 
@@ -82,9 +82,10 @@ export default class PatientForm extends React.Component {
       errorMessage = this.state.errorMessage
 
     if(value === '') {
-      errorMessage[name].value = "Campo obrigatório"
-      errorMessage[name].error = true
+      errorMessage[name] = {value: "Campo obrigatório", error: true}
       this.setState({formError: true})
+    } else {
+      errorMessage[name] = {value: null, error: false}
     }
     this.setState({errorMessage})
   }
@@ -92,11 +93,12 @@ export default class PatientForm extends React.Component {
   onFormValidate() {
     let formError = false
     for(let key in this.state.errorMessage) {
-      if(this.state.errorMessage[key].error)
+      if(this.state.errorMessage[key].error === true)
         formError = true
-      console.log('error message',this.state.errorMessage[key])
+      console.log('form validation',key, this.state.errorMessage[key].error)
     }
     this.setState({formError: formError})
+    return new Promise((resolve, reject) => {resolve(true)})
   }
 
   //Tab events not working properly https://github.com/mui-org/material-ui/issues/3465
@@ -116,40 +118,41 @@ export default class PatientForm extends React.Component {
   }
 
   handlePatientSubmit() {
-    if(this.state.formError === false) {
-      let method, path
-      if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
-        method = 'PUT'
-        path = '/paciente/'+this.state.patient.id
-      } else {
-        method = 'POST'
-        path = '/paciente/'
-      }
+    this.onFormValidate().then(() => {
+      if(this.state.formError === false) {
+        let method, path
+        if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
+          method = 'PUT'
+          path = '/paciente/'+this.state.patient.id
+        } else {
+          method = 'POST'
+          path = '/paciente/'
+        }
 
-      fetch(WSRoot+path, {
-        method: method,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.state.patient)
-      })
-        .then(res => {
-          console.log('post response', res);
-          if (res.status === 201 || res.status === 200) {
-            this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
-          } else {
-            this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
-          }
-        });
-    } else {
-      this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
-    }
+        fetch(WSRoot+path, {
+          method: method,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.state.patient)
+        })
+          .then(res => {
+            console.log('post response', res);
+            if (res.status === 201 || res.status === 200) {
+              this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
+            } else {
+              this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
+            }
+          });
+      } else {
+        this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
+      }
+    })
     event.preventDefault();
   }
 
   componentWillUnmount() {
-    //not working as expected. Clear the form on other way if needed
     this.setState({
       patient: PatientModel
     })
