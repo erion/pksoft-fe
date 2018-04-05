@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import TimeLineIcon from 'material-ui/svg-icons/action/timeline'
-import { WSRoot, TreatmentModel } from '../../app-config'
+import { WSRoot, TreatmentModel, messageType } from '../../app-config'
 
 export default class TreatmentForm extends React.Component {
 
@@ -68,9 +68,9 @@ export default class TreatmentForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.props.handleShowMessage("Inserido com sucesso")
+          this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
         } else {
-          this.props.handleShowMessage("Falha ao inserir registro")
+          this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
         }
       });
     event.preventDefault();

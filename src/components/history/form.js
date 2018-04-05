@@ -5,7 +5,7 @@ import TimePicker from 'material-ui/TimePicker'
 import DatePicker from 'material-ui/DatePicker'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { WSRoot, HistoryModel } from '../../app-config'
+import { WSRoot, HistoryModel, messageType } from '../../app-config'
 
 export default class HistoryForm extends React.Component {
 
@@ -84,9 +84,9 @@ export default class HistoryForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.props.handleShowMessage("Inserido com sucesso")
+          this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
         } else {
-          this.props.handleShowMessage("Falha ao inserir registro")
+          this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
         }
       });
     event.preventDefault();

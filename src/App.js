@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Snackbar from 'material-ui/Snackbar';
-import './App.css';
+import Snackbar from 'material-ui/Snackbar'
+import './App.css'
 
-import AppMenu from './components/appMenu';
-import Login from './components/user/login';
-import PatientList from './components/patient/list';
-import PatientForm from './components/patient/form';
-import SearchComponent from './material-components/search.js';
-import PharmacoList from './components/pharmaco/list';
-import PharmacoForm from './components/pharmaco/form';
-import Simulation from './components/simulation/simulation';
+import { messageType } from './app-config'
+import AppMenu from './components/appMenu'
+import Login from './components/user/login'
+import PatientList from './components/patient/list'
+import PatientForm from './components/patient/form'
+import SearchComponent from './material-components/search.js'
+import PharmacoList from './components/pharmaco/list'
+import PharmacoForm from './components/pharmaco/form'
+import Simulation from './components/simulation/simulation'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -24,7 +25,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         <Redirect
           to={{
             pathname: "/login",
-            state: { message: "Usuário não autenticado" }
+            state: { message: "Usuário não autenticado", messageType: messageType.mInfo }
           }}
         />
       )
@@ -39,7 +40,8 @@ class App extends Component {
       isAuthenticated: false,
       user: undefined,
       showMessage: false,
-      message: ""
+      message: "",
+      messageType: messageType.mInfo
     }
 
     this.handleAuth = this.handleAuth.bind(this);
@@ -53,10 +55,11 @@ class App extends Component {
     })
   }
 
-  handleShowMessage(message) {
+  handleShowMessage(message, type) {
     this.setState({
       showMessage: true,
-      message: message
+      message: message,
+      messageType: type
     });
   }
 
@@ -75,6 +78,7 @@ class App extends Component {
           'translate3d(0, 0, 0)' :
           `translate3d(0, -50px, 0)`
     }
+    let messageBodyStyle = {backgroundColor: this.state.messageType}
 
     return (
       <BrowserRouter>
@@ -86,6 +90,7 @@ class App extends Component {
               autoHideDuration={2000}
               onRequestClose={this.handleCloseMessage}
               style={messageStyle}
+              bodyStyle={messageBodyStyle}
             />
 
             <AppMenu />

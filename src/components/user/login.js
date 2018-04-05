@@ -1,8 +1,8 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from 'material-ui/RaisedButton'
 import LoginIcon from 'material-ui/svg-icons/action/done'
-import { WSRoot, UserModel } from '../../app-config'
+import { WSRoot, UserModel, messageType } from '../../app-config'
 
 export default class Login extends React.Component {
 
@@ -11,7 +11,7 @@ export default class Login extends React.Component {
     let user = UserModel
     let authMessage = this.props.history.location.state && this.props.history.location.state.message
       ? this.props.history.location.state.message
-      : ""
+      : null
 
     this.state = {
       user,
@@ -23,8 +23,8 @@ export default class Login extends React.Component {
   }
 
   componentDidMount() {
-    if(this.state.message)
-      this.props.handleShowMessage(this.state.message)
+    if(this.state.message !== null)
+      this.props.handleShowMessage(this.state.message, messageType.mInfo)
   }
 
   handleInputChange(event) {
@@ -62,7 +62,7 @@ export default class Login extends React.Component {
           this.props.handleAuth(user)
           this.props.history.push("/pacientes")
         } else {
-          this.props.handleShowMessage("Usuário ou senha inválidos")
+          this.props.handleShowMessage("Usuário ou senha inválidos", messageType.mError)
         }
       })
     event.preventDefault();

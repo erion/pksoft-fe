@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { WSRoot, PharmacoModel } from '../../app-config'
+import { WSRoot, PharmacoModel, messageType } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
 
@@ -57,9 +57,9 @@ export default class PharmacoForm extends React.Component {
       .then(res => {
         console.log('post response', res);
         if (res.status === 201 || res.status === 200) {
-          this.props.handleShowMessage("Inserido com sucesso")
+          this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
         } else {
-          this.props.handleShowMessage("Falha ao inserir registro")
+          this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
         }
       });
     event.preventDefault();

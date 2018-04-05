@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot, PatientModel } from '../../app-config'
+import { WSRoot, PatientModel, messageType } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
 import TreatmentList from '../treatment/list'
@@ -137,13 +137,13 @@ export default class PatientForm extends React.Component {
         .then(res => {
           console.log('post response', res);
           if (res.status === 201 || res.status === 200) {
-            this.props.handleShowMessage("Inserido com sucesso")
+            this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
           } else {
-            this.props.handleShowMessage("Falha ao inserir registro")
+            this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
           }
         });
     } else {
-      this.props.handleShowMessage("Erro: Revise os erros nos campos")
+      this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
     }
     event.preventDefault();
   }
