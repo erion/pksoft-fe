@@ -16,18 +16,37 @@ export default class PatientForm extends React.Component {
 
   constructor(props) {
     super(props);
-    let patient = this.props.location.state && this.props.location.state.patient
-    ? this.props.location.state.patient
-    : PatientModel;
+    let patient, formError, errorMessage = {}
+    if(this.props.location.state && this.props.location.state.patient) {
+      patient = this.props.location.state.patient
+      formError = false
+      for(let key in patient) {
+        errorMessage[key] = {value: null}
+        errorMessage[key] = {error: false}
+      }
+    } else {
+      patient = PatientModel
+      formError = true
+      for(let key in patient) {
+        errorMessage[key] = {value: null}
+        errorMessage[key] = {error: true}
+      }
+    }
 
-    this.state = { patient }
+    this.state = {
+      patient,
+      errorMessage,
+      formError
+    }
 
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handlePatientSubmit = this.handlePatientSubmit.bind(this)
     this.onNewPatient = this.onNewPatient.bind(this)
     this.onTabChange = this.onTabChange.bind(this)
     this.onSelectHistory = this.onSelectHistory.bind(this)
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
+    this.onFormValidate = this.onFormValidate.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +75,30 @@ export default class PatientForm extends React.Component {
     });
   }
 
+  handleInputBlur(event) {
+    let target = event.target,
+      value = target.value,
+      name = target.name,
+      errorMessage = this.state.errorMessage
+
+    if(value === '') {
+      errorMessage[name].value = "Campo obrigatório"
+      errorMessage[name].error = true
+      this.setState({formError: true})
+    }
+    this.setState({errorMessage})
+  }
+
+  onFormValidate() {
+    let formError = false
+    for(let key in this.state.errorMessage) {
+      if(this.state.errorMessage[key].error)
+        formError = true
+      console.log('error message',this.state.errorMessage[key])
+    }
+    this.setState({formError: formError})
+  }
+
   //Tab events not working properly https://github.com/mui-org/material-ui/issues/3465
   onTabChange(value) {
     this.setState({tabIndex: value})
@@ -73,31 +116,35 @@ export default class PatientForm extends React.Component {
   }
 
   handlePatientSubmit() {
-    let method, path
-    if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
-      method = 'PUT'
-      path = '/paciente/'+this.state.patient.id
-    } else {
-      method = 'POST'
-      path = '/paciente/'
-    }
+    if(this.state.formError === false) {
+      let method, path
+      if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
+        method = 'PUT'
+        path = '/paciente/'+this.state.patient.id
+      } else {
+        method = 'POST'
+        path = '/paciente/'
+      }
 
-    fetch(WSRoot+path, {
-      method: method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state.patient)
-    })
-      .then(res => {
-        console.log('post response', res);
-        if (res.status === 201 || res.status === 200) {
-          this.props.handleShowMessage("Inserido com sucesso")
-        } else {
-          this.props.handleShowMessage("Falha ao inserir registro")
-        }
-      });
+      fetch(WSRoot+path, {
+        method: method,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.state.patient)
+      })
+        .then(res => {
+          console.log('post response', res);
+          if (res.status === 201 || res.status === 200) {
+            this.props.handleShowMessage("Inserido com sucesso")
+          } else {
+            this.props.handleShowMessage("Falha ao inserir registro")
+          }
+        });
+    } else {
+      this.props.handleShowMessage("Erro: Revise os erros nos campos")
+    }
     event.preventDefault();
   }
 
@@ -172,24 +219,98 @@ export default class PatientForm extends React.Component {
           />
           <form id="patient-form">
             <TextField hintText="Id" style={{display:"none"}} value={this.state.patient.id} name="id" /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Nome" name="nome" value={this.state.patient.nome} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="CPF" name="cpf" value={this.state.patient.cpf} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="RG" name="rg" value={this.state.patient.rg} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Nascimento" name="nascimento" value={this.state.patient.nascimento} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Peso" name="peso" value={this.state.patient.peso} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Altura" name="altura" value={this.state.patient.altura} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Cr paciente" name="cr_paciente" value={this.state.patient.cr_paciente} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Unidade de internação" name="unidade_tratamento" value={this.state.patient.unidade_tratamento} /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Observação"
-              name="observacao" value={this.state.patient.observacao}
-              multiLine={true} rows={2} rowsMax={10}
-            /><br />
-            <TextField onChange={this.handleInputChange} floatingLabelText="Telefone" name="telefone" value={this.state.patient.telefone} /><br />
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Nome"
+              errorText={this.state.errorMessage['nome'].value}
+              name="nome"
+              value={this.state.patient.nome} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="CPF"
+              errorText={this.state.errorMessage['cpf'].value}
+              name="cpf"
+              value={this.state.patient.cpf} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="RG"
+              errorText={this.state.errorMessage['rg'].value}
+              name="rg"
+              value={this.state.patient.rg} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Nascimento"
+              errorText={this.state.errorMessage['nascimento'].value}
+              name="nascimento"
+              value={this.state.patient.nascimento} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Peso"
+              errorText={this.state.errorMessage['peso'].value}
+              name="peso"
+              value={this.state.patient.peso} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Altura"
+              errorText={this.state.errorMessage['altura'].value}
+              name="altura"
+              value={this.state.patient.altura} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Cr paciente"
+              errorText={this.state.errorMessage['cr_paciente'].value}
+              name="cr_paciente"
+              value={this.state.patient.cr_paciente} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Unidade de internação"
+              errorText={this.state.errorMessage['unidade_tratamento'].value}
+              name="unidade_tratamento"
+              value={this.state.patient.unidade_tratamento} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Observação"
+              name="observacao"
+              value={this.state.patient.observacao}
+              multiLine={true} rows={2} rowsMax={10} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Telefone"
+              errorText={this.state.errorMessage['telefone'].value}
+              name="telefone"
+              value={this.state.patient.telefone} /><br />
+
             <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero}>
               <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
               <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
             </RadioButtonGroup>
-            <TextField onChange={this.handleInputChange} floatingLabelText="Agente saúde" name="agente_saude" value={this.state.patient.agente_saude} /><br />
+
+            <TextField
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputBlur}
+              floatingLabelText="Agente saúde"
+              errorText={this.state.errorMessage['agente_saude'].value}
+              name="agente_saude"
+              value={this.state.patient.agente_saude} /><br />
 
             {savePatientButton}
 
