@@ -104,7 +104,7 @@ class App extends Component {
             />
 
             <AppMenu />
-            <SearchComponent patients={this.state.patients} history={this.props.history} />
+            <SearchComponent patients={this.state.patients} />
 
             <Route exact path="/" render={props => (
               <Login history={props.history} handleAuth={this.handleAuth} handleShowMessage={this.handleShowMessage} />

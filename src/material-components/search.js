@@ -19,8 +19,6 @@ export default class SearchComponent extends React.Component {
       patientList: [],
       dataSource: []
     }
-
-    this.onSearchChange = this.onSearchChange.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -43,17 +41,6 @@ export default class SearchComponent extends React.Component {
       })
       this.setState({
         dataSource: dataSource
-      })
-    }
-  }
-
-  onSearchChange(SearchText, dataSource, params) {
-    if(params.source === 'click') {
-      let search = dataSource.find((v,k) => {
-        return v.text === SearchText
-      })
-      let patientSearch = this.props.patients.find((patient) => {
-        return patient.id === search.value
       })
     }
   }
