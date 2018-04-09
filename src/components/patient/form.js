@@ -59,6 +59,16 @@ export default class PatientForm extends React.Component {
       });
   }
 
+  componentDidUpdate(prevProps) {
+    //for search
+    if(this.props.location.state && this.props.location.state.patient) {
+      let patientSearch = this.props.location.state.patient
+      if(patientSearch !== this.state.patient) {
+        this.setState({patient: patientSearch})
+      }
+    }
+  }
+
   onNewPatient() {
     this.props.history.push('/paciente')
   }
@@ -95,7 +105,6 @@ export default class PatientForm extends React.Component {
     for(let key in this.state.errorMessage) {
       if(this.state.errorMessage[key].error === true)
         formError = true
-      console.log('form validation',key, this.state.errorMessage[key].error)
     }
     this.setState({formError: formError})
     return new Promise((resolve, reject) => {resolve(true)})

@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
 import './App.css'
 
-import { messageType } from './app-config'
+import { messageType, WSRoot } from './app-config'
 import AppMenu from './components/appMenu'
 import Login from './components/user/login'
 import PatientList from './components/patient/list'
@@ -38,6 +38,8 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
       user: undefined,
+      patients: [],
+      filteredPatients: [],
       showMessage: false,
       message: "",
       messageType: messageType.mInfo
@@ -45,6 +47,15 @@ class App extends Component {
 
     this.handleAuth = this.handleAuth.bind(this);
     this.handleShowMessage = this.handleShowMessage.bind(this);
+  }
+
+  componentDidMount() {
+    let self = this;
+    fetch(WSRoot+'/paciente')
+      .then(res => res.json())
+      .then(patients => {
+        self.setState({ patients: patients, filteredPatients: patients });
+      });
   }
 
   handleAuth(user) {
@@ -93,7 +104,7 @@ class App extends Component {
             />
 
             <AppMenu />
-            <SearchComponent />
+            <SearchComponent patients={this.state.patients} history={this.props.history} />
 
             <Route exact path="/" render={props => (
               <Login history={props.history} handleAuth={this.handleAuth} handleShowMessage={this.handleShowMessage} />
@@ -104,6 +115,7 @@ class App extends Component {
 
             <PrivateRoute exact path="/pacientes"
               component={PatientList}
+              patients={this.state.filteredPatients}
               isAuthenticated={this.state.isAuthenticated}
               handleShowMessage={this.handleShowMessage} />
 

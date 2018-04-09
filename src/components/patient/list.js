@@ -18,19 +18,10 @@ export default class PatientList extends React.Component {
   constructor(props, context) {
     super(props);
     this.state = {
-      patients: []
+      patients: props.patients
     };
 
     this.onSelectPatient = this.onSelectPatient.bind(this);
-  }
-
-  componentDidMount() {
-    let self = this;
-    fetch(WSRoot+'/paciente')
-      .then(res => res.json())
-      .then(patients => {
-        self.setState({ patients: patients });
-      });
   }
 
   onSelectPatient(patient) {
