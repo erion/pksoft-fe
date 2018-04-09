@@ -42,6 +42,7 @@ export default class HistoryForm extends React.Component {
     this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.onFormValidate = this.onFormValidate.bind(this)
   }
 
   componentDidMount() {
@@ -105,23 +106,39 @@ export default class HistoryForm extends React.Component {
     this.setState({errorMessage})
   }
 
+  onFormValidate() {
+    let formError = false
+    for(let key in this.state.errorMessage) {
+      if(this.state.errorMessage[key].error === true)
+        formError = true
+    }
+    this.setState({formError: formError})
+    return new Promise((resolve, reject) => {resolve(true)})
+  }
+
   handleHistorySubmit() {
-    fetch(WSRoot+'/historico/', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state.patientHistory)
+    this.onFormValidate().then(() => {
+      if(this.state.formError === false) {
+        fetch(WSRoot+'/historico/', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.state.patientHistory)
+        })
+          .then(res => {
+            console.log('post response', res);
+            if (res.status === 201 || res.status === 200) {
+              this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
+            } else {
+              this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
+            }
+          });
+      } else {
+        this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
+      }
     })
-      .then(res => {
-        console.log('post response', res);
-        if (res.status === 201 || res.status === 200) {
-          this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
-        } else {
-          this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
-        }
-      });
     event.preventDefault();
   }
 
@@ -149,6 +166,7 @@ export default class HistoryForm extends React.Component {
             floatingLabelText="Atributo"
             name="atributo"
             value={this.state.patientHistory.atributo}
+            onBlur={this.handleInputBlur}
             errorText={this.state.errorMessage['atributo'].value} /><br />
 
           <TextField
@@ -156,6 +174,7 @@ export default class HistoryForm extends React.Component {
             floatingLabelText="Valor"
             name="valor"
             value={this.state.patientHistory.valor}
+            onBlur={this.handleInputBlur}
             errorText={this.state.errorMessage['valor'].value} /><br />
 
           <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
@@ -171,6 +190,7 @@ export default class HistoryForm extends React.Component {
             floatingLabelText="Tratamento"
             name="tratamentoId"
             value={this.state.patientHistory.tratamentoId}
+            onBlur={this.handleInputBlur}
             errorText={this.state.errorMessage['tratamentoId'].value} /><br />
 
           {saveHistoryBtn}
