@@ -1,5 +1,4 @@
 import React from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';

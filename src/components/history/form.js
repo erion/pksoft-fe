@@ -11,11 +11,28 @@ export default class HistoryForm extends React.Component {
 
   constructor(props) {
     super(props);
-    let patientHistory = HistoryModel;
+    let patientHistory = HistoryModel
+    let formError, errorMessage = {}
+    //edit
+    if(this.props && this.props.patientHistory) {
+      patientHistory = this.props.patientHistory
+      formError = {formError: false}
+      for(let key in patientHistory) {
+        errorMessage[key] = {value: null, error: false}
+      }
+    //insert
+    } else {
+      formError = {formError: true}
+      for(let key in patientHistory) {
+        errorMessage[key] = {value: null, error: true}
+      }
+    }
     patientHistory['patientId'] = props.patientId
 
     this.state = {
       patientHistory,
+      errorMessage,
+      formError,
       horario: new Date(),
       data: null
     }
@@ -24,6 +41,7 @@ export default class HistoryForm extends React.Component {
     this.handleTimePickerChange = this.handleTimePickerChange.bind(this);
     this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
   componentDidMount() {
@@ -72,6 +90,21 @@ export default class HistoryForm extends React.Component {
     })
   }
 
+  handleInputBlur(event) {
+    let target = event.target,
+      value = target.value,
+      name = target.name,
+      errorMessage = this.state.errorMessage
+
+    if(value === '') {
+      errorMessage[name] = {value: "Campo obrigatório", error: true}
+      this.setState({formError: true})
+    } else {
+      errorMessage[name] = {value: null, error: false}
+    }
+    this.setState({errorMessage})
+  }
+
   handleHistorySubmit() {
     fetch(WSRoot+'/historico/', {
       method: 'POST',
@@ -110,13 +143,36 @@ export default class HistoryForm extends React.Component {
             <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
             <RadioButton value="concentracao" label="Concentração" style={{marginTop:"1rem"}} />
           </RadioButtonGroup>
-          <TextField onChange={this.handleInputChange} floatingLabelText="Atributo" name="atributo" value={this.state.patientHistory.atributo} /><br />
-          <TextField onChange={this.handleInputChange} floatingLabelText="Valor" name="valor" value={this.state.patientHistory.valor} /><br />
+
+          <TextField
+            onChange={this.handleInputChange}
+            floatingLabelText="Atributo"
+            name="atributo"
+            value={this.state.patientHistory.atributo}
+            errorText={this.state.errorMessage['atributo'].value} /><br />
+
+          <TextField
+            onChange={this.handleInputChange}
+            floatingLabelText="Valor"
+            name="valor"
+            value={this.state.patientHistory.valor}
+            errorText={this.state.errorMessage['valor'].value} /><br />
+
           <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
+
           <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="horario" format="24hr" value={this.state.horario} /><br />
+
           <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
           <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
-          <TextField onChange={this.handleInputChange} floatingLabelText="Tratamento" name="tratamentoId" value={this.state.patientHistory.tratamentoId} /><br />
+
+          {/*TODO: need to be changed. will be id not a plain text*/}
+          <TextField
+            onChange={this.handleInputChange}
+            floatingLabelText="Tratamento"
+            name="tratamentoId"
+            value={this.state.patientHistory.tratamentoId}
+            errorText={this.state.errorMessage['tratamentoId'].value} /><br />
+
           {saveHistoryBtn}
         </form>
       </div>

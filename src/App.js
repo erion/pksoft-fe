@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
 import './App.css'
