@@ -172,7 +172,7 @@ export default class HistoryForm extends React.Component {
 
           <TextField
             onChange={this.handleInputChange}
-            floatingLabelText="Valor"
+            floatingLabelText="Valor (mg)"
             name="valor"
             value={this.state.patientHistory.valor}
             onBlur={this.handleInputBlur}

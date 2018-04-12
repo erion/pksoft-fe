@@ -89,7 +89,7 @@ export default class HistoryList extends React.Component {
             <TableRow>
               <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
               <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '30%'}}>Valor</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '30%'}}>Valor (mg)</TableHeaderColumn>
               <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
             </TableRow>
           </TableHeader>
