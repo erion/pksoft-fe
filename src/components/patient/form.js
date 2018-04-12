@@ -195,6 +195,7 @@ export default class PatientForm extends React.Component {
       :
         <HistoryForm
           patientHistory={this.state.selectedHistory}
+          onSelectHistory={this.onSelectHistory}
           patientId={this.state.patient.id}
           patientName={this.state.patient.nome}
           activeTab={this.state.tabIndex}
@@ -211,6 +212,7 @@ export default class PatientForm extends React.Component {
       :
         <TreatmentForm
           treatment={this.state.selectedTreatment}
+          onSelectTreatment={this.onSelectTreatment}
           pharmacos={this.state.pharmacos}
           patientId={this.state.patient.id}
           patientName={this.state.patient.nome}

@@ -106,6 +106,11 @@
       "id": 5002,
       "codigo_paciente": 1,
       "codigo_farmaco": 5
+    },
+    {
+      "id": 5003,
+      "codigo_paciente": 1,
+      "codigo_farmaco": 5
     }
   ],
   "historico": [
@@ -175,6 +180,28 @@
       "horario": "",
       "pacienteId": "",
       "tratamentoId": "abc",
+      "patientId": 1
+    },
+    {
+      "id": 8585,
+      "evento": "dose",
+      "atributo": "1",
+      "valor": "1",
+      "data": "12/31/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "teste",
+      "patientId": 1
+    },
+    {
+      "id": 8586,
+      "evento": "dose",
+      "atributo": "3",
+      "valor": "3",
+      "data": "12/31/2018",
+      "horario": "",
+      "pacienteId": "",
+      "tratamentoId": "teste",
       "patientId": 1
     }
   ],
