@@ -36,8 +36,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false,
-      user: undefined,
+      isAuthenticated: true,
+      user: {
+        id: 1,
+        nome: "Teste",
+        login:"teste",
+        senha: "teste",
+        avatar: "removi o login por nao existir na api"
+      },
       patients: [],
       filteredPatients: [],
       showMessage: false,
@@ -51,7 +57,7 @@ class App extends Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/paciente')
+    fetch(WSRoot+'/tabela_pacientes')
       .then(res => res.json())
       .then(patients => {
         self.setState({ patients: patients, filteredPatients: patients });

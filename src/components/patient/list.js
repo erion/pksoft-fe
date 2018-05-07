@@ -25,7 +25,7 @@ export default class PatientList extends React.Component {
   }
 
   onSelectPatient(patient) {
-    this.props.history.push("/paciente/"+patient.id, {"patient": patient})
+    this.props.history.push("/paciente/"+patient.cod_paciente, {"patient": patient})
   }
 
   render() {
@@ -39,9 +39,9 @@ export default class PatientList extends React.Component {
       if(this.state.patients.length > 0) {
         tableRow = this.state.patients.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPatient}>
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.nome}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
+            <TableRowColumn style={{width: '10%'}}>{row.cod_paciente}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.nome_paciente}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.cpf_paciente}</TableRowColumn>
           </ClickableRow>
         ))
       } else {

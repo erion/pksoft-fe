@@ -1,6 +1,6 @@
 import {red500, amber500, lightGreen500 } from 'material-ui/styles/colors'
 
-export const WSRoot = 'http://localhost:3001'
+export const WSRoot = 'http://ceted.feevale.br:8100'
 
 export const messageType = {
   mError: red500,
@@ -9,19 +9,19 @@ export const messageType = {
 }
 
 export const PatientModel = {
-  id: "",
-  nome: "",
+  cod_paciente: "",
+  nome_paciente: "",
   agente_saude:"",
-  altura: "",
-  cpf: "",
+  altura_paciente: "",
+  cpf_paciente: "",
   cr_paciente: "",
-  genero: "",
-  nascimento: "",
-  observacao: "",
-  peso: "",
-  rg: "",
-  telefone: "",
-  unidade_tratamento: ""
+  genero_paciente: "",
+  nascimento_paciente: "",
+  observacao_paciente: "",
+  peso_paciente: "",
+  rg_paciente: "",
+  telefone_paciente: "",
+  unid_int_paciente: ""
 }
 
 export const PharmacoModel = {

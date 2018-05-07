@@ -130,9 +130,9 @@ export default class PatientForm extends React.Component {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
         let method, path
-        if(this.state.patient.id !== undefined && this.state.patient.id !== "") {
+        if(this.state.patient.cod_paciente !== undefined && this.state.patient.cod_paciente !== "") {
           method = 'PUT'
-          path = '/paciente/'+this.state.patient.id
+          path = '/paciente/'+this.state.patient.cod_paciente
         } else {
           method = 'POST'
           path = '/paciente/'
@@ -190,14 +190,14 @@ export default class PatientForm extends React.Component {
       ?
         <HistoryList
           onSelectHistory={this.onSelectHistory}
-          patientId={this.state.patient.id}
+          patientId={this.state.patient.cod_paciente}
           activeTab={this.state.tabIndex} />
       :
         <HistoryForm
           patientHistory={this.state.selectedHistory}
           onSelectHistory={this.onSelectHistory}
-          patientId={this.state.patient.id}
-          patientName={this.state.patient.nome}
+          patientId={this.state.patient.cod_paciente}
+          patientName={this.state.patient.nome_paciente}
           activeTab={this.state.tabIndex}
           handleShowMessage={this.props.handleShowMessage} />
 
@@ -206,16 +206,16 @@ export default class PatientForm extends React.Component {
         <TreatmentList
           onSelectTreatment={this.onSelectTreatment}
           pharmacos={this.state.pharmacos}
-          patientId={this.state.patient.id}
-          patientName={this.state.patient.nome}
+          patientId={this.state.patient.cod_paciente}
+          patientName={this.state.patient.nome_paciente}
           activeTab={this.state.tabIndex} />
       :
         <TreatmentForm
           treatment={this.state.selectedTreatment}
           onSelectTreatment={this.onSelectTreatment}
           pharmacos={this.state.pharmacos}
-          patientId={this.state.patient.id}
-          patientName={this.state.patient.nome}
+          patientId={this.state.patient.cod_paciente}
+          patientName={this.state.patient.nome_paciente}
           activeTab={this.state.tabIndex}
           history={this.props.history}
           handleShowMessage={this.props.handleShowMessage} />
@@ -232,54 +232,54 @@ export default class PatientForm extends React.Component {
             onClick={this.onNewPatient}
           />
           <form id="patient-form">
-            <TextField hintText="Id" style={{display:"none"}} value={this.state.patient.id} name="id" /><br />
+            <TextField hintText="Id" style={{display:"none"}} value={this.state.patient.cod_paciente} name="id" /><br />
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Nome"
-              errorText={this.state.errorMessage['nome'].value}
+              errorText={this.state.errorMessage['nome_paciente'].value}
               name="nome"
-              value={this.state.patient.nome} /><br />
+              value={this.state.patient.nome_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="CPF"
-              errorText={this.state.errorMessage['cpf'].value}
+              errorText={this.state.errorMessage['cpf_paciente'].value}
               name="cpf"
-              value={this.state.patient.cpf} /><br />
+              value={this.state.patient.cpf_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="RG"
-              errorText={this.state.errorMessage['rg'].value}
+              errorText={this.state.errorMessage['rg_paciente'].value}
               name="rg"
-              value={this.state.patient.rg} /><br />
+              value={this.state.patient.rg_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Nascimento"
-              errorText={this.state.errorMessage['nascimento'].value}
+              errorText={this.state.errorMessage['nascimento_paciente'].value}
               name="nascimento"
-              value={this.state.patient.nascimento} /><br />
+              value={this.state.patient.nascimento_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Peso"
-              errorText={this.state.errorMessage['peso'].value}
+              errorText={this.state.errorMessage['peso_paciente'].value}
               name="peso"
-              value={this.state.patient.peso} /><br />
+              value={this.state.patient.peso_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Altura"
-              errorText={this.state.errorMessage['altura'].value}
+              errorText={this.state.errorMessage['altura_paciente'].value}
               name="altura"
-              value={this.state.patient.altura} /><br />
+              value={this.state.patient.altura_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
@@ -293,27 +293,27 @@ export default class PatientForm extends React.Component {
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Unidade de internação"
-              errorText={this.state.errorMessage['unidade_tratamento'].value}
+              errorText={this.state.errorMessage['unid_int_paciente'].value}
               name="unidade_tratamento"
-              value={this.state.patient.unidade_tratamento} /><br />
+              value={this.state.patient.unid_int_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Observação"
               name="observacao"
-              value={this.state.patient.observacao}
+              value={this.state.patient.observacao_paciente}
               multiLine={true} rows={2} rowsMax={10} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Telefone"
-              errorText={this.state.errorMessage['telefone'].value}
+              errorText={this.state.errorMessage['telefone_paciente'].value}
               name="telefone"
-              value={this.state.patient.telefone} /><br />
+              value={this.state.patient.telefone_paciente} /><br />
 
-            <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero}>
+            <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero_paciente}>
               <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
               <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
             </RadioButtonGroup>
