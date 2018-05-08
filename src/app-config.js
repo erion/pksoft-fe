@@ -25,8 +25,8 @@ export const PatientModel = {
 }
 
 export const PharmacoModel = {
-  id: "",
-  nome: ""
+  cod_farmaco: "",
+  nome_farmaco: ""
 }
 
 export const HistoryModel = {

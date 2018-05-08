@@ -10,7 +10,6 @@ import {
 import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { WSRoot } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class PatientList extends React.Component {

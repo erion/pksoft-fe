@@ -27,12 +27,13 @@ export default class HistoryList extends React.Component {
   }
 
   componentDidMount() {
-    let path = '/historico?patientId=' + this.state.patientHistory.patientId
-    fetch(WSRoot+path)
-      .then(res => res.json())
-      .then(patientHistory => {
-        this.setState({ patientHistory: patientHistory });
-      });
+    if(this.state.patientHistory.patientId) {
+      fetch(WSRoot+'/historico?patientId=' + this.state.patientHistory.patientId)
+        .then(res => res.json())
+        .then(patientHistory => {
+          this.setState({ patientHistory: patientHistory });
+        });
+    }
   }
 
   onDeleteHistory(history) {

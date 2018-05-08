@@ -31,6 +31,8 @@ export default class PatientForm extends React.Component {
       for(let key in patient) {
         errorMessage[key] = {value: null, error: true}
       }
+      //patient id must be handled by the app
+      errorMessage['cod_paciente'] = {value: null, error: false}
     }
 
     this.state = {
@@ -52,7 +54,7 @@ export default class PatientForm extends React.Component {
   componentDidMount() {
     this.setState({tabIndex: 0})
     let self = this;
-    fetch(WSRoot+'/farmaco')
+    fetch(WSRoot+'/get_farmacos')
       .then(res => res.json())
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });
@@ -92,7 +94,7 @@ export default class PatientForm extends React.Component {
       errorMessage = this.state.errorMessage
 
     if(value === '') {
-      errorMessage[name] = {value: "Campo obrigatório", error: true}
+      //errorMessage[name] = {value: "Campo obrigatório", error: true}
       this.setState({formError: true})
     } else {
       errorMessage[name] = {value: null, error: false}
@@ -135,7 +137,7 @@ export default class PatientForm extends React.Component {
           path = '/paciente/'+this.state.patient.cod_paciente
         } else {
           method = 'POST'
-          path = '/paciente/'
+          path = '/novoPaciente/'
         }
 
         fetch(WSRoot+path, {
@@ -238,7 +240,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Nome"
               errorText={this.state.errorMessage['nome_paciente'].value}
-              name="nome"
+              name="nome_paciente"
               value={this.state.patient.nome_paciente} /><br />
 
             <TextField
@@ -246,7 +248,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="CPF"
               errorText={this.state.errorMessage['cpf_paciente'].value}
-              name="cpf"
+              name="cpf_paciente"
               value={this.state.patient.cpf_paciente} /><br />
 
             <TextField
@@ -254,7 +256,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="RG"
               errorText={this.state.errorMessage['rg_paciente'].value}
-              name="rg"
+              name="rg_paciente"
               value={this.state.patient.rg_paciente} /><br />
 
             <TextField
@@ -262,7 +264,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Nascimento"
               errorText={this.state.errorMessage['nascimento_paciente'].value}
-              name="nascimento"
+              name="nascimento_paciente"
               value={this.state.patient.nascimento_paciente} /><br />
 
             <TextField
@@ -270,7 +272,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Peso"
               errorText={this.state.errorMessage['peso_paciente'].value}
-              name="peso"
+              name="peso_paciente"
               value={this.state.patient.peso_paciente} /><br />
 
             <TextField
@@ -278,7 +280,7 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Altura"
               errorText={this.state.errorMessage['altura_paciente'].value}
-              name="altura"
+              name="altura_paciente"
               value={this.state.patient.altura_paciente} /><br />
 
             <TextField
@@ -294,14 +296,14 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Unidade de internação"
               errorText={this.state.errorMessage['unid_int_paciente'].value}
-              name="unidade_tratamento"
+              name="unid_int_paciente"
               value={this.state.patient.unid_int_paciente} /><br />
 
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
               floatingLabelText="Observação"
-              name="observacao"
+              name="observacao_paciente"
               value={this.state.patient.observacao_paciente}
               multiLine={true} rows={2} rowsMax={10} /><br />
 
@@ -310,12 +312,13 @@ export default class PatientForm extends React.Component {
               onBlur={this.handleInputBlur}
               floatingLabelText="Telefone"
               errorText={this.state.errorMessage['telefone_paciente'].value}
-              name="telefone"
+              name="telefone_paciente"
               value={this.state.patient.telefone_paciente} /><br />
 
-            <RadioButtonGroup name="genero" onChange={this.handleInputChange} defaultSelected={this.state.patient.genero_paciente}>
-              <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
-              <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
+            <RadioButtonGroup name="genero_paciente"
+              onChange={this.handleInputChange} defaultSelected={this.state.patient.genero_paciente}>
+                <RadioButton value="M" label="Masculino" style={{marginTop:"1rem"}} />
+                <RadioButton value="F" label="Feminino" style={{marginTop:"1rem"}} />
             </RadioButtonGroup>
 
             <TextField

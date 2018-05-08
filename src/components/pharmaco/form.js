@@ -20,9 +20,7 @@ export default class PharmacoForm extends React.Component {
     } else {
       pharmaco = PharmacoModel
       formError = {formError: true}
-      for(let key in pharmaco) {
-        errorMessage[key] = {value: null, error: true}
-      }
+      errorMessage['nome_farmaco'] = {value: null, error: true}
     }
 
     this.state = {
@@ -84,12 +82,12 @@ export default class PharmacoForm extends React.Component {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
         let method, path
-        if(this.state.pharmaco.id !== undefined && this.state.pharmaco.id !== "") {
+        if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "") {
           method = 'PUT'
-          path = '/farmaco/'+this.state.pharmaco.id
+          path = '/farmaco/'+this.state.pharmaco.cod_farmaco
         } else {
           method = 'POST'
-          path = '/farmaco/'
+          path = '/farmaco'
         }
 
         fetch(WSRoot+path, {
@@ -125,14 +123,14 @@ export default class PharmacoForm extends React.Component {
     return (
         <div>
           <form id="pharmaco-form">
-            <TextField hintText="Id" style={{display:"none"}} value={this.state.pharmaco.id} name="id" /><br />
+            <TextField hintText="Id" style={{display:"none"}} value={this.state.pharmaco.cod_farmaco} name="cod_farmaco" /><br />
             <TextField
               onChange={this.handleInputChange}
               floatingLabelText="Nome"
-              name="nome"
-              value={this.state.pharmaco.nome}
+              name="nome_farmaco"
+              value={this.state.pharmaco.nome_farmaco}
               onBlur={this.handleInputBlur}
-              errorText={this.state.errorMessage['nome'].value} /><br />
+              errorText={this.state.errorMessage['nome_farmaco'].value} /><br />
 
             <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
               <ContentSave />

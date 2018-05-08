@@ -26,7 +26,7 @@ export default class PharmacoList extends React.Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/farmaco')
+    fetch(WSRoot+'/get_farmacos')
       .then(res => res.json())
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });
@@ -48,8 +48,8 @@ export default class PharmacoList extends React.Component {
       if(this.state.pharmacos.length > 0) {
         tableRow = this.state.pharmacos.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPharmaco}>
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '90%'}}>{row.nome}</TableRowColumn>
+            <TableRowColumn style={{width: '10%'}}>{row.cod_farmaco}</TableRowColumn>
+            <TableRowColumn style={{width: '90%'}}>{row.nome_farmaco}</TableRowColumn>
           </ClickableRow>
         ))
       } else {

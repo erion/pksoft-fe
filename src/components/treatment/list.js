@@ -26,11 +26,13 @@ export default class TreatmentList extends React.Component {
   }
 
   componentDidMount() {
-    fetch(WSRoot+'/tratamento?codigo_paciente='+this.props.patientId)
-      .then(res => res.json())
-      .then(treatments => {
-        this.setState({ treatments: treatments });
-      });
+    if(this.props.patientId) {
+      fetch(WSRoot+'/pesquisa_tratamentos?cod_paciente='+this.props.patientId)
+        .then(res => res.json())
+        .then(treatments => {
+          this.setState({ treatments: treatments });
+        });
+    }
   }
 
   onSelectTreatment(treatment) {
