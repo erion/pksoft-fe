@@ -19,7 +19,7 @@ export default class TreatmentForm extends React.Component {
     : TreatmentModel;
     */
     let treatment = TreatmentModel
-    treatment['codigo_paciente'] = props.patientId
+    treatment['cod_paciente'] = props.patientId
 
     this.state = { treatment: TreatmentModel }
 
@@ -41,7 +41,7 @@ export default class TreatmentForm extends React.Component {
 
   handleInputChange(event, index, value) {
     let treatment = this.state.treatment;
-    treatment['codigo_farmaco'] = value
+    treatment['cod_farmaco'] = value
     this.setState({
       treatment: treatment
     })
@@ -95,7 +95,7 @@ export default class TreatmentForm extends React.Component {
     let pharmacoSelect
     if(this.props.pharmacos) {
       pharmacoSelect = this.props.pharmacos.map( (row, index) => (
-        <MenuItem key={index} value={row.id} primaryText={row.nome} />
+        <MenuItem key={index} value={row.cod_farmaco} primaryText={row.nome_farmaco} />
       ))
     }
 
@@ -112,15 +112,15 @@ export default class TreatmentForm extends React.Component {
         </div>
 
         <form id="treatment-form">
-          <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />
+          <TextField style={{display:"none"}} name="cod_paciente" value={this.state.treatment.cod_paciente} /><br />
           <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
 
           <SelectField
             floatingLabelText="Fármaco"
-            name="codigo_farmaco"
+            name="cod_farmaco"
             items={this.state.pharmacos}
             onChange={this.handleInputChange}
-            value={this.state.treatment.codigo_farmaco}
+            value={this.state.treatment.cod_farmaco}
           >
             {pharmacoSelect}
           </SelectField>

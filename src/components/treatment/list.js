@@ -58,13 +58,13 @@ export default class TreatmentList extends React.Component {
 
     if(this.state.treatments.length > 0 && this.props.pharmacos) {
       tableRow = this.state.treatments.map( (row, index) => {
-        var pharmacoName = this.props.pharmacos.find(f => f.id === row.codigo_farmaco);
-        pharmacoName = pharmacoName.nome
+        var pharmacoName = this.props.pharmacos.find(f => f.cod_farmaco === row.cod_farmaco);
+        pharmacoName = pharmacoName.nome_farmaco
       return (
         <ClickableRow key={index} rowData={row} eventFunction={this.onSelectTreatment} >
-          <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-          <TableRowColumn style={{width: '45%'}}>{this.props.patientName}</TableRowColumn>
-          <TableRowColumn style={{width: '45%'}}>{pharmacoName}</TableRowColumn>
+          <TableRowColumn style={{width: '15%'}}>{row.cod_tratamento}</TableRowColumn>
+          <TableRowColumn style={{width: '42%'}}>{this.props.patientName}</TableRowColumn>
+          <TableRowColumn style={{width: '42%'}}>{pharmacoName}</TableRowColumn>
         </ClickableRow>
       )})
     } else if(this.state.treatments.length === 0) {
@@ -85,9 +85,9 @@ export default class TreatmentList extends React.Component {
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
-              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '45%'}}>Paciente</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '45%'}}>Fármaco</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '15%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '42%'}}>Paciente</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '42%'}}>Fármaco</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>

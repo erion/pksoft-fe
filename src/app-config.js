@@ -41,9 +41,9 @@ export const HistoryModel = {
 }
 
 export const TreatmentModel = {
-  id: "",
-  codigo_paciente: null,
-  codigo_farmaco: null
+  cod_tratamento: "",
+  cod_paciente: null,
+  cod_farmaco: null
 }
 
 export const UserModel = {
