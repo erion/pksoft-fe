@@ -3,7 +3,6 @@
   "name": "pksoft-fe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000/",
   "dependencies": {
     "material-ui": "^0.20.0",
     "prop-types": "^15.6.1",
