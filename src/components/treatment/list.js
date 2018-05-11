@@ -9,7 +9,7 @@ import {
 } from 'material-ui/Table';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot, TreatmentModel } from '../../app-config'
+import { ENDPOINT_LIST_TREATMENT, TreatmentModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class TreatmentList extends React.Component {
@@ -27,7 +27,7 @@ export default class TreatmentList extends React.Component {
 
   componentDidMount() {
     if(this.props.patientId) {
-      fetch(WSRoot+'/pesquisa_tratamentos?cod_paciente='+this.props.patientId)
+      fetch(ENDPOINT_LIST_TREATMENT + '?cod_paciente=' + this.props.patientId)
         .then(res => res.json())
         .then(treatments => {
           this.setState({ treatments: treatments });

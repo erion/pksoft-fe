@@ -10,7 +10,7 @@ import {
 import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot } from '../../app-config'
+import { ENDPOINT_LIST_PHARMACO } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class PharmacoList extends React.Component {
@@ -26,7 +26,7 @@ export default class PharmacoList extends React.Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/get_farmacos')
+    fetch(ENDPOINT_LIST_PHARMACO)
       .then(res => res.json())
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });

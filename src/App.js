@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
 import './App.css'
 
-import { messageType, WSRoot } from './app-config'
+import { messageType, ENDPOINT_LIST_PATIENTS } from './app-config'
 import AppMenu from './components/appMenu'
 import Login from './components/user/login'
 import PatientList from './components/patient/list'
@@ -57,7 +57,7 @@ class App extends Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/tabela_pacientes')
+    fetch(ENDPOINT_LIST_PATIENTS)
       .then(res => res.json())
       .then(patients => {
         self.setState({ patients: patients, filteredPatients: patients });

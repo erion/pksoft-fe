@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { WSRoot, PharmacoModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_PHARMACO, PharmacoModel, messageType } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
 
@@ -78,25 +78,25 @@ export default class PharmacoForm extends React.Component {
     return new Promise((resolve, reject) => {resolve(true)})
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        let method, path
+        let method,
+            path = ENDPOINT_NEW_PHARMACO
         if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "") {
           method = 'PUT'
-          path = '/farmaco/'+this.state.pharmaco.cod_farmaco
+          path += '/'+this.state.pharmaco.cod_farmaco
         } else {
           method = 'POST'
-          path = '/farmaco'
         }
 
-        fetch(WSRoot+path, {
+        fetch(path, {
           method: method,
+          mode: 'no-cors',
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain',
           },
-          body: JSON.stringify(this.state.pharmaco)
+          body: JSON.stringify({ "farmaco": this.state.pharmaco })
         })
           .then(res => {
             console.log('post response', res);
@@ -106,6 +106,7 @@ export default class PharmacoForm extends React.Component {
               this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
             }
           });
+
       } else {
         this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
       }

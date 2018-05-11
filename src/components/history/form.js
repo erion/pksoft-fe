@@ -5,7 +5,7 @@ import TimePicker from 'material-ui/TimePicker'
 import DatePicker from 'material-ui/DatePicker'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { WSRoot, HistoryModel, messageType } from '../../app-config'
+import { ENDPOINT_LIST_HISTORY, HistoryModel, messageType } from '../../app-config'
 
 export default class HistoryForm extends React.Component {
 
@@ -119,7 +119,7 @@ export default class HistoryForm extends React.Component {
   handleHistorySubmit() {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        fetch(WSRoot+'/historico/', {
+        fetch(ENDPOINT_LIST_HISTORY, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

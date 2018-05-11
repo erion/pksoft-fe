@@ -6,7 +6,8 @@ import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot, PatientModel, messageType } from '../../app-config'
+
+import { ENDPOINT_NEW_PATIENTS, ENDPOINT_LIST_PHARMACO, PatientModel, messageType } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
 import TreatmentList from '../treatment/list'
@@ -54,7 +55,7 @@ export default class PatientForm extends React.Component {
   componentDidMount() {
     this.setState({tabIndex: 0})
     let self = this;
-    fetch(WSRoot+'/get_farmacos')
+    fetch(ENDPOINT_LIST_PHARMACO)
       .then(res => res.json())
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });
@@ -131,22 +132,22 @@ export default class PatientForm extends React.Component {
   handlePatientSubmit() {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        let method, path
+        let method,
+            path = ENDPOINT_NEW_PATIENTS
         if(this.state.patient.cod_paciente !== undefined && this.state.patient.cod_paciente !== "") {
           method = 'PUT'
-          path = '/paciente/'+this.state.patient.cod_paciente
+          path += '/' + this.state.patient.cod_paciente
         } else {
           method = 'POST'
-          path = '/novoPaciente/'
         }
 
-        fetch(WSRoot+path, {
+        fetch(path, {
           method: method,
+          mode: 'no-cors',
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain',
           },
-          body: JSON.stringify(this.state.patient)
+          body: JSON.stringify({paciente: this.state.patient})
         })
           .then(res => {
             console.log('post response', res);
