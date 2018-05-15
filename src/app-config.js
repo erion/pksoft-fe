@@ -10,7 +10,8 @@ export const ENDPOINT_UPDATE_PATIENTS = WSRoot + '/alterar_paciente';
 export const ENDPOINT_DELETE_PATIENTS = WSRoot + '';
 
 export const ENDPOINT_LIST_TREATMENT = WSRoot + '/pesquisa_tratamentos';
-export const ENDPOINT_NEW_TREATMENT = WSRoot + '';
+export const ENDPOINT_NEW_TREATMENT = WSRoot + '/novo_tratamento';
+export const ENDPOINT_UPDATE_TREATMENT = WSRoot + '/alterar_tratamento';
 export const ENDPOINT_DELETE_TREATMENT = WSRoot + '';
 
 export const ENDPOINT_LIST_HISTORY = WSRoot + '/historico';

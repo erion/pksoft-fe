@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import TimeLineIcon from 'material-ui/svg-icons/action/timeline'
-import { WSRoot, TreatmentModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_TREATMENT, ENDPOINT_UPDATE_TREATMENT, TreatmentModel, messageType } from '../../app-config'
 
 export default class TreatmentForm extends React.Component {
 
@@ -48,22 +48,18 @@ export default class TreatmentForm extends React.Component {
   }
 
   handleSubmit() {
-    let method, path
-    if(this.state.treatment.id !== undefined && this.state.treatment.id !== "") {
-      method = 'PUT'
-      path = '/tratamento/'+this.state.treatment.id
-    } else {
-      method = 'POST'
-      path = '/tratamento/'
-    }
+    let method = 'POST',
+      path = ENDPOINT_NEW_TREATMENT
+    if(this.state.treatment.cod_tratamento !== undefined && this.state.treatment.cod_tratamento !== "")
+      path = ENDPOINT_UPDATE_TREATMENT + '/' + this.state.treatment.cod_tratamento
 
-    fetch(WSRoot+path, {
+    fetch(path, {
       method: method,
+      mode: 'no-cors',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
-      body: JSON.stringify(this.state.treatment)
+      body: JSON.stringify({tratamento: this.state.treatment})
     })
       .then(res => {
         console.log('post response', res);
