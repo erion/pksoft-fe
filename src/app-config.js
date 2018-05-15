@@ -18,6 +18,7 @@ export const ENDPOINT_DELETE_HISTORY = WSRoot + '';
 
 export const ENDPOINT_LIST_PHARMACO = WSRoot + '/get_farmacos';
 export const ENDPOINT_NEW_PHARMACO = WSRoot + '/novo_farmaco';
+export const ENDPOINT_UPDATE_PHARMACO = WSRoot + '/alterar_farmaco';
 export const ENDPOINT_DELETE_PHARMACO = WSRoot + '';
 
 //message types background color (snackbar)

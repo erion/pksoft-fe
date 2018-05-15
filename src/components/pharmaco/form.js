@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { ENDPOINT_NEW_PHARMACO, PharmacoModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_PHARMACO, ENDPOINT_UPDATE_PHARMACO, PharmacoModel, messageType } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
 
@@ -81,13 +81,10 @@ export default class PharmacoForm extends React.Component {
   handleSubmit(event) {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        let method,
+        let method = 'POST',
             path = ENDPOINT_NEW_PHARMACO
         if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "") {
-          method = 'PUT'
-          path += '/'+this.state.pharmaco.cod_farmaco
-        } else {
-          method = 'POST'
+          path = ENDPOINT_UPDATE_PHARMACO + '/'+this.state.pharmaco.cod_farmaco
         }
 
         fetch(path, {

@@ -48,8 +48,8 @@ export default class PharmacoList extends React.Component {
       if(this.state.pharmacos.length > 0) {
         tableRow = this.state.pharmacos.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPharmaco}>
-            <TableRowColumn style={{width: '10%'}}>{row.cod_farmaco}</TableRowColumn>
-            <TableRowColumn style={{width: '90%'}}>{row.nome_farmaco}</TableRowColumn>
+            <TableRowColumn style={{width: '20%'}}>{row.cod_farmaco}</TableRowColumn>
+            <TableRowColumn style={{width: '80%'}}>{row.nome_farmaco}</TableRowColumn>
           </ClickableRow>
         ))
       } else {
@@ -70,8 +70,8 @@ export default class PharmacoList extends React.Component {
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
-              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '90%'}}>Nome</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '20%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '80%'}}>Nome</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
