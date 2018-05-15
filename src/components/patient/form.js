@@ -7,7 +7,8 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-import { ENDPOINT_NEW_PATIENTS, ENDPOINT_LIST_PHARMACO, PatientModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_PATIENTS, ENDPOINT_UPDATE_PATIENTS, ENDPOINT_LIST_PHARMACO,
+  PatientModel, messageType } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
 import TreatmentList from '../treatment/list'
@@ -43,6 +44,7 @@ export default class PatientForm extends React.Component {
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handlePatientSubmit = this.handlePatientSubmit.bind(this)
     this.onNewPatient = this.onNewPatient.bind(this)
@@ -86,6 +88,11 @@ export default class PatientForm extends React.Component {
     this.setState({
       patient: patient
     });
+  }
+
+  handleSelectChange(event) {
+    this.handleInputChange(event)
+    this.handleInputBlur(event)
   }
 
   handleInputBlur(event) {
@@ -132,14 +139,11 @@ export default class PatientForm extends React.Component {
   handlePatientSubmit() {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        let method,
+        let method = 'POST',
             path = ENDPOINT_NEW_PATIENTS
-        if(this.state.patient.cod_paciente !== undefined && this.state.patient.cod_paciente !== "") {
-          method = 'PUT'
-          path += '/' + this.state.patient.cod_paciente
-        } else {
-          method = 'POST'
-        }
+
+        if(this.state.patient.cod_paciente !== undefined && this.state.patient.cod_paciente !== "")
+          path = ENDPOINT_UPDATE_PATIENTS + '/' + this.state.patient.cod_paciente
 
         fetch(path, {
           method: method,
@@ -316,8 +320,8 @@ export default class PatientForm extends React.Component {
               name="telefone_paciente"
               value={this.state.patient.telefone_paciente} /><br />
 
-            <RadioButtonGroup name="genero_paciente"
-              onChange={this.handleInputChange} defaultSelected={this.state.patient.genero_paciente}>
+            <RadioButtonGroup name="genero_paciente" onChange={this.handleSelectChange}
+              defaultSelected={this.state.patient.genero_paciente}>
                 <RadioButton value={0} label="Masculino" style={{marginTop:"1rem"}} />
                 <RadioButton value={1} label="Feminino" style={{marginTop:"1rem"}} />
             </RadioButtonGroup>

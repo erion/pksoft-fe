@@ -5,7 +5,8 @@ export const WSRoot = 'http://localhost:8000'
 
 //API ENDPOINTS
 export const ENDPOINT_LIST_PATIENTS = WSRoot + '/tabela_pacientes';
-export const ENDPOINT_NEW_PATIENTS = WSRoot + '/tabela_pacientes';
+export const ENDPOINT_NEW_PATIENTS = WSRoot + '/novo_paciente';
+export const ENDPOINT_UPDATE_PATIENTS = WSRoot + '/alterar_paciente';
 export const ENDPOINT_DELETE_PATIENTS = WSRoot + '';
 
 export const ENDPOINT_LIST_TREATMENT = WSRoot + '/pesquisa_tratamentos';

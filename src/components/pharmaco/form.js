@@ -83,9 +83,9 @@ export default class PharmacoForm extends React.Component {
       if(this.state.formError === false) {
         let method = 'POST',
             path = ENDPOINT_NEW_PHARMACO
-        if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "") {
+
+        if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "")
           path = ENDPOINT_UPDATE_PHARMACO + '/'+this.state.pharmaco.cod_farmaco
-        }
 
         fetch(path, {
           method: method,
