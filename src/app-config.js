@@ -14,8 +14,9 @@ export const ENDPOINT_NEW_TREATMENT = WSRoot + '/novo_tratamento';
 export const ENDPOINT_UPDATE_TREATMENT = WSRoot + '/alterar_tratamento';
 export const ENDPOINT_DELETE_TREATMENT = WSRoot + '';
 
-export const ENDPOINT_LIST_HISTORY = WSRoot + '/historico';
-export const ENDPOINT_NEW_HISTORY = WSRoot + '';
+export const ENDPOINT_LIST_HISTORY = WSRoot + '/dados_historico';
+export const ENDPOINT_NEW_HISTORY = WSRoot + '/novo_historico';
+export const ENDPOINT_UPDATE_HISTORY = WSRoot + '/alterar_historico';
 export const ENDPOINT_DELETE_HISTORY = WSRoot + '';
 
 export const ENDPOINT_LIST_PHARMACO = WSRoot + '/get_farmacos';
@@ -52,14 +53,15 @@ export const PharmacoModel = {
 }
 
 export const HistoryModel = {
-  id: "",
-  evento: "",
-  atributo: "",
-  valor: "",
+  cod_historico: "",
+  atributo_historico: "",
+  valor_historico: "",
+  data_hora_historico: "",
+  cod_tratamento: "",
+  //helper fields, not in DB
+  nome_farmaco: "",
   data: "",
-  horario: "",
-  pacienteId: "",
-  tratamentoId: ""
+  hora: ""
 }
 
 export const TreatmentModel = {

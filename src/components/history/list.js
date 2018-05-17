@@ -9,7 +9,7 @@ import {
 } from 'material-ui/Table';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { WSRoot, HistoryModel } from '../../app-config'
+import { ENDPOINT_LIST_HISTORY, HistoryModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class HistoryList extends React.Component {
@@ -28,7 +28,7 @@ export default class HistoryList extends React.Component {
 
   componentDidMount() {
     if(this.state.patientHistory.patientId) {
-      fetch(WSRoot+'/historico?patientId=' + this.state.patientHistory.patientId)
+      fetch(ENDPOINT_LIST_HISTORY +'?cod_paciente=' + this.state.patientHistory.patientId)
         .then(res => res.json())
         .then(patientHistory => {
           this.setState({ patientHistory: patientHistory });
@@ -64,10 +64,10 @@ export default class HistoryList extends React.Component {
     if(this.state.patientHistory.length > 0) {
       tableRow = this.state.patientHistory.map( (row, index) => (
         <ClickableRow key={index} rowData={row} eventFunction={this.onSelectHistory}>
-          <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-          <TableRowColumn style={{width: '30%'}}>{row.evento}</TableRowColumn>
-          <TableRowColumn style={{width: '30%'}}>{row.valor}</TableRowColumn>
-          <TableRowColumn style={{width: '30%'}}>{row.tratamento}</TableRowColumn>
+          <TableRowColumn style={{width: '10%'}}>{row.cod_historico}</TableRowColumn>
+          <TableRowColumn style={{width: '25%'}}>{row.atributo_historico}</TableRowColumn>
+          <TableRowColumn style={{width: '25%'}}>{row.valor_historico}</TableRowColumn>
+          <TableRowColumn style={{width: '40%'}}>{row.nome_farmaco}</TableRowColumn>
         </ClickableRow>
       ))
     } else if(this.state.patientHistory.length === 0) {
@@ -89,9 +89,9 @@ export default class HistoryList extends React.Component {
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '30%'}}>Evento</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '30%'}}>Valor (mg)</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '30%'}}>Tratamento</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '25%'}}>Evento</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '25%'}}>Valor (mg)</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '40%'}}>Tratamento</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>

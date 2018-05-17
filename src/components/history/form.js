@@ -1,11 +1,13 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
 import TimePicker from 'material-ui/TimePicker'
 import DatePicker from 'material-ui/DatePicker'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { ENDPOINT_LIST_HISTORY, HistoryModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_HISTORY, ENDPOINT_LIST_TREATMENT, HistoryModel, messageType } from '../../app-config'
 
 export default class HistoryForm extends React.Component {
 
@@ -33,16 +35,29 @@ export default class HistoryForm extends React.Component {
       patientHistory,
       errorMessage,
       formError,
-      horario: new Date(),
-      data: null
+      hora: new Date(),
+      data: null,
+      treatments: []
     }
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleTimePickerChange = this.handleTimePickerChange.bind(this);
-    this.handleDatePickerChange = this.handleDatePickerChange.bind(this);
-    this.handleHistorySubmit = this.handleHistorySubmit.bind(this);
-    this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleTimePickerChange = this.handleTimePickerChange.bind(this)
+    this.handleDatePickerChange = this.handleDatePickerChange.bind(this)
+    this.handleHistorySubmit = this.handleHistorySubmit.bind(this)
+    this.handleInputBlur = this.handleInputBlur.bind(this)
     this.onFormValidate = this.onFormValidate.bind(this)
+  }
+
+  componentWillMount() {
+    //if insert
+    if(!this.state.patientHistory.cod_historico) {
+      fetch(ENDPOINT_LIST_TREATMENT + '?cod_paciente=' + this.state.patientHistory.patientId)
+        .then(res => res.json())
+        .then(treatments => {
+          this.setState({ treatments: treatments });
+        });
+    }
   }
 
   componentDidMount() {
@@ -68,11 +83,19 @@ export default class HistoryForm extends React.Component {
     });
   }
 
+  handleSelectChange(event, index, value) {
+    let history = this.state.patientHistory;
+    history['cod_tratamento'] = value
+    this.setState({
+      patientHistory: history
+    })
+  }
+
   //converts date object to time string (TODO: check how it really is on DB)
   handleTimePickerChange(event, date) {
     let time = date.toTimeString()
     let patientHistory = this.state.patientHistory
-    patientHistory['horario'] = time
+    patientHistory['hora'] = time
     this.setState({
       patientHistory: patientHistory
     })
@@ -80,8 +103,11 @@ export default class HistoryForm extends React.Component {
 
   //converts date object to string (TODO: check how it really is on DB)
   handleDatePickerChange(event, date) {
-    let data = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear()
-    let patientHistory = this.state.patientHistory
+    let data = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear(),
+      patientHistory = this.state.patientHistory,
+      time = patientHistory.hora || date.getTime() + ':' + date.getMinutes() + '00'
+
+    patientHistory['data_hora_historico'] = date + ' ' + time
     patientHistory['data'] = data
     this.setState({
       patientHistory: patientHistory
@@ -119,7 +145,7 @@ export default class HistoryForm extends React.Component {
   handleHistorySubmit() {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        fetch(ENDPOINT_LIST_HISTORY, {
+        fetch(ENDPOINT_NEW_HISTORY, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -154,45 +180,48 @@ export default class HistoryForm extends React.Component {
         </FloatingActionButton>
       : null
 
+    let treatmentSelect
+      if(!this.state.patientHistory.cod_historico) {
+        treatmentSelect = this.state.treatments.map( (row, index) => (
+          <MenuItem key={index} value={row.cod_tratamento} primaryText={row.nome_farmaco} secondaryText={row.cod_tratamento} />
+        ))
+      } else {
+        treatmentSelect = <MenuItem value={this.state.patientHistory.cod_tratamento}
+                            primaryText={this.state.patientHistory.nome_farmaco}
+                            secondaryText={this.state.patientHistory.cod_tratamento} />
+      }
+
     return (
       <div>
         <form id="history-form">
-          <RadioButtonGroup name="evento" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.evento}>
-            <RadioButton value="dose" label="Dose" style={{marginTop:"1rem"}} />
-            <RadioButton value="concentracao" label="Concentração" style={{marginTop:"1rem"}} />
+          <RadioButtonGroup name="atributo_historico" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.atributo_historico}>
+            <RadioButton value="Dose" label="Dose" style={{marginTop:"1rem"}} />
+            <RadioButton value="Concentração" label="Concentração" style={{marginTop:"1rem"}} />
           </RadioButtonGroup>
 
           <TextField
             onChange={this.handleInputChange}
-            floatingLabelText="Atributo"
-            name="atributo"
-            value={this.state.patientHistory.atributo}
-            onBlur={this.handleInputBlur}
-            errorText={this.state.errorMessage['atributo'].value} /><br />
-
-          <TextField
-            onChange={this.handleInputChange}
             floatingLabelText="Valor (mg)"
-            name="valor"
-            value={this.state.patientHistory.valor}
+            name="valor_historico"
+            value={this.state.patientHistory.valor_historico}
             onBlur={this.handleInputBlur}
-            errorText={this.state.errorMessage['valor'].value} /><br />
+            errorText={this.state.errorMessage['valor_historico'].value} /><br />
 
           <DatePicker onChange={this.handleDatePickerChange} floatingLabelText="Data" name="data" value={this.state.data} /><br />
 
-          <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="horario" format="24hr" value={this.state.horario} /><br />
+          <TimePicker onChange={this.handleTimePickerChange} floatingLabelText="Horário" name="hora" format="24hr" value={this.state.hora} /><br />
 
-          <TextField style={{display:"none"}} name="pacienteId" value={this.state.patientHistory.pacienteId} /><br />
           <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
 
-          {/*TODO: need to be changed. will be id not a plain text*/}
-          <TextField
-            onChange={this.handleInputChange}
+          <SelectField
             floatingLabelText="Tratamento"
-            name="tratamentoId"
-            value={this.state.patientHistory.tratamentoId}
-            onBlur={this.handleInputBlur}
-            errorText={this.state.errorMessage['tratamentoId'].value} /><br />
+            name="cod_tratamento"
+            items={this.state.treatments}
+            onChange={this.handleSelectChange}
+            value={this.state.patientHistory.cod_tratamento}
+          >
+            {treatmentSelect}
+          </SelectField>
 
           {saveHistoryBtn}
         </form>
