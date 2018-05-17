@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
+import ReactPullToRefresh from 'react-pull-to-refresh'
+import Loader from 'react-loader'
 import './App.css'
 
 import { messageType, ENDPOINT_LIST_PATIENTS } from './app-config'
@@ -37,6 +39,7 @@ class App extends Component {
     super(props);
     this.state = {
       isAuthenticated: true,
+      reloadLoading: false,
       user: {
         id: 1,
         nome: "Teste",
@@ -83,7 +86,13 @@ class App extends Component {
     this.setState({
       showMessage: false,
     });
-  };
+  }
+
+  handleRefresh(resolve, reject) {
+    window.location.reload()
+    resolve();
+  }
+
 
   render() {
     let messageStyle = {
@@ -100,6 +109,14 @@ class App extends Component {
       <BrowserRouter>
         <MuiThemeProvider>
           <div className="app">
+            <ReactPullToRefresh
+              onRefresh={this.handleRefresh}
+              className="pull-down-refresh"
+              style={{textAlign: 'center'}}>
+
+            <Loader className="pull-to-reload" loaded={this.state.reloadLoading}>
+            </Loader>
+
             <Snackbar
               open={this.state.showMessage}
               message={this.state.message}
@@ -154,6 +171,7 @@ class App extends Component {
               component={Simulation}
               isAuthenticated={this.state.isAuthenticated}
               handleShowMessage={this.handleShowMessage} />
+            </ReactPullToRefresh>
           </div>
         </MuiThemeProvider>
       </BrowserRouter>
