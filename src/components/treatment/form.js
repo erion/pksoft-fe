@@ -63,7 +63,7 @@ export default class TreatmentForm extends React.Component {
     })
       .then(res => {
         console.log('post response', res);
-        if (res.status === 201 || res.status === 200) {
+        if (res.status === 201 || res.status === 200 || res.status === 0) {
           this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
           this.props.onSelectTreatment(undefined)
         } else {

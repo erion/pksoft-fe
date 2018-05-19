@@ -2,8 +2,8 @@ import React from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import MenuItem from 'material-ui/MenuItem';
-import { Link } from 'react-router-dom';
+import MenuItem from 'material-ui/MenuItem'
+import { Link } from 'react-router-dom'
 
 const containerStyle = {
   width: '100%',

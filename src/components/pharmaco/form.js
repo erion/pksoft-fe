@@ -97,7 +97,7 @@ export default class PharmacoForm extends React.Component {
         })
           .then(res => {
             console.log('post response', res);
-            if (res.status === 201 || res.status === 200) {
+            if (res.status === 201 || res.status === 200 || res.status === 0) {
               this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
             } else {
               this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)

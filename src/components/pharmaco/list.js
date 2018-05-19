@@ -34,7 +34,7 @@ export default class PharmacoList extends React.Component {
   }
 
   onSelectPharmaco(pharmaco) {
-    this.props.history.push("/farmaco/"+pharmaco.id, {"pharmaco": pharmaco})
+    this.props.history.push("/farmaco/"+pharmaco.cod_farmaco, {"pharmaco": pharmaco})
   }
 
   render() {

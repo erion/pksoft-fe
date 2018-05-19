@@ -155,7 +155,7 @@ export default class HistoryForm extends React.Component {
         })
           .then(res => {
             console.log('post response', res);
-            if (res.status === 201 || res.status === 200) {
+            if (res.status === 201 || res.status === 200 || res.status === 0) {
               this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
               this.props.onSelectHistory(undefined)
             } else {
