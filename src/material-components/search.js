@@ -27,15 +27,15 @@ export default class SearchComponent extends React.Component {
       let link
       this.props.patients.forEach((patient) => {
         link = {
-          pathname: "/paciente/"+patient.id,
+          pathname: "/paciente/"+patient.cod_paciente,
           state: {patient: patient}
         }
         dataSource.push({
-          text: patient.nome,
+          text: patient.nome_paciente,
           value: (
             <MenuItem
               containerElement={<Link to={link} />}
-              primaryText={patient.nome} />
+              primaryText={patient.nome_paciente} />
           ),
         })
       })

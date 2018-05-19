@@ -23,6 +23,14 @@ export default class PatientList extends React.Component {
     this.onSelectPatient = this.onSelectPatient.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.patients !== this.state.patients) {
+      this.setState({
+        patients: this.props.patients
+      })
+    }
+  }
+
   onSelectPatient(patient) {
     this.props.history.push("/paciente/"+patient.cod_paciente, {"patient": patient})
   }
