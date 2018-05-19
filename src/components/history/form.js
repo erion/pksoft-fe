@@ -9,6 +9,10 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import { ENDPOINT_NEW_HISTORY, ENDPOINT_LIST_TREATMENT, HistoryModel, messageType } from '../../app-config'
 
+function addZero(where) {
+  return where.toString().length === 1 ? '0' + where : where
+}
+
 export default class HistoryForm extends React.Component {
 
   constructor(props) {
@@ -36,7 +40,7 @@ export default class HistoryForm extends React.Component {
       errorMessage,
       formError,
       hora: new Date(),
-      data: null,
+      data: new Date(),
       treatments: []
     }
 
@@ -44,6 +48,7 @@ export default class HistoryForm extends React.Component {
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleTimePickerChange = this.handleTimePickerChange.bind(this)
     this.handleDatePickerChange = this.handleDatePickerChange.bind(this)
+    this.setMySqlDate = this.setMySqlDate.bind(this)
     this.handleHistorySubmit = this.handleHistorySubmit.bind(this)
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.onFormValidate = this.onFormValidate.bind(this)
@@ -61,8 +66,19 @@ export default class HistoryForm extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.patientHistory !== undefined)
+    if(this.props.patientHistory.cod_historico !== '') {
       this.setState({patientHistory: this.props.patientHistory})
+
+      let dateTime = Date.parse(this.state.patientHistory.data_hora_historico)
+      dateTime = new Date(dateTime)
+      let date = dateTime,
+          time = dateTime
+
+      this.setState({
+        data: date,
+        hora: time
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -91,7 +107,7 @@ export default class HistoryForm extends React.Component {
     })
   }
 
-  //converts date object to time string (TODO: check how it really is on DB)
+  //converts date object to time string
   handleTimePickerChange(event, date) {
     let time = date.toTimeString()
     let patientHistory = this.state.patientHistory
@@ -101,13 +117,11 @@ export default class HistoryForm extends React.Component {
     })
   }
 
-  //converts date object to string (TODO: check how it really is on DB)
+  //converts date object to string
   handleDatePickerChange(event, date) {
-    let data = date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear(),
-      patientHistory = this.state.patientHistory,
-      time = patientHistory.hora || date.getTime() + ':' + date.getMinutes() + '00'
+    let data = date.getDate() + '/' + (parseInt(date.getMonth(),10) +1) + '/' + date.getFullYear(),
+      patientHistory = this.state.patientHistory
 
-    patientHistory['data_hora_historico'] = date + ' ' + time
     patientHistory['data'] = data
     this.setState({
       patientHistory: patientHistory
@@ -115,6 +129,31 @@ export default class HistoryForm extends React.Component {
     this.setState({
       data: date
     })
+  }
+
+  setMySqlDate(usrDate, usrTime) {
+    let date = usrDate || this.state.data,
+        time = usrTime || this.state.hora,
+        patientHistory = this.state.patientHistory
+
+    if(date === '' || time === '' || date === undefined || time === undefined) {
+      this.setState({
+        formError: true,
+        errorMessage: {
+          data_hora_historico: {value: "Data e hora obrigatórios.", error: true}
+        }
+      })
+    } else {
+      let date = Date.parse(date + ' ' + time)
+      date = new Date(date)
+      let day = addZero(date.getDate()),
+          month = addZero(parseInt(date.getMonth(), 10)+1),
+          hour = addZero(date.getHours()),
+          minute = addZero(date.getMinutes())
+
+      patientHistory['data_hora_historico'] = date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':00'
+      this.setState({patientHistory: patientHistory})
+    }
   }
 
   handleInputBlur(event) {
@@ -143,29 +182,35 @@ export default class HistoryForm extends React.Component {
   }
 
   handleHistorySubmit() {
-    this.onFormValidate().then(() => {
-      if(this.state.formError === false) {
-        fetch(ENDPOINT_NEW_HISTORY, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(this.state.patientHistory)
-        })
-          .then(res => {
-            console.log('post response', res);
-            if (res.status === 201 || res.status === 200 || res.status === 0) {
-              this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
-              this.props.onSelectHistory(undefined)
-            } else {
-              this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
-            }
-          });
-      } else {
-        this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
-      }
-    })
+    if(this.state.patientHistory.cod_historico === "") {
+      this.onFormValidate().then(() => {
+        if(this.state.formError === false) {
+          this.setMySqlDate()
+          fetch(ENDPOINT_NEW_HISTORY, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'text/plain',
+            },
+            body: JSON.stringify({historico: this.state.patientHistory})
+          })
+            .then(res => {
+              console.log('post response', res);
+              if (res.status === 201 || res.status === 200 || res.status === 0) {
+                this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
+                this.props.onSelectHistory(undefined)
+              } else {
+                this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
+              }
+            });
+        } else {
+          this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
+        }
+      })
+    } else {
+      this.props.handleShowMessage("Históricos não são editáveis", messageType.mInfo)
+      this.props.onSelectHistory(undefined)
+    }
     event.preventDefault();
   }
 
