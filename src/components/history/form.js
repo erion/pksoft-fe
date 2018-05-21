@@ -240,8 +240,8 @@ export default class HistoryForm extends React.Component {
       <div>
         <form id="history-form">
           <RadioButtonGroup name="atributo_historico" onChange={this.handleInputChange} defaultSelected={this.state.patientHistory.atributo_historico}>
-            <RadioButton value="Dose" label="Dose" style={{marginTop:"1rem"}} />
-            <RadioButton value="Concentração" label="Concentração" style={{marginTop:"1rem"}} />
+            <RadioButton value="D" label="Dose" style={{marginTop:"1rem"}} />
+            <RadioButton value="C" label="Concentração" style={{marginTop:"1rem"}} />
           </RadioButtonGroup>
 
           <TextField

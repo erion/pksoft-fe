@@ -322,8 +322,8 @@ export default class PatientForm extends React.Component {
 
             <RadioButtonGroup name="genero_paciente" onChange={this.handleSelectChange}
               defaultSelected={this.state.patient.genero_paciente}>
-                <RadioButton value={0} label="Masculino" style={{marginTop:"1rem"}} />
-                <RadioButton value={1} label="Feminino" style={{marginTop:"1rem"}} />
+                <RadioButton value='M' label="Masculino" style={{marginTop:"1rem"}} />
+                <RadioButton value='F' label="Feminino" style={{marginTop:"1rem"}} />
             </RadioButtonGroup>
 
             <TextField
