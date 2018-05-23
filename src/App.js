@@ -14,7 +14,7 @@ import PatientForm from './components/patient/form'
 import SearchComponent from './material-components/search.js'
 import PharmacoList from './components/pharmaco/list'
 import PharmacoForm from './components/pharmaco/form'
-import Simulation from './components/simulation/simulation'
+import Simulation from './components/simulation/form'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -38,15 +38,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: true,
       reloadLoading: false,
-      user: {
-        id: 1,
-        nome: "Teste",
-        login:"teste",
-        senha: "teste",
-        avatar: "removi o login por nao existir na api"
-      },
+      isAuthenticated: true,
+      user: undefined,
       patients: [],
       filteredPatients: [],
       showMessage: false,

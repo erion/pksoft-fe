@@ -13,11 +13,6 @@ export default class TreatmentForm extends React.Component {
   constructor(props) {
     super(props);
 
-    /*
-    let treatment = this.props.location.state && this.props.location.state.treatment
-    ? this.props.location.state.treatment
-    : TreatmentModel;
-    */
     let treatment = TreatmentModel
     treatment['cod_paciente'] = props.patientId
 
@@ -74,7 +69,7 @@ export default class TreatmentForm extends React.Component {
   }
 
   onSimulate() {
-    this.props.history.push("/simulacao/")
+    this.props.history.push("/simulacao/", {patientId: this.props.patientId })
   }
 
   render() {

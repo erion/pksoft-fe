@@ -4,6 +4,8 @@ import {red500, amber500, lightGreen500 } from 'material-ui/styles/colors'
 export const WSRoot = 'http://localhost:8000'
 
 //API ENDPOINTS
+export const ENDPOINT_LOGIN = WSRoot+'/login';
+
 export const ENDPOINT_LIST_PATIENTS = WSRoot + '/tabela_pacientes';
 export const ENDPOINT_NEW_PATIENTS = WSRoot + '/novo_paciente';
 export const ENDPOINT_UPDATE_PATIENTS = WSRoot + '/alterar_paciente';
@@ -23,6 +25,8 @@ export const ENDPOINT_LIST_PHARMACO = WSRoot + '/get_farmacos';
 export const ENDPOINT_NEW_PHARMACO = WSRoot + '/novo_farmaco';
 export const ENDPOINT_UPDATE_PHARMACO = WSRoot + '/alterar_farmaco';
 export const ENDPOINT_DELETE_PHARMACO = WSRoot + '';
+
+export const ENDPOINT_SIMULATION = WSRoot + '/simulacao';
 
 //message types background color (snackbar)
 export const messageType = {
@@ -71,9 +75,17 @@ export const TreatmentModel = {
 }
 
 export const UserModel = {
-  id: "",
+  codigo: "",
   nome: "",
   login:"",
-  senha: "",
-  avatar: ""
+  senha: ""
+}
+
+export const SimulationModel = {
+  cod_paciente: "",
+  concentracao_desejada: "",
+  dose: "",
+  intervalo: "",
+  duracao_infusao: "",
+  quantidade_doses: "",
 }
