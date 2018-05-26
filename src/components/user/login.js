@@ -49,11 +49,11 @@ export default class Login extends React.Component {
       method: 'POST',
       mode: 'no-cors',
       headers: {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({usuario: {login: login, senha: pass}})
     })
-      .then(res => {console.log('res', res)})
+      .then(res => res.json())
       .then(user => {
         console.log('user = ',user)
         if(user.length > 0) {

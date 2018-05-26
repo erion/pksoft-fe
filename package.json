@@ -2,6 +2,7 @@
   "homepage": "http://localhost:8000",
   "name": "pksoft-fe",
   "version": "0.1.0",
+  "proxy": "http://localhost:8000/",
   "private": true,
   "dependencies": {
     "material-ui": "^0.20.0",

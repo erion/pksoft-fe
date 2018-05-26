@@ -39,7 +39,7 @@ class App extends Component {
     super(props);
     this.state = {
       reloadLoading: false,
-      isAuthenticated: true,
+      isAuthenticated: false,
       user: undefined,
       patients: [],
       filteredPatients: [],
