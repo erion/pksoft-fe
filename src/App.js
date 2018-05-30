@@ -14,7 +14,8 @@ import PatientForm from './components/patient/form'
 import SearchComponent from './material-components/search.js'
 import PharmacoList from './components/pharmaco/list'
 import PharmacoForm from './components/pharmaco/form'
-import Simulation from './components/simulation/form'
+import SimulationForm from './components/simulation/form'
+import SimulationResult from './components/simulation/result'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -162,7 +163,12 @@ class App extends Component {
               handleShowMessage={this.handleShowMessage} />
 
             <PrivateRoute exact path="/simulacao/"
-              component={Simulation}
+              component={SimulationForm}
+              isAuthenticated={this.state.isAuthenticated}
+              handleShowMessage={this.handleShowMessage} />
+
+            <PrivateRoute exact path="/simulacao/:patientId"
+              component={SimulationResult}
               isAuthenticated={this.state.isAuthenticated}
               handleShowMessage={this.handleShowMessage} />
             </ReactPullToRefresh>

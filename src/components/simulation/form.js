@@ -13,8 +13,6 @@ export default class SimulationForm extends React.Component {
   constructor(props, context) {
     super(props);
 
-    console.log(props)
-
     let simulation = SimulationModel
     simulation['cod_paciente'] = props.location.state.patientId
 
@@ -53,7 +51,8 @@ export default class SimulationForm extends React.Component {
     let simulation = this.state.simulation;
     simulation[name] = value
     this.setState({
-      simulation: simulation
+      simulation: simulation,
+      simulationData: undefined
     });
   }
 
@@ -86,25 +85,7 @@ export default class SimulationForm extends React.Component {
     console.log(this.state.simulation)
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-
-
-        fetch(ENDPOINT_SIMULATION, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          body: JSON.stringify({simulacao: this.state.simulation})
-        })
-          .then(res => {
-            console.log('post response', res);
-            if (res.status === 201 || res.status === 200 || res.status === 0) {
-              this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
-            } else {
-              this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
-            }
-          });
-
+        this.props.history.push("/simulacao/"+this.state.simulation.cod_paciente, {"simulationData": this.state.simulation})
       } else {
         this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
       }

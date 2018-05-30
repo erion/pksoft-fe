@@ -55,7 +55,6 @@ export default class Login extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
-        console.log('user = ',user)
         if(user.length > 0) {
           user = user[0]
           this.setState({
