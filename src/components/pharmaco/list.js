@@ -10,7 +10,7 @@ import {
 import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { WSRoot } from '../../app-config'
+import { ENDPOINT_LIST_PHARMACO } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class PharmacoList extends React.Component {
@@ -26,7 +26,7 @@ export default class PharmacoList extends React.Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/farmaco')
+    fetch(ENDPOINT_LIST_PHARMACO)
       .then(res => res.json())
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });
@@ -34,7 +34,7 @@ export default class PharmacoList extends React.Component {
   }
 
   onSelectPharmaco(pharmaco) {
-    this.props.history.push("/farmaco/"+pharmaco.id, {"pharmaco": pharmaco})
+    this.props.history.push("/farmaco/"+pharmaco.cod_farmaco, {"pharmaco": pharmaco})
   }
 
   render() {
@@ -48,8 +48,8 @@ export default class PharmacoList extends React.Component {
       if(this.state.pharmacos.length > 0) {
         tableRow = this.state.pharmacos.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPharmaco}>
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '90%'}}>{row.nome}</TableRowColumn>
+            <TableRowColumn style={{width: '20%'}}>{row.cod_farmaco}</TableRowColumn>
+            <TableRowColumn style={{width: '80%'}}>{row.nome_farmaco}</TableRowColumn>
           </ClickableRow>
         ))
       } else {
@@ -70,8 +70,8 @@ export default class PharmacoList extends React.Component {
         <Table>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
-              <TableHeaderColumn style={{width: '10%'}}>ID</TableHeaderColumn>
-              <TableHeaderColumn style={{width: '90%'}}>Nome</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '20%'}}>ID</TableHeaderColumn>
+              <TableHeaderColumn style={{width: '80%'}}>Nome</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>

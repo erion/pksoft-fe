@@ -10,7 +10,6 @@ import {
 import { Link } from 'react-router-dom'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { WSRoot } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class PatientList extends React.Component {
@@ -24,8 +23,16 @@ export default class PatientList extends React.Component {
     this.onSelectPatient = this.onSelectPatient.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.patients !== this.state.patients) {
+      this.setState({
+        patients: this.props.patients
+      })
+    }
+  }
+
   onSelectPatient(patient) {
-    this.props.history.push("/paciente/"+patient.id, {"patient": patient})
+    this.props.history.push("/paciente/"+patient.cod_paciente, {"patient": patient})
   }
 
   render() {
@@ -39,9 +46,9 @@ export default class PatientList extends React.Component {
       if(this.state.patients.length > 0) {
         tableRow = this.state.patients.map( (row, index) => (
           <ClickableRow key={index} rowData={row} eventFunction={this.onSelectPatient}>
-            <TableRowColumn style={{width: '10%'}}>{row.id}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.nome}</TableRowColumn>
-            <TableRowColumn style={{width: '45%'}}>{row.cpf}</TableRowColumn>
+            <TableRowColumn style={{width: '10%'}}>{row.cod_paciente}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.nome_paciente}</TableRowColumn>
+            <TableRowColumn style={{width: '45%'}}>{row.cpf_paciente}</TableRowColumn>
           </ClickableRow>
         ))
       } else {

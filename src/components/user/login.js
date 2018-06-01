@@ -2,7 +2,8 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import LoginIcon from 'material-ui/svg-icons/action/done'
-import { WSRoot, UserModel, messageType } from '../../app-config'
+import md5 from 'md5'
+import { ENDPOINT_LOGIN, UserModel, messageType } from '../../app-config'
 
 export default class Login extends React.Component {
 
@@ -42,14 +43,15 @@ export default class Login extends React.Component {
   handleSubmit() {
 
     let login = this.state.user.login,
-        pass = this.state.user.senha
+        pass = md5(this.state.user.senha)
 
-    fetch(WSRoot+'/usuario?login='+login+'&senha='+pass, {
-      method: 'GET',
+    fetch(ENDPOINT_LOGIN, {
+      method: 'POST',
+      mode: 'no-cors',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({usuario: {login: login, senha: pass}})
     })
       .then(res => res.json())
       .then(user => {

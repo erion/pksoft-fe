@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
+import ReactPullToRefresh from 'react-pull-to-refresh'
+import Loader from 'react-loader'
 import './App.css'
 
-import { messageType, WSRoot } from './app-config'
+import { messageType, ENDPOINT_LIST_PATIENTS } from './app-config'
 import AppMenu from './components/appMenu'
 import Login from './components/user/login'
 import PatientList from './components/patient/list'
@@ -12,7 +14,8 @@ import PatientForm from './components/patient/form'
 import SearchComponent from './material-components/search.js'
 import PharmacoList from './components/pharmaco/list'
 import PharmacoForm from './components/pharmaco/form'
-import Simulation from './components/simulation/simulation'
+import SimulationForm from './components/simulation/form'
+import SimulationResult from './components/simulation/result'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -36,6 +39,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      reloadLoading: false,
       isAuthenticated: false,
       user: undefined,
       patients: [],
@@ -51,7 +55,7 @@ class App extends Component {
 
   componentDidMount() {
     let self = this;
-    fetch(WSRoot+'/paciente')
+    fetch(ENDPOINT_LIST_PATIENTS)
       .then(res => res.json())
       .then(patients => {
         self.setState({ patients: patients, filteredPatients: patients });
@@ -77,7 +81,13 @@ class App extends Component {
     this.setState({
       showMessage: false,
     });
-  };
+  }
+
+  handleRefresh(resolve, reject) {
+    window.location.reload()
+    resolve();
+  }
+
 
   render() {
     let messageStyle = {
@@ -94,6 +104,14 @@ class App extends Component {
       <BrowserRouter>
         <MuiThemeProvider>
           <div className="app">
+            <ReactPullToRefresh
+              onRefresh={this.handleRefresh}
+              className="pull-down-refresh"
+              style={{textAlign: 'center'}}>
+
+            <Loader className="pull-to-reload" loaded={this.state.reloadLoading}>
+            </Loader>
+
             <Snackbar
               open={this.state.showMessage}
               message={this.state.message}
@@ -145,9 +163,15 @@ class App extends Component {
               handleShowMessage={this.handleShowMessage} />
 
             <PrivateRoute exact path="/simulacao/"
-              component={Simulation}
+              component={SimulationForm}
               isAuthenticated={this.state.isAuthenticated}
               handleShowMessage={this.handleShowMessage} />
+
+            <PrivateRoute exact path="/simulacao/:patientId"
+              component={SimulationResult}
+              isAuthenticated={this.state.isAuthenticated}
+              handleShowMessage={this.handleShowMessage} />
+            </ReactPullToRefresh>
           </div>
         </MuiThemeProvider>
       </BrowserRouter>

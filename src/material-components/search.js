@@ -2,8 +2,8 @@ import React from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
 import IconButton from 'material-ui/IconButton'
 import SearchIcon from 'material-ui/svg-icons/action/search'
-import MenuItem from 'material-ui/MenuItem';
-import { Link } from 'react-router-dom';
+import MenuItem from 'material-ui/MenuItem'
+import { Link } from 'react-router-dom'
 
 const containerStyle = {
   width: '100%',
@@ -27,15 +27,15 @@ export default class SearchComponent extends React.Component {
       let link
       this.props.patients.forEach((patient) => {
         link = {
-          pathname: "/paciente/"+patient.id,
+          pathname: "/paciente/"+patient.cod_paciente,
           state: {patient: patient}
         }
         dataSource.push({
-          text: patient.nome,
+          text: patient.nome_paciente,
           value: (
             <MenuItem
               containerElement={<Link to={link} />}
-              primaryText={patient.nome} />
+              primaryText={patient.nome_paciente} />
           ),
         })
       })

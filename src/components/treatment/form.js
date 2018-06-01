@@ -6,20 +6,15 @@ import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
 import TimeLineIcon from 'material-ui/svg-icons/action/timeline'
-import { WSRoot, TreatmentModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_TREATMENT, ENDPOINT_UPDATE_TREATMENT, TreatmentModel, messageType } from '../../app-config'
 
 export default class TreatmentForm extends React.Component {
 
   constructor(props) {
     super(props);
 
-    /*
-    let treatment = this.props.location.state && this.props.location.state.treatment
-    ? this.props.location.state.treatment
-    : TreatmentModel;
-    */
     let treatment = TreatmentModel
-    treatment['codigo_paciente'] = props.patientId
+    treatment['cod_paciente'] = props.patientId
 
     this.state = { treatment: TreatmentModel }
 
@@ -41,33 +36,29 @@ export default class TreatmentForm extends React.Component {
 
   handleInputChange(event, index, value) {
     let treatment = this.state.treatment;
-    treatment['codigo_farmaco'] = value
+    treatment['cod_farmaco'] = value
     this.setState({
       treatment: treatment
     })
   }
 
   handleSubmit() {
-    let method, path
-    if(this.state.treatment.id !== undefined && this.state.treatment.id !== "") {
-      method = 'PUT'
-      path = '/tratamento/'+this.state.treatment.id
-    } else {
-      method = 'POST'
-      path = '/tratamento/'
-    }
+    let method = 'POST',
+      path = ENDPOINT_NEW_TREATMENT
+    if(this.state.treatment.cod_tratamento !== undefined && this.state.treatment.cod_tratamento !== "")
+      path = ENDPOINT_UPDATE_TREATMENT + '/' + this.state.treatment.cod_tratamento
 
-    fetch(WSRoot+path, {
+    fetch(path, {
       method: method,
+      mode: 'no-cors',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
-      body: JSON.stringify(this.state.treatment)
+      body: JSON.stringify({tratamento: this.state.treatment})
     })
       .then(res => {
         console.log('post response', res);
-        if (res.status === 201 || res.status === 200) {
+        if (res.status === 201 || res.status === 200 || res.status === 0) {
           this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
           this.props.onSelectTreatment(undefined)
         } else {
@@ -78,7 +69,7 @@ export default class TreatmentForm extends React.Component {
   }
 
   onSimulate() {
-    this.props.history.push("/simulacao/")
+    this.props.history.push("/simulacao/", {patientId: this.props.patientId })
   }
 
   render() {
@@ -95,7 +86,7 @@ export default class TreatmentForm extends React.Component {
     let pharmacoSelect
     if(this.props.pharmacos) {
       pharmacoSelect = this.props.pharmacos.map( (row, index) => (
-        <MenuItem key={index} value={row.id} primaryText={row.nome} />
+        <MenuItem key={index} value={row.cod_farmaco} primaryText={row.nome_farmaco} />
       ))
     }
 
@@ -112,15 +103,15 @@ export default class TreatmentForm extends React.Component {
         </div>
 
         <form id="treatment-form">
-          <TextField style={{display:"none"}} name="codigo_paciente" value={this.state.treatment.codigo_paciente} /><br />
+          <TextField style={{display:"none"}} name="cod_paciente" value={this.state.treatment.cod_paciente} /><br />
           <TextField disabled={true} floatingLabelText="Paciente" name="pacienteNome" value={this.props.patientName} /><br />
 
           <SelectField
             floatingLabelText="Fármaco"
-            name="codigo_farmaco"
+            name="cod_farmaco"
             items={this.state.pharmacos}
             onChange={this.handleInputChange}
-            value={this.state.treatment.codigo_farmaco}
+            value={this.state.treatment.cod_farmaco}
           >
             {pharmacoSelect}
           </SelectField>

@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { WSRoot, PharmacoModel, messageType } from '../../app-config'
+import { ENDPOINT_NEW_PHARMACO, ENDPOINT_UPDATE_PHARMACO, PharmacoModel, messageType } from '../../app-config'
 
 export default class PharmacoForm extends React.Component {
 
@@ -20,9 +20,7 @@ export default class PharmacoForm extends React.Component {
     } else {
       pharmaco = PharmacoModel
       formError = {formError: true}
-      for(let key in pharmaco) {
-        errorMessage[key] = {value: null, error: true}
-      }
+      errorMessage['nome_farmaco'] = {value: null, error: true}
     }
 
     this.state = {
@@ -80,34 +78,33 @@ export default class PharmacoForm extends React.Component {
     return new Promise((resolve, reject) => {resolve(true)})
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
     this.onFormValidate().then(() => {
       if(this.state.formError === false) {
-        let method, path
-        if(this.state.pharmaco.id !== undefined && this.state.pharmaco.id !== "") {
-          method = 'PUT'
-          path = '/farmaco/'+this.state.pharmaco.id
-        } else {
-          method = 'POST'
-          path = '/farmaco/'
-        }
+        let method = 'POST',
+            path = ENDPOINT_NEW_PHARMACO
 
-        fetch(WSRoot+path, {
+        if(this.state.pharmaco.cod_farmaco !== undefined && this.state.pharmaco.cod_farmaco !== "")
+          path = ENDPOINT_UPDATE_PHARMACO + '/'+this.state.pharmaco.cod_farmaco
+
+        fetch(path, {
           method: method,
+          mode: 'no-cors',
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain',
           },
-          body: JSON.stringify(this.state.pharmaco)
+          body: JSON.stringify({ "farmaco": this.state.pharmaco })
         })
           .then(res => {
             console.log('post response', res);
-            if (res.status === 201 || res.status === 200) {
+            if (res.status === 201 || res.status === 200 || res.status === 0) {
               this.props.handleShowMessage("Inserido com sucesso", messageType.mSuccess)
+              this.props.history.push("/farmacos")
             } else {
               this.props.handleShowMessage("Falha ao inserir registro", messageType.mError)
             }
           });
+
       } else {
         this.props.handleShowMessage("Revise os erros nos campos", messageType.mError)
       }
@@ -125,14 +122,14 @@ export default class PharmacoForm extends React.Component {
     return (
         <div>
           <form id="pharmaco-form">
-            <TextField hintText="Id" style={{display:"none"}} value={this.state.pharmaco.id} name="id" /><br />
+            <TextField hintText="Id" style={{display:"none"}} value={this.state.pharmaco.cod_farmaco} name="cod_farmaco" /><br />
             <TextField
               onChange={this.handleInputChange}
               floatingLabelText="Nome"
-              name="nome"
-              value={this.state.pharmaco.nome}
+              name="nome_farmaco"
+              value={this.state.pharmaco.nome_farmaco}
               onBlur={this.handleInputBlur}
-              errorText={this.state.errorMessage['nome'].value} /><br />
+              errorText={this.state.errorMessage['nome_farmaco'].value} /><br />
 
             <FloatingActionButton mini={true} style={addButtonStyle} onClick={this.handleSubmit}>
               <ContentSave />
