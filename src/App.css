@@ -49,8 +49,3 @@ form {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
-.pull-to-reload {
-  position: absolute !important;
-  top: -10vw !important;
-}

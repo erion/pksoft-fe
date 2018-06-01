@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Snackbar from 'material-ui/Snackbar'
-import ReactPullToRefresh from 'react-pull-to-refresh'
 import './App.css'
 
 import { messageType, ENDPOINT_LIST_PATIENTS } from './app-config'

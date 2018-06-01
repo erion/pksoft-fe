@@ -1,6 +1,6 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2';
-import { ENDPOINT_SIMULATION, SimulationModel, messageType } from '../../app-config'
+import { ENDPOINT_SIMULATION, messageType } from '../../app-config'
 
 export default class SimulationResult extends React.Component {
 
@@ -31,13 +31,12 @@ export default class SimulationResult extends React.Component {
             let chartData = {
               labels: [],
               datasets: [{
+                label: "Curva de concentração",
                 data: []
               }]
             }
 
-            console.log(apiChartData)
             for(let data in apiChartData) {
-              console.log(apiChartData[data])
               chartData.labels.push(apiChartData[data]['eixo_y'])                             //Tempo(h)
               chartData.datasets[0]['data'].push(apiChartData[data]['simulacao_curva_final']) //Concentração(mg/L)
             }

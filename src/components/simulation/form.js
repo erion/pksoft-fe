@@ -2,11 +2,7 @@ import React from 'react'
 import TextField from 'material-ui/TextField'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentSave from 'material-ui/svg-icons/content/save'
-import { ENDPOINT_SIMULATION, SimulationModel, messageType } from '../../app-config'
-
-const orientation = () => {
-  console.log("the orientation of the device is now " + screen.orientation.angle)
-}
+import { SimulationModel, messageType } from '../../app-config'
 
 export default class SimulationForm extends React.Component {
 
@@ -33,14 +29,6 @@ export default class SimulationForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.onFormValidate = this.onFormValidate.bind(this)
-  }
-
-  componentWillMount() {
-    window.addEventListener("orientationchange", orientation)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("orientationchange", orientation)
   }
 
   handleInputChange(event) {
