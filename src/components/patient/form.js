@@ -9,7 +9,7 @@ import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { ENDPOINT_NEW_PATIENTS, ENDPOINT_UPDATE_PATIENTS, ENDPOINT_LIST_PHARMACO,
-  PatientModel, messageType } from '../../app-config'
+  ENDPOINT_LIST_TREATMENT, PatientModel, messageType } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
 import TreatmentList from '../treatment/list'
@@ -40,6 +40,7 @@ export default class PatientForm extends React.Component {
 
     this.state = {
       patient,
+      treatments: undefined,
       errorMessage,
       formError
     }
@@ -56,6 +57,23 @@ export default class PatientForm extends React.Component {
     this.onFormValidate = this.onFormValidate.bind(this)
   }
 
+  componentWillMount() {
+    let self = this;
+    fetch(ENDPOINT_LIST_PHARMACO)
+      .then(res => res.json())
+      .then(pharmacos => {
+        self.setState({ pharmacos: pharmacos });
+      });
+
+    if(this.state.patient.cod_paciente) {
+      fetch(ENDPOINT_LIST_TREATMENT + '?cod_paciente=' + this.state.patient.cod_paciente)
+        .then(res => res.json())
+        .then(treatments => {
+          this.setState({ treatments: treatments });
+        });
+    }
+  }
+
   componentDidMount() {
     this.setState({tabIndex: 0})
 
@@ -66,13 +84,6 @@ export default class PatientForm extends React.Component {
         birthday: birthday
       })
     }
-
-    let self = this;
-    fetch(ENDPOINT_LIST_PHARMACO)
-      .then(res => res.json())
-      .then(pharmacos => {
-        self.setState({ pharmacos: pharmacos });
-      });
   }
 
   componentDidUpdate(prevProps) {
@@ -153,7 +164,15 @@ export default class PatientForm extends React.Component {
     //reset selections on a lazy way, TODO: maybe will need to change
     switch(value) {
       case 1: this.setState({selectedHistory: undefined}); break
-      case 2: this.setState({selectedTreatment: undefined}); break
+      case 2:
+        if(this.state.treatemnts !== undefined && this.state.treatments.length > 0)
+          this.setState({selectedTreatment: undefined});
+        else {
+          this.props.handleShowMessage("É necessário um tratamento.", messageType.mInfo)
+          this.setState({tabIndex: 1})
+          this.onTabChange(1)
+        }
+      break
       default:
         this.setState({
           selectedHistory: undefined,
@@ -235,24 +254,26 @@ export default class PatientForm extends React.Component {
           activeTab={this.state.tabIndex}
           handleShowMessage={this.props.handleShowMessage} />
 
-    treatmentComponent  = this.state.selectedTreatment === undefined
-      ?
-        <TreatmentList
-          onSelectTreatment={this.onSelectTreatment}
-          pharmacos={this.state.pharmacos}
-          patientId={this.state.patient.cod_paciente}
-          patientName={this.state.patient.nome_paciente}
-          activeTab={this.state.tabIndex} />
-      :
-        <TreatmentForm
-          treatment={this.state.selectedTreatment}
-          onSelectTreatment={this.onSelectTreatment}
-          pharmacos={this.state.pharmacos}
-          patientId={this.state.patient.cod_paciente}
-          patientName={this.state.patient.nome_paciente}
-          activeTab={this.state.tabIndex}
-          history={this.props.history}
-          handleShowMessage={this.props.handleShowMessage} />
+    if(this.state.treatments !== undefined) {
+      treatmentComponent = this.state.selectedTreatment === undefined
+        ?
+          <TreatmentList
+            onSelectTreatment={this.onSelectTreatment}
+            pharmacos={this.state.pharmacos}
+            treatments={this.state.treatments}
+            patientName={this.state.patient.nome_paciente}
+            activeTab={this.state.tabIndex} />
+        :
+          <TreatmentForm
+            treatment={this.state.selectedTreatment}
+            onSelectTreatment={this.onSelectTreatment}
+            pharmacos={this.state.pharmacos}
+            patientId={this.state.patient.cod_paciente}
+            patientName={this.state.patient.nome_paciente}
+            activeTab={this.state.tabIndex}
+            history={this.props.history}
+            handleShowMessage={this.props.handleShowMessage} />
+    }
 
     return (
       <Tabs value={this.state.tabIndex}>

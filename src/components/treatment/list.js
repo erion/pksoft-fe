@@ -9,30 +9,24 @@ import {
 } from 'material-ui/Table';
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
-import { ENDPOINT_LIST_TREATMENT, TreatmentModel } from '../../app-config'
+import { TreatmentModel } from '../../app-config'
 import { ClickableRow } from '../../material-components/clickableRowTable'
 
 export default class TreatmentList extends React.Component {
 
   constructor(props, context) {
     super(props);
-    let treatmentModel = TreatmentModel;
+
     this.state = {
-      treatments: treatmentModel,
+      treatments: [],
     };
 
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
     this.onNewTreatment = this.onNewTreatment.bind(this)
   }
 
-  componentDidMount() {
-    if(this.props.patientId) {
-      fetch(ENDPOINT_LIST_TREATMENT + '?cod_paciente=' + this.props.patientId)
-        .then(res => res.json())
-        .then(treatments => {
-          this.setState({ treatments: treatments });
-        });
-    }
+  componentWillMount() {
+    this.setState({ treatments: this.props.treatments });
   }
 
   onSelectTreatment(treatment) {
@@ -56,7 +50,13 @@ export default class TreatmentList extends React.Component {
         </FloatingActionButton>
       : null
 
-    if(this.state.treatments.length > 0 && this.props.pharmacos) {
+
+    if(this.state.treatments === undefined) {
+      tableRow =
+        <TableRow>
+          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando tratamentos do paciente...</TableRowColumn>
+        </TableRow>
+    } else if(this.state.treatments.length > 0 && this.props.pharmacos) {
       tableRow = this.state.treatments.map( (row, index) => {
         var pharmacoName = this.props.pharmacos.find(f => f.cod_farmaco === row.cod_farmaco);
         pharmacoName = pharmacoName.nome_farmaco
@@ -71,11 +71,6 @@ export default class TreatmentList extends React.Component {
       tableRow =
         <TableRow>
           <TableRowColumn style={{width: '100%', textAlign: "center"}}>Sem tratamentos para este paciente</TableRowColumn>
-        </TableRow>
-    } else {
-      tableRow =
-        <TableRow>
-          <TableRowColumn style={{width: '100%', textAlign: "center"}}>Carregando tratamentos do paciente...</TableRowColumn>
         </TableRow>
     }
 
