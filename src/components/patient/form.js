@@ -1,5 +1,6 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
+import DatePicker from 'material-ui/DatePicker'
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {Tabs, Tab} from 'material-ui/Tabs'
 import FlatButton from 'material-ui/FlatButton'
@@ -45,6 +46,7 @@ export default class PatientForm extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleDatePickerChange = this.handleDatePickerChange.bind(this)
     this.handleInputBlur = this.handleInputBlur.bind(this)
     this.handlePatientSubmit = this.handlePatientSubmit.bind(this)
     this.onNewPatient = this.onNewPatient.bind(this)
@@ -56,6 +58,15 @@ export default class PatientForm extends React.Component {
 
   componentDidMount() {
     this.setState({tabIndex: 0})
+
+    if(this.state.patient.cod_paciente !== '') {
+      let date = this.state.patient.nascimento_paciente.split('-'),
+          birthday = new Date(date[0], (parseInt(date[1],10)-1), date[2])
+      this.setState({
+        birthday: birthday
+      })
+    }
+
     let self = this;
     fetch(ENDPOINT_LIST_PHARMACO)
       .then(res => res.json())
@@ -95,6 +106,22 @@ export default class PatientForm extends React.Component {
     this.handleInputBlur(event)
   }
 
+  //converts date object to string
+  handleDatePickerChange(event, date) {
+    let data = date.getDate() + '/' + (parseInt(date.getMonth(),10) +1) + '/' + date.getFullYear(),
+      patient = this.state.patient,
+      errorMessage = this.state.errorMessage
+
+    patient['nascimento_paciente'] = date.getFullYear() + '-' + (parseInt(date.getMonth(),10) +1) + '-' + date.getDate()
+    errorMessage['nascimento_paciente'] = {value: null, error: false}
+
+    this.setState({
+      patient: patient,
+      birthday: date,
+      errorMessage: errorMessage
+    })
+  }
+
   handleInputBlur(event) {
     let target = event.target,
       value = target.value,
@@ -107,7 +134,7 @@ export default class PatientForm extends React.Component {
     } else {
       errorMessage[name] = {value: null, error: false}
     }
-    this.setState({errorMessage})
+    this.setState({errorMessage: errorMessage})
   }
 
   onFormValidate() {
@@ -264,13 +291,10 @@ export default class PatientForm extends React.Component {
               name="rg_paciente"
               value={this.state.patient.rg_paciente} /><br />
 
-            <TextField
-              onChange={this.handleInputChange}
-              onBlur={this.handleInputBlur}
+            <DatePicker onChange={this.handleDatePickerChange}
               floatingLabelText="Nascimento"
-              errorText={this.state.errorMessage['nascimento_paciente'].value}
               name="nascimento_paciente"
-              value={this.state.patient.nascimento_paciente} /><br />
+              value={this.state.birthday} /><br />
 
             <TextField
               onChange={this.handleInputChange}

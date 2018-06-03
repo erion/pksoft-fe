@@ -124,9 +124,7 @@ export default class HistoryForm extends React.Component {
 
     patientHistory['data'] = data
     this.setState({
-      patientHistory: patientHistory
-    })
-    this.setState({
+      patientHistory: patientHistory,
       data: date
     })
   }
