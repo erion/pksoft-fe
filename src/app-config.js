@@ -1,7 +1,7 @@
 import {red500, amber500, lightGreen500 } from 'material-ui/styles/colors'
 
-//export const WSRoot = 'http://ceted.feevale.br:8100'
-export const WSRoot = 'http://localhost:3000'
+export const WSRoot = 'http://ceted.feevale.br:8100'
+//export const WSRoot = 'http://localhost:3000'
 
 //API ENDPOINTS
 export const ENDPOINT_LOGIN = WSRoot+'/login';
