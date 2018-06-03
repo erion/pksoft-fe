@@ -165,7 +165,7 @@ export default class PatientForm extends React.Component {
     switch(value) {
       case 1: this.setState({selectedHistory: undefined}); break
       case 2:
-        if(this.state.treatemnts !== undefined && this.state.treatments.length > 0)
+        if(this.state.treatments !== undefined && this.state.treatments.length > 0)
           this.setState({selectedTreatment: undefined});
         else {
           this.props.handleShowMessage("É necessário um tratamento.", messageType.mInfo)
