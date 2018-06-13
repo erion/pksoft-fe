@@ -19,7 +19,8 @@ export default class PatientForm extends React.Component {
 
   constructor(props) {
     super(props);
-    let patient, formError, errorMessage = {}
+    let patient, formError, errorMessage = {},
+      requiredFields = ['nome_paciente', 'altura_paciente', 'cr_paciente', 'nascimento_paciente', 'peso_paciente']
     //edit
     if(this.props.location.state && this.props.location.state.patient) {
       patient = this.props.location.state.patient
@@ -32,7 +33,9 @@ export default class PatientForm extends React.Component {
       patient = PatientModel
       formError = {formError: true}
       for(let key in patient) {
-        errorMessage[key] = {value: null, error: true}
+        errorMessage[key] = {value: null, error: false}
+        if(requiredFields.includes(key))
+          errorMessage[key] = {value: "", error: true}
       }
       //patient id must be handled by the app
       errorMessage['cod_paciente'] = {value: null, error: false}
@@ -40,6 +43,7 @@ export default class PatientForm extends React.Component {
 
     this.state = {
       patient,
+      requiredFields: requiredFields,
       treatments: undefined,
       errorMessage,
       formError
@@ -133,7 +137,8 @@ export default class PatientForm extends React.Component {
       errorMessage = this.state.errorMessage
 
     if(value === '') {
-      //errorMessage[name] = {value: "Campo obrigatório", error: true}
+      if(this.state.requiredFields.includes(name))
+        errorMessage[name] = {value: "Campo obrigatório", error: true}
       this.setState({formError: true})
     } else {
       errorMessage[name] = {value: null, error: false}
