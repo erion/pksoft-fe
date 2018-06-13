@@ -1,6 +1,7 @@
 import React from 'react'
 import {Line} from 'react-chartjs-2';
 import { ENDPOINT_SIMULATION, messageType } from '../../app-config'
+import {red500, lightGreen500 } from 'material-ui/styles/colors'
 
 export default class SimulationResult extends React.Component {
 
@@ -32,13 +33,24 @@ export default class SimulationResult extends React.Component {
               labels: [],
               datasets: [{
                 label: "Curva de concentração",
-                data: []
+                data: [],
+                fill: false,
+                backgroundColor: lightGreen500,
+                borderColor: lightGreen500,
+              },{
+                label: "Concentração desejada",
+                type: 'line',
+                data:[],
+                fill: false,
+                backgroundColor: red500,
+                borderColor: red500,
               }]
             }
 
             for(let data in apiChartData) {
               chartData.labels.push(apiChartData[data]['eixo_y'])                             //Tempo(h)
               chartData.datasets[0]['data'].push(apiChartData[data]['simulacao_curva_final']) //Concentração(mg/L)
+              chartData.datasets[1]['data'].push(this.props.location.state.simulationData.concentracao_desejada)
             }
 
             this.setState({
@@ -55,7 +67,26 @@ export default class SimulationResult extends React.Component {
 
   render() {
 
-      let chart = this.state.chartData !== undefined ? <Line data={this.state.chartData} /> : null
+      let chartOptions = {
+        scales: {
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+          }],
+          yAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            }
+          }]
+        }
+      }
+
+      let chart = this.state.chartData !== undefined
+        ? <Line data={this.state.chartData} options={chartOptions} />
+        : null
 
     return (
       <div>
