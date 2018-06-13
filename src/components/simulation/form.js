@@ -91,28 +91,28 @@ export default class SimulationForm extends React.Component {
         <TextField
           onChange={this.handleInputChange}
           onBlur={this.handleInputBlur}
-          floatingLabelText="Concentração desejada"
+          floatingLabelText="Concentração desejada (ml)"
           name="concentracao_desejada"
           value={this.state.simulation.concentracao_desejada} /><br />
 
         <TextField
           onChange={this.handleInputChange}
           onBlur={this.handleInputBlur}
-          floatingLabelText="Dose"
+          floatingLabelText="Dose (ml)"
           name="dose"
           value={this.state.simulation.dose} /><br />
 
         <TextField
           onChange={this.handleInputChange}
           onBlur={this.handleInputBlur}
-          floatingLabelText="Intervalo"
+          floatingLabelText="Intervalo (h)"
           name="intervalo"
           value={this.state.simulation.intervalo} /><br />
 
         <TextField
           onChange={this.handleInputChange}
           onBlur={this.handleInputBlur}
-          floatingLabelText="Duração da infusão"
+          floatingLabelText="Duração da infusão (h)"
           name="duracao_infusao"
           value={this.state.simulation.duracao_infusao} /><br />
 

@@ -46,9 +46,8 @@ export default class SearchComponent extends React.Component {
   }
 
   render() {
-    let searchComponent = window.location.pathname.includes('login') || window.location.pathname === '/'
-    ? null
-    : (
+    let searchComponent = window.location.pathname.includes('paciente')
+    ? (
       <div style={containerStyle}>
           <AutoComplete
             style={inputStyle}
@@ -60,6 +59,7 @@ export default class SearchComponent extends React.Component {
         </IconButton>
       </div>
     )
+    : null
     return searchComponent
   }
 }

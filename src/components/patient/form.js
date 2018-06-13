@@ -9,7 +9,7 @@ import ContentSave from 'material-ui/svg-icons/content/save'
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 import { ENDPOINT_NEW_PATIENTS, ENDPOINT_UPDATE_PATIENTS, ENDPOINT_LIST_PHARMACO,
-  ENDPOINT_LIST_TREATMENT, PatientModel, messageType } from '../../app-config'
+  PatientModel, messageType } from '../../app-config'
 import HistoryList from '../history/list'
 import HistoryForm from '../history/form'
 import TreatmentList from '../treatment/list'
@@ -54,6 +54,7 @@ export default class PatientForm extends React.Component {
     this.onTabChange = this.onTabChange.bind(this)
     this.onSelectHistory = this.onSelectHistory.bind(this)
     this.onSelectTreatment = this.onSelectTreatment.bind(this)
+    this.onTreatmentList = this.onTreatmentList.bind(this)
     this.onFormValidate = this.onFormValidate.bind(this)
   }
 
@@ -64,14 +65,6 @@ export default class PatientForm extends React.Component {
       .then(pharmacos => {
         self.setState({ pharmacos: pharmacos });
       });
-
-    if(this.state.patient.cod_paciente) {
-      fetch(ENDPOINT_LIST_TREATMENT + '?cod_paciente=' + this.state.patient.cod_paciente)
-        .then(res => res.json())
-        .then(treatments => {
-          this.setState({ treatments: treatments });
-        });
-    }
   }
 
   componentDidMount() {
@@ -146,6 +139,10 @@ export default class PatientForm extends React.Component {
       errorMessage[name] = {value: null, error: false}
     }
     this.setState({errorMessage: errorMessage})
+  }
+
+  onTreatmentList(treatments) {
+    this.setState({treatments: treatments})
   }
 
   onFormValidate() {
@@ -254,26 +251,25 @@ export default class PatientForm extends React.Component {
           activeTab={this.state.tabIndex}
           handleShowMessage={this.props.handleShowMessage} />
 
-    if(this.state.treatments !== undefined) {
-      treatmentComponent = this.state.selectedTreatment === undefined
-        ?
-          <TreatmentList
-            onSelectTreatment={this.onSelectTreatment}
-            pharmacos={this.state.pharmacos}
-            treatments={this.state.treatments}
-            patientName={this.state.patient.nome_paciente}
-            activeTab={this.state.tabIndex} />
-        :
-          <TreatmentForm
-            treatment={this.state.selectedTreatment}
-            onSelectTreatment={this.onSelectTreatment}
-            pharmacos={this.state.pharmacos}
-            patientId={this.state.patient.cod_paciente}
-            patientName={this.state.patient.nome_paciente}
-            activeTab={this.state.tabIndex}
-            history={this.props.history}
-            handleShowMessage={this.props.handleShowMessage} />
-    }
+    treatmentComponent = this.state.selectedTreatment === undefined
+      ?
+        <TreatmentList
+          onSelectTreatment={this.onSelectTreatment}
+          onTreatmentList={this.onTreatmentList}
+          pharmacos={this.state.pharmacos}
+          patientId={this.state.patient.cod_paciente}
+          patientName={this.state.patient.nome_paciente}
+          activeTab={this.state.tabIndex} />
+      :
+        <TreatmentForm
+          treatment={this.state.selectedTreatment}
+          onSelectTreatment={this.onSelectTreatment}
+          pharmacos={this.state.pharmacos}
+          patientId={this.state.patient.cod_paciente}
+          patientName={this.state.patient.nome_paciente}
+          activeTab={this.state.tabIndex}
+          history={this.props.history}
+          handleShowMessage={this.props.handleShowMessage} />
 
     return (
       <Tabs value={this.state.tabIndex}>
@@ -320,7 +316,7 @@ export default class PatientForm extends React.Component {
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
-              floatingLabelText="Peso"
+              floatingLabelText="Peso (kg)"
               errorText={this.state.errorMessage['peso_paciente'].value}
               name="peso_paciente"
               value={this.state.patient.peso_paciente} /><br />
@@ -328,7 +324,7 @@ export default class PatientForm extends React.Component {
             <TextField
               onChange={this.handleInputChange}
               onBlur={this.handleInputBlur}
-              floatingLabelText="Altura"
+              floatingLabelText="Altura (cm)"
               errorText={this.state.errorMessage['altura_paciente'].value}
               name="altura_paciente"
               value={this.state.patient.altura_paciente} /><br />
