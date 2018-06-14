@@ -95,10 +95,14 @@ class App extends Component {
       <BrowserRouter>
         <MuiThemeProvider>
           <div className="app">
+            {/*https://material-ui.com/demos/snackbars/
+              melhorar o snackbar com base no exemplo. Copiar o exemplo requer atualizar as dependências
+              quebra muita coisa para alterar neste momento
+            */}
             <Snackbar
               open={this.state.showMessage}
               message={this.state.message}
-              autoHideDuration={2000}
+              autoHideDuration={10000}
               onRequestClose={this.handleCloseMessage}
               style={messageStyle}
               bodyStyle={messageBodyStyle}
