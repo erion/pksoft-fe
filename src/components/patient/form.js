@@ -23,7 +23,7 @@ export default class PatientForm extends React.Component {
       requiredFields = ['nome_paciente', 'altura_paciente', 'cr_paciente', 'nascimento_paciente', 'peso_paciente']
     //edit
     if(this.props.location.state && this.props.location.state.patient) {
-      patient = this.props.location.state.patient
+      patient = Object.assign({}, PatientModel, this.props.location.state.patient)
       formError = {formError: false}
       for(let key in patient) {
         errorMessage[key] = {value: null, error: false}
@@ -42,7 +42,7 @@ export default class PatientForm extends React.Component {
     }
 
     this.state = {
-      patient,
+      patient: patient,
       requiredFields: requiredFields,
       treatments: undefined,
       errorMessage,
