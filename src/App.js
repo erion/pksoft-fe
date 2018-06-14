@@ -82,6 +82,7 @@ class App extends Component {
 
   render() {
     let messageStyle = {
+      width: '100%',
       top: 0,
       bottom: 'auto',
       left: 0,
@@ -89,7 +90,7 @@ class App extends Component {
           'translate3d(0, 0, 0)' :
           `translate3d(0, -50px, 0)`
     }
-    let messageBodyStyle = {backgroundColor: this.state.messageType}
+    let messageBodyStyle = {backgroundColor: this.state.messageType, width: '100%', maxWidth: '100%'}
 
     return (
       <BrowserRouter>
